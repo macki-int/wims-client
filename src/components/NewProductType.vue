@@ -73,7 +73,7 @@ export default {
       // if (event) {
       //   alert(event.target.tagName)
       // }
-
+      
       EventBus.$emit("productTypesUpdated");
       }
   }
