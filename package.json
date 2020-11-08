@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "@vue/composition-api": "^1.0.0-beta.19",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0",
+    "vuelidate": "^0.7.6",
     "yarn": "^1.22.10"
   },
   "devDependencies": {

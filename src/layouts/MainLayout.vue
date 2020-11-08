@@ -1,106 +1,81 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+<q-layout view='lHh Lpr lFf'>
     <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
+        <q-toolbar>
+            <q-btn flat dense round icon='menu' aria-label='Menu' @click='leftDrawerOpen = !leftDrawerOpen' />
+            <q-toolbar-title>Wims App</q-toolbar-title>
+            <div>Wims v{{ $q.version }}</div>
+        </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      content-class="bg-grey-1"
-    >
-      <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
+    <q-drawer v-model='leftDrawerOpen' show-if-above bordered content-class='bg-blue-8'>
+        <q-list ref='onUpdateProductTypeList'>
+            <q-item-label header class='text-grey-1'>KATEGORIA:</q-item-label>
+            <ProductTypeMenuLink class='text-grey-1' v-for='productType in productTypes' :key='productType.id' v-bind='productType' />
+        </q-list>
+        <NewProductType />
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+        <router-view />
     </q-page-container>
-  </q-layout>
+</q-layout>
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksData = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+import ProductTypeMenuLink from 'components/ProductTypeMenuLink.vue'
+import NewProductType from 'components/NewProductType.vue'
+import axios from 'axios'
+// import vuex from 'vuex';
 
 export default {
   name: 'MainLayout',
-  components: { EssentialLink },
+  components: { ProductTypeMenuLink, NewProductType },
+
+  mounted: function () {
+    this.getProductTypes()
+    var vm = this
+    EventBus.$on('productTypesUpdated', function () {
+      vm.getProductTypes()
+      this.$refs.onUpdateProductTypeList.reload()
+      console.log('reload!!!!!!!!!')
+    })
+  },
+
   data () {
     return {
       leftDrawerOpen: false,
-      essentialLinks: linksData
+      // [{'id':1,'name':'geotkanina'},{'id':2,'name':'geosiatka'}],
+      productTypes: []
+    }
+  },
+
+  methods: {
+    getProductTypes: function () {
+      const url = 'http://localhost:8080/product-types'
+
+      axios
+        .get(url, {
+          dataType: 'json',
+          headers: {}
+        })
+      .then(response => {
+        // console.log('response: ' + JSON.stringify(response.data));
+        this.productTypes = response.data
+      })
+      .catch(() => {
+        this.$q.notify({
+          color: 'negative',
+          position: 'top',
+          message: 'Products types loading failed',
+          icon: 'report_problem'
+        })
+      })
+        // console.log('refresh');
+    },
+
+    getProductsByProductType: function () {
+      alert('Click Product Type: ')
     }
   }
 }
