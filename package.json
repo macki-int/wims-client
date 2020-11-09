@@ -1,9 +1,9 @@
 {
-  "name": "wims-client",
+  "name": "wims",
   "version": "0.0.1",
-  "description": "Warehouse system",
-  "productName": "Wims",
-  "author": "Marek <mar.jan@int.pl>",
+  "description": "Stock management app",
+  "productName": "Wims App",
+  "author": "TROLL-Systems",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
@@ -11,22 +11,18 @@
   },
   "dependencies": {
     "@quasar/cli": "^1.1.2",
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.9.10",
     "axios": "^0.18.1",
-    "core-js": "^3.6.5",
-    "quasar": "^1.0.0",
-    "yarn": "^1.22.10"
+    "core-js": "^3.7.0",
+    "quasar": "^1.14.3",
+    "vuelidate": "^0.7.6"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.0",
+    "@quasar/app": "^2.1.6",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.0",
+    "eslint-config-prettier": "^6.15.0",
     "eslint-loader": "^3.0.3",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.1.2"
   },
   "browserslist": [

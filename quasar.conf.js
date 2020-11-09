@@ -1,5 +1,5 @@
 /*
- * This file runs in a Node context (it's NOT transpiled by Babel), so use only
+* This file runs in a Node context (it's NOT transpiled by Babel), so use only
  * the ES6 features that are supported by your Node version. https://node.green/
  */
 
@@ -12,6 +12,8 @@ module.exports = function (/* ctx */) {
     // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: false,
 
+    plugins: ['vuelidate'],
+
     // https://quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
 
@@ -20,7 +22,7 @@ module.exports = function (/* ctx */) {
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
 
-      'axios'
+      'axios',
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -39,7 +41,7 @@ module.exports = function (/* ctx */) {
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'material-icons', // optional, you are not bound to it
     ],
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
@@ -64,19 +66,19 @@ module.exports = function (/* ctx */) {
 
       // https://quasar.dev/quasar-cli/handling-webpack
       extendWebpack (cfg) {
-        cfg.module.rules.push({
+cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /node_modules/
         })
-      }
+      },
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
-      port: 8080,
+      port: 8090,
       open: true // opens browser window automatically
     },
 
@@ -89,7 +91,7 @@ module.exports = function (/* ctx */) {
       // Possible values for "importStrategy":
       // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives
       // * 'all'  - Manually specify what to import
-      importStrategy: 'auto',
+      importStrategy: 'all',
 
       // For special cases outside of where "auto" importStrategy can have an impact
       // (like functional components as one of the examples),
@@ -116,9 +118,9 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'Wims',
-        short_name: 'Wims',
-        description: 'Warehouse system',
+        name: `Wims App`,
+        short_name: `Wims App`,
+        description: `Stock management app`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -183,7 +185,7 @@ module.exports = function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'wims-client'
+        appId: 'wims'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
