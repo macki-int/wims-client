@@ -1,81 +1,74 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
+<div class="q-pa-md q-gutter-sm">
     <q-btn label="Dodaj kategorię" color="blue-7" v-on:click="save = true" />
 
     <q-dialog v-model="save" persistent>
-      <q-card style="min-width: 350px">
-        <q-card-section>
-          <div class="text-primary">Nazwa kategorii</div>
-        </q-card-section>
+        <q-card style="min-width: 350px">
+            <q-card-section>
+                <div class="text-primary">Nazwa kategorii</div>
+            </q-card-section>
 
-        <q-card-section class="q-pt-none">
-          <q-input
-            dense
-            v-model.trim="newProductType"
-            autofocus
-            v-on:keyup.enter="save = false"
-            v-close-popup
-          />
-        </q-card-section>
+            <q-card-section class="q-pt-none">
+                <q-input dense v-model.trim="newProductType" autofocus v-on:keyup.enter="save = false" v-close-popup />
+            </q-card-section>
 
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Anuluj" v-close-popup />
-          <q-btn
-            flat
-            label="Zapisz"
-            v-on:click="addProductType"
-            v-close-popup
-          />
-        </q-card-actions>
-      </q-card>
+            <q-card-actions align="right" class="text-primary">
+                <q-btn flat label="Anuluj" v-close-popup />
+                <q-btn flat label="Zapisz" v-on:click="addProductType" v-close-popup />
+            </q-card-actions>
+        </q-card>
     </q-dialog>
-  </div>
+</div>
 </template>
 
 <script>
 import axios from "axios";
-import { required, minLength } from "vuelidate/lib/validators";
+import {
+    required,
+    minLength
+} from "vuelidate/lib/validators";
 
 export default {
-  data() {
-    return {
-      save: false,
-      newProductType: ""
-    };
-  },
-
-  methods: {
-    validations: {
-      newProductType: {
-        required,
-        minLength: minLength(3)
-      }
+    data() {
+        return {
+            save: false,
+            newProductType: ""
+        };
     },
 
-    addProductType: function() {
-      const url = "http://localhost:8080/product-types";
-      // alert("Add new Product Type: " + this.newProductType);
+    methods: {
+        validations: {
+            newProductType: {
+                required,
+                minLength: minLength(3)
+            }
+        },
 
-      axios
-        .post(url, {
-          name: this.newProductType
-        })
-        .then(response => {})
-        .catch(() => {
-          this.$q.notify({
-            color: "negative",
-            position: "top",
-            message: "Product type saving failed",
-            icon: "report_problem"
-          });
-        });
-      // `event` is the native DOM event
-      // if (event) {
-      //   alert(event.target.tagName)
-      // }
-      
-      EventBus.$emit("productTypesUpdated");
-      }
-  }
+        addProductType: function () {
+            const url = "http://localhost:8080/product-types";
+            // alert("Add new Product Type: " + this.newProductType);
+
+            axios
+                .post(url, {
+                    name: this.newProductType
+                })
+                .then(response => {})
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        git
+                        message: "Product type saving failed",
+                        icon: "report_problem"
+                    });
+                });
+            // `event` is the native DOM event
+            // if (event) {
+            //   alert(event.target.tagName)
+            // }
+
+            EventBus.$emit("productTypesUpdated");
+        }
+    }
 };
 </script>
