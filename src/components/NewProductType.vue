@@ -27,6 +27,7 @@ import {
     required,
     minLength
 } from "vuelidate/lib/validators";
+import ProductTypeMenuLinkVue from './ProductTypeMenuLink.vue';
 
 export default {
     data() {
@@ -65,8 +66,12 @@ export default {
             // if (event) {
             //   alert(event.target.tagName)
             // }
+            this.$router.push({
+                path: "/",
+            });
+
             location.reload();
-            //EventBus.$emit("productTypesUpdated");
+            // EventBus.$emit("productTypesUpdated");
         }
     }
 };

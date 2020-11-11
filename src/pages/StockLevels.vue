@@ -1,13 +1,13 @@
 <template>
 <q-page class="flex flex-center">
     <div>
-        <img alt="Wims logo" src="~assets/wims-logo-full.svg">
+        <p>Typy produktów: {{ $route.params.id }}</p>
     </div>
 </q-page>
 </template>
 
 <script>
 export default {
-    name: 'PageIndex',
+    name: 'StockLevels',
 }
 </script>
