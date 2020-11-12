@@ -27,7 +27,6 @@ import {
     required,
     minLength
 } from "vuelidate/lib/validators";
-import ProductTypeMenuLinkVue from './ProductTypeMenuLink.vue';
 
 export default {
     data() {
@@ -47,7 +46,6 @@ export default {
 
         addProductType: function () {
             const url = "http://localhost:8080/product-types";
-            // alert("Add new Product Type: " + this.newProductType);
 
             axios
                 .post(url, {

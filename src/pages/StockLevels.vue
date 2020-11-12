@@ -26,29 +26,36 @@ import axios from "axios";
 export default {
     name: 'StockLevels',
 
-    // mounted: function () {
-    //     this.getProductTypes();
-    // },
+    mounted: function () {
+        this.getProductTypeName();
+    },
 
     data() {
         return {
-            title: $route.params.id,
-            products: []
+            productType: []
         }
+    },
+    watch: {
+        $route(to, from) {
+            alert("router: ");
+            // react to route changes...
+        }
+
     },
 
     methods: {
-        getProducts: function () {
-            const url = "http://localhost:8080/products";
-
+        getProductTypeName: function () {
+            const url = "http://localhost:8080/products/" + $route.params.id;
             axios
                 .get(url, {
                     dataType: "json",
                     headers: {}
                 })
                 .then(response => {
+                    this.ProductTypeName = response.data;
+
+                    alert(this.ProductTypeName.id);
                     //console.log("response: " + JSON.stringify(response.data));
-                    this.products = response.data;
                 })
                 .catch(() => {
                     this.$q.notify({
