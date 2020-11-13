@@ -1,6 +1,6 @@
 <template>
 <q-item clickable>
-    <q-item-section class="q-mr" v-if="icon" avatar v-on:click="getProductsByProductType(id)">
+    <q-item-section class="q-mr" v-if="icon" avatar v-on:click="getProductsByProductType(name)">
         <q-icon color="blue-3" size="14px" :name="icon" />
     </q-item-section>
 
@@ -146,7 +146,7 @@ export default {
 
             // alert("Clicked Product Type: " + id);
             this.$router.push({
-                path: "/" + id,
+                path: "/" + this.id,
             });
 
         },
