@@ -39,12 +39,6 @@ export default {
 
     mounted: function () {
         this.getProductTypes();
-        // var vm = this;
-        // EventBus.$on("productTypesUpdated", function () {
-        //     vm.getProductTypes();
-        //     this.$refs.onUpdateProductTypeList.reload();
-        //     console.log("reload!!!!!!!!!");
-        // });
     },
 
     data() {

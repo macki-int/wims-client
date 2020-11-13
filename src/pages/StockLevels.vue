@@ -38,7 +38,6 @@ export default {
     watch: {
         $route(to, from) {
             alert("router: ");
-            // react to route changes...
         }
 
     },

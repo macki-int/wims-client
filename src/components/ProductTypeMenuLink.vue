@@ -60,10 +60,10 @@
 </template>
 
 <script>
-import {
-    required,
-    minLength
-} from "vuelidate/lib/validators";
+// import {
+//     required,
+//     minLength
+// } from "vuelidate/lib/validators";
 import axios from "axios";
 
 export default {
@@ -91,12 +91,12 @@ export default {
     },
 
     methods: {
-        validations: {
-            newNameProductType: {
-                required,
-                minLength: minLength(3)
-            },
-        },
+        // validations: {
+        //     newNameProductType: {
+        //         required,
+        //         minLength: minLength(3)
+        //     },
+        // },
 
         editProductType: function () {
             // alert(
@@ -144,7 +144,7 @@ export default {
 
         getProductsByProductType: function (id) {
 
-            // alert("Click Product Type: " + id);
+            // alert("Clicked Product Type: " + id);
             this.$router.push({
                 path: "/" + id,
             });

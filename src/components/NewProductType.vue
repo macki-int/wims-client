@@ -23,10 +23,10 @@
 
 <script>
 import axios from "axios";
-import {
-    required,
-    minLength
-} from "vuelidate/lib/validators";
+// import {
+//     required,
+//     minLength
+// } from "vuelidate/lib/validators";
 
 export default {
     data() {
@@ -37,12 +37,12 @@ export default {
     },
 
     methods: {
-        validations: {
-            newProductType: {
-                required,
-                minLength: minLength(3)
-            }
-        },
+        // validations: {
+        //     newProductType: {
+        //         required,
+        //         minLength: minLength(3)
+        //     }
+        // },
 
         addProductType: function () {
             const url = "http://localhost:8080/product-types";
@@ -60,7 +60,6 @@ export default {
                         icon: "report_problem"
                     });
                 });
-            // `event` is the native DOM event
             // if (event) {
             //   alert(event.target.tagName)
             // }
