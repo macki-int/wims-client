@@ -7,9 +7,9 @@
                     <q-card class="my-card" style="width: 1000px">
                         <div style="min-height: 700px">
                             <q-card-section>
-                                <div class="text-h6">{{ $route.params.id }}</div>
+                                <div class="text-h6">{{ productTypeName.name }}</div>
                             </q-card-section>
-                            <q-markup-table dense :filter="filter" no-data-label="Brak danych" no-results-label="Nie znaleziono danych spełniających podane kryteria">
+                            <q-markup-table dense>
                                 <thead>
                                     <tr>
                                         <th class="text-left">Id</th>
@@ -20,7 +20,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(data, index) in myJson" :key="index">
+                                    <tr v-for="(data, index) in products" :key="index">
                                         <td class="text-left">{{ data.id }}</td>
                                         <td class="text-right">{{ data.employee_salary }}</td>
                                         <td class="text-right">{{ data.employee_age }}</td>
@@ -28,48 +28,30 @@
                                     </tr>
                                 </tbody>
 
-                                <!--template v-slot:top-right>
-                                                                                                              <q-input
-                                                                                                                borderless
-                                                                                                                dense
-                                                                                                                debounce="300"
-                                                                                                                v-model="filter"
-                                                                                                                placeholder="Search">
-                                                                                                              <q-icon slot="append" name="search" />
-                                                                                                              </q-input>
-</template>
+                            </q-markup-table>
 
-<template v-slot:no-data="{ icon, message, filter }">
-    <div class="full-width row flex-center text-primary q-gutter-sm">
-        <q-icon size="2em" name="sentiment_dissatisfied" />
-        <span> Niestety, to smutne... {{ message }} </span>
-        <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
-    </div>
-    </template-->
-    </q-markup-table>
-
-    </div>
-    </q-card>
-    </div>
-
-    <div class="col-1-md" style="width: 10px">
-    </div>
-    <div class="col-3-md" style="width: 500px ">
-
-        <div class="my-card">
-
-            <q-card class="my-card">
-                <div style="min-height: 700px">
-                    <q-card-section>
-                        <div class="text-h6">{{ $route.params.id }}</div>
-                    </q-card-section>
+                        </div>
+                    </q-card>
                 </div>
-            </q-card>
-        </div>
 
-    </div>
-    </div>
-    </div>
+                <div class="col-1-md" style="width: 10px">
+                </div>
+                <div class="col-3-md" style="width: 500px ">
+
+                    <div class="my-card">
+
+                        <q-card class="my-card">
+                            <div style="min-height: 700px">
+                                <q-card-section>
+                                    <div class="text-h6">{{ nameProduct }}</div>
+                                </q-card-section>
+                            </div>
+                        </q-card>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 
 
@@ -78,62 +60,89 @@
 
 <script>
 import axios from "axios";
+// import VueRouter from "vue-router";
 
 export default {
     name: "StockLevels",
 
-    mounted: function() {
+    mounted() {
         this.getProductTypeName();
+        this.getProductsByProductTypeId();
+
     },
 
     data() {
         return {
             productTypeName: [],
-            filter: "",
-            columns: [{
-                    name: "id",
-                    label: "Id",
-                    field: "id",
-                    align: "left"
-                },
-                {
-                    name: "name",
-                    label: "Nazwa",
-                    field: "name",
-                    align: "left"
-                }
-            ]
-        };
+            products: [],
+            nameProduct: ''
+        }
     },
+
+    // afterRouteUpdate(to, from, next) {
+
+    // this.productTypeName = null;
+    // pretendGet((err, name) => {
+    //     this.setName(err, name);
+    // next();
+    // });
+    // },
+    // routes: [{
+    //     router.beforeEach((to, from, next) => {
+    //         alert($route.params.id)
+    //     })
+    // }],
 
     watch: {
         $route(to, from) {
-            // console.log("router: " + $route.params.id);
             this.getProductTypeName();
         }
     },
 
+
     methods: {
         getProductTypeName: function() {
-            const url = "http://localhost:8080/products/" + $route.params.id;
-            alert(url);
-
+            const url = "http://localhost:8080/product-types/" + this.$route.params.id;
             axios
                 .get(url, {
                     dataType: "json",
                     headers: {}
                 })
                 .then(response => {
-                    this.ProductTypeName = response.data;
-
-                    alert(event.target.tagName);
+                    this.productTypeName = response.data;
+                    // nameProduct = this.productTypeName.name;
+                    // alert(event.target.tagName);
                     //console.log("response: " + JSON.stringify(response.data));
                 })
                 .catch(() => {
                     this.$q.notify({
                         color: "negative",
                         position: "top",
-                        message: "Products types loading failed",
+                        message: "Product type loading failed",
+                        icon: "report_problem"
+                    });
+                });
+            // console.log("refresh");
+        },
+
+        getProductsByProductTypeId: function() {
+            const url = "http://localhost:8080/products/" + this.$route.params.id;
+            axios
+                .get(url, {
+                    dataType: "json",
+                    headers: {}
+                })
+                .then(response => {
+                    this.productTypeName = response.data;
+                    // nameProduct = this.productTypeName.name;
+                    // alert(event.target.tagName);
+                    //console.log("response: " + JSON.stringify(response.data));
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Product type loading failed",
                         icon: "report_problem"
                     });
                 });
