@@ -14,10 +14,7 @@
 
             <q-card-actions align="right" class="text-primary">
                 <q-btn flat label="Anuluj" v-close-popup />
-                <<<<<<< HEAD <q-btn flat label="Zapisz" v-on:click="addProductType" v-close-popup />
-                =======
-                <q-btn flat label="Zapisz" v-on:click="addProductType" quasae v-close-popup />
-                >>>>>>> 3e3ad9aa1ac3801ca3f846462c306aee28f2fb8d
+                <q-btn flat label="Zapisz" v-on:click="addProductType" v-close-popup />
             </q-card-actions>
         </q-card>
     </q-dialog>
