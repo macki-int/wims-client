@@ -1,6 +1,6 @@
 <template>
 <q-item clickable>
-    <q-item-section class="q-mr" v-if="icon" avatar on:click="getProductsByProductType(id)">
+    <q-item-section class="q-mr" v-if="icon" avatar v-on:click="getProductsByProductType(name)">
         <q-icon color="blue-3" size="14px" :name="icon" />
     </q-item-section>
 
@@ -60,10 +60,10 @@
 </template>
 
 <script>
-import {
-    required,
-    minLength
-} from "vuelidate/lib/validators";
+// import {
+//     required,
+//     minLength
+// } from "vuelidate/lib/validators";
 import axios from "axios";
 
 export default {
@@ -77,10 +77,6 @@ export default {
             type: String,
             required: true,
         },
-        // link: {
-        //     type: String,
-        //     default: "#",
-        // },
         icon: {
             type: String,
             default: "forward",
@@ -90,17 +86,17 @@ export default {
         return {
             confirmDelete: false,
             save: false,
-            newNameProductType: this.name,
+            newNameProductType: this.name
         };
     },
 
     methods: {
-        validations: {
-            newNameProductType: {
-                required,
-                minLength: minLength(3)
-            },
-        },
+        // validations: {
+        //     newNameProductType: {
+        //         required,
+        //         minLength: minLength(3)
+        //     },
+        // },
 
         editProductType: function () {
             // alert(
@@ -125,7 +121,7 @@ export default {
                         icon: "report_problem",
                     });
                 });
-            EventBus.$emit("productTypesUpdated");
+            // EventBus.$emit("productTypesUpdated");
         },
 
         deleteProductType: function () {
@@ -145,8 +141,14 @@ export default {
             location.reload();
             //EventBus.$emit("productTypesUpdated");
         },
-        getProductsByProductType: function (name) {
-            alert("Click Product Type: " + name);
+
+        getProductsByProductType: function (id) {
+
+            // alert("Clicked Product Type: " + id);
+            this.$router.push({
+                path: "/" + this.id,
+            });
+
         },
     },
 };
