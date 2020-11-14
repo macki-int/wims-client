@@ -1,17 +1,12 @@
 <template>
-  <q-item clickable>
-    <q-item-section
-      class="q-mr"
-      v-if="icon"
-      avatar
-      on:click="getProductsByProductType(id)"
-    >
-      <q-icon color="blue-3" size="14px" :name="icon" />
+<q-item clickable>
+    <q-item-section class="q-mr" v-if="icon" avatar on:click="getProductsByProductType(id)">
+        <q-icon color="blue-3" size="14px" :name="icon" />
     </q-item-section>
 
     <q-item-section v-on:click="getProductsByProductType(id)">
-      <q-item-label>{{ name }}</q-item-label>
-      <q-item-label hidden caption>{{ id }}</q-item-label>
+        <q-item-label>{{ name }}</q-item-label>
+        <q-item-label hidden caption>{{ id }}</q-item-label>
     </q-item-section>
     <!--q-item-section>
       <div class="q-pa-xs q-gutter-none">
@@ -20,157 +15,139 @@
     </q-item-section-->
 
     <q-item-section>
-      <q-btn-group spread>
-        <q-btn size="8px" color="blue-7" icon="edit" v-on:click="save = true" />
-        <q-dialog v-model="save" persistent>
-          <q-card style="min-width: 350px">
-            <q-card-section>
-              <div class="text-primary">Edycja nazwy kategorii</div>
-            </q-card-section>
+        <q-btn-group spread>
+            <q-btn size="8px" color="blue-7" icon="edit" v-on:click="save = true" />
+            <q-dialog v-model="save" persistent>
+                <q-card style="min-width: 350px">
+                    <q-card-section>
+                        <div class="text-primary">Edycja nazwy kategorii</div>
+                    </q-card-section>
 
-            <q-card-section class="q-pt-none">
-              <q-input
-                v-model.trim="newNameProductType"
+                    <q-card-section class="q-pt-none">
+                        <q-input v-model.trim="newNameProductType" @focus="$event.target.select()" autofocus dense v-on:keyup.enter="save = false" />
+                    </q-card-section>
 
-                @focus="$event.target.select()"
-                autofocus
-                dense
-                v-on:keyup.enter="save = false"
+                    <q-card-actions align="right" class="text-primary">
+                        <q-btn flat label="Anuluj" v-close-popup />
+                        <q-btn flat label="Zapisz" v-on:click="editProductType" v-close-popup />
+                    </q-card-actions>
+                </q-card>
+            </q-dialog>
 
-              />
-            </q-card-section>
+            <q-btn size="8px" color="red-10" icon="disabled_by_default" v-on:click="confirmDelete = true" />
+            <q-dialog v-model="confirmDelete" persistent>
+                <q-card>
 
-            <q-card-actions align="right" class="text-primary">
-              <q-btn flat label="Anuluj" v-close-popup />
-              <q-btn
-                flat
-                label="Zapisz"
-                v-on:click="editProductType"
-                v-close-popup
-              />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
+                    <q-card-section class="row items-center bg-negative">
 
-        <q-btn
-          size="8px"
-          color="red-10"
-          icon="disabled_by_default"
-          v-on:click="confirmDelete = true"
-        />
-        <q-dialog v-model="confirmDelete" persistent>
-          <q-card>
+                        <q-avatar icon="report_problem" text-color="white" />
+                        <span class="q-ml-sm text-white">
+                            Czy usunąć kategorię:
+                            <br />
+                            <strong>{{ this.name }}</strong>?
+                        </span>
+                    </q-card-section>
 
-            <q-card-section class="row items-center bg-negative">
+                    <q-card-actions align="right">
 
-              <q-avatar icon="report_problem" text-color="white" />
-              <span class="q-ml-sm text-white">
-                Czy usunąć kategorię:
-                <br />
-                <strong>{{ this.name }}</strong>?
-              </span>
-            </q-card-section>
-
-            <q-card-actions align="right">
-
-              <q-btn
-                flat
-                label="Usuń"
-                color="negative"
-                v-on:click="deleteProductType"
-                v-close-popup
-              />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-      </q-btn-group>
+                        <q-btn flat label="Usuń" color="negative" v-on:click="deleteProductType" v-close-popup />
+                    </q-card-actions>
+                </q-card>
+            </q-dialog>
+        </q-btn-group>
     </q-item-section>
-  </q-item>
+</q-item>
 </template>
 
 <script>
-import { required, minLength } from "vuelidate/lib/validators";
+import {
+    required,
+    minLength
+} from "vuelidate/lib/validators";
 import axios from "axios";
 
 export default {
-  name: "ProductTypeMenuLink",
-  props: {
-    id: {
-      type: Number,
-      required: true,
+    name: "ProductTypeMenuLink",
+    props: {
+        id: {
+            type: Number,
+            required: true,
+        },
+        name: {
+            type: String,
+            required: true,
+        },
+        // link: {
+        //     type: String,
+        //     default: "#",
+        // },
+        icon: {
+            type: String,
+            default: "forward",
+        },
     },
-    name: {
-      type: String,
-      required: true,
-    },
-    // link: {
-    //     type: String,
-    //     default: "#",
-    // },
-    icon: {
-      type: String,
-      default: "forward",
-    },
-  },
-  data() {
-    return {
-      confirmDelete: false,
-      save: false,
-      newNameProductType: this.name,
-    };
-  },
-
-  methods: {
-    validations: {
-      newNameProductType: { required, minLength: minLength(3) },
+    data() {
+        return {
+            confirmDelete: false,
+            save: false,
+            newNameProductType: this.name,
+        };
     },
 
-    editProductType: function () {
-      // alert(
-      //   "Click Edit Product Type: " +
-      //     this.newNameProductType +
-      //     " id: " +
-      //     this.id
-      // );
-      const url = "http://localhost:8080/product-types";
+    methods: {
+        validations: {
+            newNameProductType: {
+                required,
+                minLength: minLength(3)
+            },
+        },
 
-      axios
-        .put(url + "/update", {
-          id: this.id,
-          name: this.newNameProductType,
-        })
-        .then((response) => {})
-        .catch(() => {
-          this.$q.notify({
-            color: "negative",
-            position: "top",
-            message: "The new name of product type saving failed",
-            icon: "report_problem",
-          });
-        });
-        EventBus.$emit("productTypesUpdated");
-    },
+        editProductType: function () {
+            // alert(
+            //   "Click Edit Product Type: " +
+            //     this.newNameProductType +
+            //     " id: " +
+            //     this.id
+            // );
+            const url = "http://localhost:8080/product-types";
 
-    deleteProductType: function () {
-      const url = "http://localhost:8080/product-types";
+            axios
+                .put(url + "/update", {
+                    id: this.id,
+                    name: this.newNameProductType,
+                })
+                .then((response) => {})
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "The new name of product type saving failed",
+                        icon: "report_problem",
+                    });
+                });
+            EventBus.$emit("productTypesUpdated");
+        },
 
-      axios
-        .delete(url + "/" + this.id)
-        .then((response) => {})
-        .catch(() => {
-          this.$q.notify({
-            color: "negative",
-            position: "top",
-            message: "The product type deleting failed!",
-            icon: "report_problem",
-          });
-        });
-      //location.reload();
-      EventBus.$emit("productTypesUpdated");
+        deleteProductType: function () {
+            const url = "http://localhost:8080/product-types";
+
+            axios
+                .delete(url + "/" + this.id)
+                .then((response) => {})
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "The product type deleting failed!",
+                        icon: "report_problem",
+                    });
+                });
+            location.reload();
+            //EventBus.$emit("productTypesUpdated");
+        },
+        getProductsByProductType: function (name) {
+            alert("Click Product Type: " + name);
+        },
     },
-    getProductsByProductType: function (name) {
-      alert("Click Product Type: " + name);
-    },
-  },
 };
 </script>

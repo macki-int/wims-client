@@ -14,7 +14,10 @@
 
             <q-card-actions align="right" class="text-primary">
                 <q-btn flat label="Anuluj" v-close-popup />
-                <q-btn flat label="Zapisz" v-on:click="addProductType" v-close-popup />
+                <<<<<<< HEAD <q-btn flat label="Zapisz" v-on:click="addProductType" v-close-popup />
+                =======
+                <q-btn flat label="Zapisz" v-on:click="addProductType" quasae v-close-popup />
+                >>>>>>> 3e3ad9aa1ac3801ca3f846462c306aee28f2fb8d
             </q-card-actions>
         </q-card>
     </q-dialog>
@@ -57,7 +60,6 @@ export default {
                     this.$q.notify({
                         color: "negative",
                         position: "top",
-                        git
                         message: "Product type saving failed",
                         icon: "report_problem"
                     });
@@ -66,8 +68,8 @@ export default {
             // if (event) {
             //   alert(event.target.tagName)
             // }
-
-            EventBus.$emit("productTypesUpdated");
+            location.reload();
+            //EventBus.$emit("productTypesUpdated");
         }
     }
 };
