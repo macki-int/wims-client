@@ -1,6 +1,6 @@
 <template>
 <div class="q-pa-md q-gutter-sm">
-    <q-btn label="Dodaj kategorię" color="blue-7" v-on:click="save = true" />
+    <q-btn label="Dodaj kategorię" color="primary" v-on:click="save = true" />
 
     <q-dialog v-model="save" persistent>
         <q-card style="min-width: 350px">

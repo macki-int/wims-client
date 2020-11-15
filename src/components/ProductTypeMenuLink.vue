@@ -16,7 +16,7 @@
 
     <q-item-section>
         <q-btn-group spread>
-            <q-btn size="8px" color="blue-7" icon="edit" v-on:click="save = true" />
+            <q-btn size="8px" color="primary" icon="edit" v-on:click="save = true" />
             <q-dialog v-model="save" persistent>
                 <q-card style="min-width: 350px">
                     <q-card-section>
