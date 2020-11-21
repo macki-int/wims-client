@@ -22,11 +22,13 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(product, id) in products" :key="id">
-                                        <td class="text-left">{{ product.id }}</td>
-                                        <td class="text-left">{{ product.name }}</td>
-                                        <!--td class="text-right">{{ product.width }}</td>
-                                                                                                    <td class="text-right">{{ product.lenght }}</td>
-                                                                                                    <td class="text-right">{{ product.quantity }}</td-->
+                                        <td class="text-left">{{ product.product.id }}</td>
+                                        <td class="text-left">{{ product.product.name }}</td>
+                                        <td class="text-right">{{ product.productWidth }}</td>
+                                        <td class="text-right">{{ product.productLength }}</td>
+                                        <td class="text-right">{{ product.quantity }}</td>
+                                        <td class="text-right">{{ product.productWidth * product.productLength * product.quantity }}</td>
+                                        <td class="text-right">{{ product.product.active }}</td>
                                     </tr>
                                 </tbody>
                             </q-markup-table>
@@ -39,63 +41,27 @@
                         <div style="min-height: 800px">
                             <q-card-section>
                                 <!--div class="text-h6">{{ productTypeName.name }}</div-->
-                                <template>
-                                        <div class="q-pa-md" style="max-width: 470px">
 
-                                          <q-form
-                                            @submit="onSubmit"
-                                            @reset="onReset"
-                                            class="q-gutter-md">
+                                <div class="q-pa-md" style="max-width: 470px">
 
-                                          <q-select
-                                            v-model="productTypeName.name"
-                                            :options="productTypeName"
-                                            label="Kategoria wyrobu"
-                                            lazy-rules
-                                            :rules="[ val => val && val.length > 0 || 'Wybierz z listy kategorię wyrobu!']"
-                                            />
-                                          <q-input
-                                            full-width no-outline
-                                            type="text"
-                                            v-model="productName"
-                                            label="Nazwa"
-                                            lazy-rules :rules="[ val => val && val.length > 0 || 'Podaj nazwę wyrobu!']"/>
-                                            <q-input
-                                              full-width no-outline
-                                              type="number"
-                                              v-model="width"
-                                              label="Szerokość"/>
-                                            <q-input
-                                              full-width no-outline
-                                              type="number"
-                                              v-model="length"
-                                              label="Długość"/>
-                                            <q-input
-                                              full-width no-outline
-                                              type="number"
-                                              v-model="quantity"
-                                              label="Ilość"/>
-                                            <q-input
-                                              full-width no-outline
-                                              readonly
-                                              type="number"
+                                    <q-form @submit="onSubmit" @reset="onReserve" class="q-gutter-md">
 
-                                              label="Powierzchnia"/>
-                                            <q-toggle v-model="activeValue" label="Produkt aktywny" />
-                                            <q-input
-                                              full-width no-outline
-                                              v-model="description"
-                                              type="textarea"
-                                              label="Uwagi"/>
+                                        <q-select v-model="productTypeName.name" :options="productTypeName" label="Kategoria wyrobu" lazy-rules :rules="[ val => val && val.length > 0 || 'Wybierz z listy kategorię wyrobu!']" />
+                                        <q-input full-width no-outline type="text" v-model="formProductName" label="Nazwa" lazy-rules :rules="[ val => val && val.length > 0 || 'Podaj nazwę wyrobu!']" />
+                                        <q-input full-width no-outline type="number" v-model="formWidth" label="Szerokość" />
+                                        <q-input full-width no-outline type="number" v-model="formLength" label="Długość" />
+                                        <q-input full-width no-outline type="number" v-model="formQuantity" label="Ilość" />
+                                        <q-input full-width no-outline readonly type="number" label="Powierzchnia" />
+                                        <q-toggle v-model="formActiveValue" label="Produkt aktywny" />
+                                        <q-input full-width no-outline v-model="formDescription" type="textarea" label="Uwagi" />
 
-                                            <div>
-                                              <q-btn label="Zapisz" type="submit" color="primary"/>
-                                        <q-btn label="Rezerwacja" type="reset" color="primary" flat class="q-ml-sm" />
-                                      </div>
+                                        <div>
+                                            <q-btn label="Zapisz" type="submit" color="primary" />
+                                            <q-btn label="Rezerwacja" type="reset" color="primary" flat class="q-ml-sm" />
+                                        </div>
 
                                     </q-form>
-                                  </div>
-</template>
+                                </div>
                             </q-card-section>
                         </div>
                     </q-card>
@@ -128,13 +94,14 @@ export default {
         return {
             productTypeName: [],
             products: [],
+            product: '',
             nameSelectedProduct: '',
-            productName: '',
-            width: '',
-            length: '',
-            quantity: '',
-            activeValue: true,
-            description: ''
+            formProductName: '',
+            formWidth: '',
+            formLength: '',
+            formQuantity: '',
+            formActiveValue: true,
+            formDescription: ''
         }
     },
 
@@ -170,6 +137,7 @@ export default {
                 })
                 .then(response => {
                     this.products = response.data;
+                    console.log(this.products);
                 })
                 .catch(() => {
                     this.$q.notify({
@@ -179,6 +147,14 @@ export default {
                         icon: "report_problem"
                     });
                 });
+        },
+
+        onSubmit: function() {
+            alert("onSubmit");
+        },
+
+        onReserve: function() {
+            alert("onReserve");
         }
     }
 };
