@@ -6,7 +6,7 @@
           <q-card class="my-card" style="width: 1000px">
             <div style="min-height: 800px">
               <q-card-section>
-                <div class="text-h6">{{ productTypeName.name }}</div>
+                <div class="text-h6">{{ productType.name }}</div>
               </q-card-section>
               <q-markup-table
                 dense
@@ -55,17 +55,17 @@
           <q-card class="my-card">
             <div style="min-height: 800px">
               <q-card-section>
-                <!--div class="text-h6">{{ productTypeName.name }}</div-->
+                <!--div class="text-h6">{{ productType.name }}</div-->
 
                 <div class="q-pa-md" style="max-width: 470px">
                   <q-form
                     @submit="onSubmit"
-                    @reset="onReserve"
+                    @reset="onNewProduct"
                     class="q-gutter-md"
                   >
                     <q-select
-                      v-model="productTypeName.name"
-                      :options="productTypeName"
+                      v-model="productType.name"
+                      :options="productType.id"
                       label="Kategoria wyrobu"
                       lazy-rules
                       :rules="[
@@ -75,6 +75,7 @@
                       ]"
                     />
                     <q-input
+                      @input="onChange"
                       full-width
                       no-outline
                       type="text"
@@ -86,6 +87,7 @@
                       ]"
                     />
                     <q-input
+                      @input="onChange"
                       full-width
                       no-outline
                       type="number"
@@ -93,6 +95,7 @@
                       label="Szerokość"
                     />
                     <q-input
+                      @input="onChange"
                       full-width
                       no-outline
                       type="number"
@@ -100,6 +103,7 @@
                       label="Długość"
                     />
                     <q-input
+                      @input="onChange"
                       full-width
                       no-outline
                       type="number"
@@ -115,10 +119,12 @@
                       label="Powierzchnia"
                     />
                     <q-toggle
+                      @input="onChange"
                       v-model="formActiveValue"
                       label="Produkt aktywny"
                     />
                     <q-input
+                      @input="onChange"
                       full-width
                       no-outline
                       v-model="formDescription"
@@ -127,14 +133,8 @@
                     />
 
                     <div>
-                      <q-btn label="Zapisz" type="submit" color="primary" />
-                      <q-btn
-                        label="Rezerwacja"
-                        type="reset"
-                        color="primary"
-                        flat
-                        class="q-ml-sm"
-                      />
+                      <q-btn :disabled="disabled" label="Zapisz" type="submit" color="primary" />
+                      <q-btn label="Nowy" type="reset" color="primary" flat class="q-ml-sm" />
                     </div>
                   </q-form>
                 </div>
@@ -155,26 +155,28 @@ export default {
 
   watch: {
     $route(to, from) {
-      this.getProductTypeName();
+      this.getproductType();
       this.getProductsAndQuantityByProductTypeId();
     }
   },
 
   mounted() {
-    this.getProductTypeName();
+    this.getproductType();
     this.getProductsAndQuantityByProductTypeId();
   },
 
   data() {
     return {
-      productTypeName: [],
+      disabled: true,
+      newProduct: false,
+      productType: [],
       products: [],
       product: "",
       nameSelectedProduct: "",
       formProductName: "",
-      formWidth: "",
-      formLength: "",
-      formQuantity: "",
+      formWidth: "5.0",
+      formLength: "100.0",
+      formQuantity: "0",
       formArea: "",
       formActiveValue: true,
       formDescription: ""
@@ -182,7 +184,7 @@ export default {
   },
 
   methods: {
-    getProductTypeName: function() {
+    getproductType: function() {
       const url =
         "http://localhost:8080/product-types/" + this.$route.params.id;
       axios
@@ -191,7 +193,7 @@ export default {
           headers: {}
         })
         .then(response => {
-          this.productTypeName = response.data;
+          this.productType = response.data;
           // alert(event.target.tagName);
           //console.log("response: " + JSON.stringify(response.data));
         })
@@ -234,14 +236,48 @@ export default {
       this.formQuantity = product.quantity;
       this.formArea = product.productWidth * product.productLength * product.quantity;
       this.formActiveValue = product.product.active;
+
+      this.newProduct = false;
     },
 
     onSubmit: function() {
-      alert("onSubmit");
+      const url = "http://localhost:8080/products";
+            axios
+                .post(url, {
+                    name: this.formProductName,
+                    productType: this.productType
+                })
+                .then(response => {
+                  this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Product saving OK",
+                        icon: "check_circle"
+                    });
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Product saving failed",
+                        icon: "report_problem"
+                    });
+                });
     },
 
-    onReserve: function() {
-      alert("onReserve");
+    onNewProduct: function() {
+      this.formProductName = "";
+      this.formWidth = 5.0;
+      this.formLength = 100.0;
+      this.formQuantity = 0;
+      this.formArea = "";
+      this.formActiveValue = true;
+
+      this.newProduct = true;
+    },
+
+    onChange: function(){
+      this.disabled= false;
     }
   }
 };
