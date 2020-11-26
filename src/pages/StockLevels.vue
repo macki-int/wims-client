@@ -54,6 +54,7 @@
                                         readonly
                                         type="text"
                                         v-model="productType.name"
+                                        :options="productType"
                                         label="Kategoria wyrobu"
                                          />
                                         <q-input
@@ -123,9 +124,10 @@ export default {
             formArea: "",
             formActiveValue: true,
             formDescription: "",
-            info: null
+            addNewProductId: null    
         };
     },
+
 
     methods: {
         getproductType: function() {
@@ -179,25 +181,36 @@ export default {
             this.formQuantity = product.quantity;
             this.formArea = product.productWidth * product.productLength * product.quantity;
             this.formActiveValue = product.product.active;
-
+            alert(Date.now())
             this.newProduct = false;
         },
 
         onSubmit: function() {
-            const url = "http://localhost:8080/products";
+            if(this.newProduct){
+                this.addProduct();
+            }else{
+                this.updateProduct();
+            }
+        },
+
+        addProduct: function(){
+          const url = "http://localhost:8080/products";
             axios
                 .post(url, {
                     name: this.formProductName,
                     productType: this.productType
                 })
-                .then(response => {this.info = response,
+                .then(response => {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
                         message: "Product saving OK",
                         icon: "check_circle"
-                    });
+                    }),
+                    this.addNewProductId = response.data.id;
+                    this.addInventory();
                 })
+              
                 .catch(() => {
                     this.$q.notify({
                         color: "negative",
@@ -206,7 +219,44 @@ export default {
                         icon: "report_problem"
                     });
                 });
-                console.log(this.info);
+             this.newProduct = false;   
+        },
+
+        updateProduct: function(){
+
+        },
+
+        addInventory: function(){
+            var today = new Date();
+            const url = "http://localhost:8080/inventories";
+            axios
+                .post(url, {
+                    productWidth: this.formWidth,
+                    productLength: this.formLength,
+                    productQuantity:this.formQuantity,
+                    updateDate: today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(),
+                    product: {
+                      id: this.addNewProductId 
+                    },
+                    description: this.formDescription
+                })
+                .then(response => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Inventory of product saving OK",
+                        icon: "check_circle"
+                    })
+                })
+              
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Inventory of product saving failed",
+                        icon: "report_problem"
+                    });
+                });
         },
 
         onNewProduct: function() {
@@ -225,10 +275,9 @@ export default {
             this.disabled = false;
         },
 
-        setFocusProductName: function()
-    {
+        setFocusProductName: function(){
            this.$refs.productName.focus();
-    }
+        }
     }
 };
 </script>
