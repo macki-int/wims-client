@@ -190,7 +190,8 @@ export default {
                     name: this.formProductName,
                     productType: this.productType
                 })
-                .then(response => {this.info = response,
+                // .then(response => (this.info = response))
+                .then(response => {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
@@ -206,7 +207,7 @@ export default {
                         icon: "report_problem"
                     });
                 });
-                console.log(this.info);
+
         },
 
         onNewProduct: function() {
