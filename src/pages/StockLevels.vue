@@ -11,7 +11,7 @@
                             <q-markup-table dense class="no-shadow">
                                 <thead>
                                     <tr>
-                                        <th class="text-left">Id</th>
+                                        <th hidden class="text-left">Id</th>
                                         <th class="text-left">Nazwa</th>
                                         <th class="text-right">Szerokość</th>
                                         <th class="text-right">Długość</th>
@@ -22,7 +22,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(product, id) in products" :key="id" @click="onRowClick(product)">
-                                        <td class="text-left">{{ product.product.id }}</td>
+                                        <td hidden class="text-left">{{ product.product.id }}</td>
                                         <td class="text-left">{{ product.product.name }}</td>
                                         <td class="text-right">{{ product.productWidth }}</td>
                                         <td class="text-right">{{ product.productLength }}</td>
@@ -54,6 +54,7 @@
                                         readonly
                                         type="text"
                                         v-model="productType.name"
+                                        :options="productType"
                                         label="Kategoria wyrobu"
                                          />
                                         <q-input
@@ -71,7 +72,7 @@
                                         <q-input @input="onChange" full-width no-outline type="number" v-model="formWidth" label="Szerokość" />
                                         <q-input @input="onChange" full-width no-outline type="number" v-model="formLength" label="Długość" />
                                         <q-input @input="onChange" full-width no-outline type="number" v-model="formQuantity" label="Ilość" />
-                                        <q-input full-width no-outline readonly v-model="formArea" type="number" label="Powierzchnia" />
+                                        <q-input full-width no-outline readonly v-model="formArea" type="number" label="Powierzchnia" /> 
                                         <q-toggle @input="onChange" v-model="formActiveValue" label="Produkt aktywny" />
                                         <q-input @input="onChange" full-width no-outline v-model="formDescription" type="textarea" label="Uwagi" />
 
@@ -100,6 +101,7 @@ export default {
         $route(to, from) {
             this.getproductType();
             this.getProductsAndQuantityByProductTypeId();
+            this.refreshArea();
         }
     },
 
@@ -123,9 +125,10 @@ export default {
             formArea: "",
             formActiveValue: true,
             formDescription: "",
-            info: null
+            addNewProductId: null
         };
     },
+
 
     methods: {
         getproductType: function() {
@@ -151,6 +154,13 @@ export default {
                 });
         },
 
+        // computed: {
+        //     calculateArea: function (){
+        //         alert(this.formWidth * this.formLength * this.formQuantity);
+        //         return this.formWidth * this.formLength * this.formQuantity;
+        //     }
+        // },
+
         getProductsAndQuantityByProductTypeId: function() {
             const url =
                 "http://localhost:8080/products/product-types/" + this.$route.params.id;
@@ -173,32 +183,46 @@ export default {
         },
 
         onRowClick: function(product) {
+            this.formProductId = product.product.id;
             this.formProductName = product.product.name;
             this.formWidth = product.productWidth;
             this.formLength = product.productLength;
             this.formQuantity = product.quantity;
-            this.formArea = product.productWidth * product.productLength * product.quantity;
             this.formActiveValue = product.product.active;
-
+            
             this.newProduct = false;
+            this.refreshArea();
         },
 
         onSubmit: function() {
-            const url = "http://localhost:8080/products";
+            if(this.newProduct){
+                this.addProduct();
+            }else{
+                this.updateProduct();
+            }
+        },
+
+        addProduct: function(){
+          const url = "http://localhost:8080/products";
             axios
                 .post(url, {
                     name: this.formProductName,
                     productType: this.productType
                 })
-                // .then(response => (this.info = response))
+
+
                 .then(response => {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
                         message: "Product saving OK",
                         icon: "check_circle"
-                    });
+                    }),
+                    this.addNewProductId = response.data.id;
+                    alert(this.addNewProductId)
+                    this.addInventory();
                 })
+
                 .catch(() => {
                     this.$q.notify({
                         color: "negative",
@@ -207,7 +231,79 @@ export default {
                         icon: "report_problem"
                     });
                 });
+             this.newProduct = false;
+        },
 
+        updateProduct: function(){
+            const url = "http://localhost:8080/products/update";
+            axios
+                .put(url, {
+                    id: this.formProductId,
+                    active: this.formActiveValue,
+                    name: this.formProductName,
+                    productType: this.productType
+                })
+
+
+                .then(response => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Product update OK",
+                        icon: "check_circle"
+                    });   
+                })
+
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Product update failed",
+                        icon: "report_problem"
+                    });
+                });
+        },
+
+        addInventory: function(){
+            var today = new Date();
+            const url = "http://localhost:8080/inventories";
+            axios
+                .post(url, {
+                    productWidth: this.formWidth,
+                    productLength: this.formLength,
+                    quantity:this.formQuantity,
+                    updateDate: this.updateDate(),
+                    product: {
+                      id: this.addNewProductId
+                    },
+                    description: this.formDescription
+                })
+                .then(response => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Inventory of product saving OK",
+                        icon: "check_circle"
+                    })
+                })
+
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Inventory of product saving failed",
+                        icon: "report_problem"
+                    });
+                });
+
+        },
+
+        updateDate: function(){
+            return today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        },
+
+        refreshArea: function(){
+            this.formArea = this.formWidth * this.formLength * this.formQuantity;
         },
 
         onNewProduct: function() {
@@ -215,7 +311,7 @@ export default {
             this.formWidth = 5.0;
             this.formLength = 100.0;
             this.formQuantity = 0;
-            this.formArea = "";
+            this.formArea = 0;
             this.formActiveValue = true;
 
             this.setFocusProductName();
@@ -224,12 +320,12 @@ export default {
 
         onChange: function() {
             this.disabled = false;
+            this.refreshArea();
         },
 
-        setFocusProductName: function()
-    {
+        setFocusProductName: function(){
            this.$refs.productName.focus();
-    }
+        }
     }
 };
 </script>
