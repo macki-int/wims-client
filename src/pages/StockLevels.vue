@@ -70,9 +70,9 @@
                             val => (val && val.length > 0) || 'Podaj nazwę wyrobu!'
                           ]" />
                                         <q-input @input="onChange" full-width no-outline type="number" v-model="formWidth" label="Szerokość" />
-                                        <q-input @input="onChange" full-width no-outline type="number" v-model="formLength" label="Długość" />
+                                        <q-input @input="onChange" full-width no-outline type="number" v-model="formLength" label="Długość" step="100"/>
                                         <q-input @input="onChange" full-width no-outline type="number" v-model="formQuantity" label="Ilość" />
-                                        <q-input full-width no-outline readonly v-model="formArea" type="number" label="Powierzchnia" /> 
+                                        <q-input full-width no-outline readonly v-model="formArea" type="number" label="Powierzchnia" />
                                         <q-toggle @input="onChange" v-model="formActiveValue" label="Produkt aktywny" />
                                         <q-input @input="onChange" full-width no-outline v-model="formDescription" type="textarea" label="Uwagi" />
 
@@ -99,14 +99,14 @@ export default {
 
     watch: {
         $route(to, from) {
-            this.getproductType();
+            this.getProductType();
             this.getProductsAndQuantityByProductTypeId();
-            this.refreshArea();
+            this.recalculateArea();
         }
     },
 
     mounted() {
-        this.getproductType();
+        this.getProductType();
         this.getProductsAndQuantityByProductTypeId();
     },
 
@@ -114,24 +114,25 @@ export default {
         return {
             disabled: true,
             newProduct: false,
+
             productType: [],
             products: [],
             product: "",
-            nameSelectedProduct: "",
             formProductName: "",
-            formWidth: "5.0",
-            formLength: "100.0",
+            formWidth: "5.00",
+            formLength: "100.00",
             formQuantity: "0",
             formArea: "",
             formActiveValue: true,
             formDescription: "",
+
             addNewProductId: null
         };
     },
 
 
     methods: {
-        getproductType: function() {
+        getProductType: function() {
             const url =
                 "http://localhost:8080/product-types/" + this.$route.params.id;
             axios
@@ -189,9 +190,9 @@ export default {
             this.formLength = product.productLength;
             this.formQuantity = product.quantity;
             this.formActiveValue = product.product.active;
-            
+
             this.newProduct = false;
-            this.refreshArea();
+            this.recalculateArea();
         },
 
         onSubmit: function() {
@@ -210,7 +211,6 @@ export default {
                     productType: this.productType
                 })
 
-
                 .then(response => {
                     this.$q.notify({
                         color: "positive",
@@ -219,8 +219,6 @@ export default {
                         icon: "check_circle"
                     }),
                     this.addNewProductId = response.data.id;
-                    alert(this.addNewProductId)
-                    this.addInventory();
                 })
 
                 .catch(() => {
@@ -231,7 +229,8 @@ export default {
                         icon: "report_problem"
                     });
                 });
-             this.newProduct = false;
+                    this.newProduct = false;
+                    this.addInventory();
         },
 
         updateProduct: function(){
@@ -251,7 +250,7 @@ export default {
                         position: "top",
                         message: "Product update OK",
                         icon: "check_circle"
-                    });   
+                    });
                 })
 
                 .catch(() => {
@@ -265,8 +264,8 @@ export default {
         },
 
         addInventory: function(){
-            var today = new Date();
             const url = "http://localhost:8080/inventories";
+
             axios
                 .post(url, {
                     productWidth: this.formWidth,
@@ -295,14 +294,14 @@ export default {
                         icon: "report_problem"
                     });
                 });
-
         },
 
         updateDate: function(){
+            var today = new Date();
             return today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         },
 
-        refreshArea: function(){
+        recalculateArea: function(){
             this.formArea = this.formWidth * this.formLength * this.formQuantity;
         },
 
@@ -314,16 +313,16 @@ export default {
             this.formArea = 0;
             this.formActiveValue = true;
 
-            this.setFocusProductName();
             this.newProduct = true;
+            this.setFocusFormProductName();
         },
 
         onChange: function() {
             this.disabled = false;
-            this.refreshArea();
+            this.recalculateArea();
         },
 
-        setFocusProductName: function(){
+        setFocusFormProductName: function(){
            this.$refs.productName.focus();
         }
     }
