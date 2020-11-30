@@ -48,29 +48,12 @@
 
                                 <div class="q-pa-md" style="max-width: 470px">
                                     <q-form @submit="onSubmit" @reset="onNewProduct" class="q-gutter-md">
-                                        <q-input
-                                        full-width
-                                        no-outline
-                                        readonly
-                                        type="text"
-                                        v-model="productType.name"
-                                        :options="productType"
-                                        label="Kategoria wyrobu"
-                                         />
-                                        <q-input
-                                        @input="onChange"
-                                        full-width
-                                        no-outline
-                                        type="text"
-                                        v-model="formProductName"
-                                        label="Nazwa"
-                                        ref="productName"
-                                        lazy-rules
-                                        :rules="[
-                            val => (val && val.length > 0) || 'Podaj nazwę wyrobu!'
-                          ]" />
+                                        <q-input full-width no-outline readonly type="text" v-model="productType.name" :options="productType" label="Kategoria wyrobu" />
+                                        <q-input @input="onChange" full-width no-outline type="text" v-model="formProductName" label="Nazwa" ref="productName" lazy-rules :rules="[
+                                        val => (val && val.length > 0) || 'Podaj nazwę wyrobu!'
+                                      ]" />
                                         <q-input @input="onChange" full-width no-outline type="number" v-model="formWidth" label="Szerokość" />
-                                        <q-input @input="onChange" full-width no-outline type="number" v-model="formLength" label="Długość" step="100"/>
+                                        <q-input @input="onChange" full-width no-outline type="number" v-model="formLength" label="Długość" step="100" />
                                         <q-input @input="onChange" full-width no-outline type="number" v-model="formQuantity" label="Ilość" />
                                         <q-input full-width no-outline readonly v-model="formArea" type="number" label="Powierzchnia" />
                                         <q-toggle @input="onChange" v-model="formActiveValue" label="Produkt aktywny" />
@@ -108,13 +91,16 @@ export default {
     mounted() {
         this.getProductType();
         this.getProductsAndQuantityByProductTypeId();
+        // this.addProductAndInventory();
+        // this.addProduct();
+        // this.addInventory();
     },
 
     data() {
         return {
+          addNewProductId:[],
             disabled: true,
             newProduct: false,
-
             productType: [],
             products: [],
             product: "",
@@ -124,9 +110,8 @@ export default {
             formQuantity: "0",
             formArea: "",
             formActiveValue: true,
-            formDescription: "",
+            formDescription: ""
 
-            addNewProductId: null
         };
     },
 
@@ -195,17 +180,23 @@ export default {
             this.recalculateArea();
         },
 
-        onSubmit: function() {
-            if(this.newProduct){
-                this.addProduct();
-            }else{
-                this.updateProduct();
-            }
+        addProductAndInventory: function() {
+            this.addNewProductId =  this.addProduct();
+            console.log(this.addNewProductId);
+
+            this.addInventory(this.addNewProductId);
+
+            this.newProduct = false;
+            this.disabled = true;
         },
 
-        addProduct: function(){
-          const url = "http://localhost:8080/products";
-            axios
+        updateProductAndInventory: function() {
+
+        },
+
+        addProduct: function() {
+            const url = "http://localhost:8080/products";
+            return axios
                 .post(url, {
                     name: this.formProductName,
                     productType: this.productType
@@ -217,8 +208,9 @@ export default {
                         position: "top",
                         message: "Product saving OK",
                         icon: "check_circle"
-                    }),
-                    this.addNewProductId = response.data.id;
+                    })
+                    // console.log(response.data);
+                    return response.data;
                 })
 
                 .catch(() => {
@@ -229,11 +221,9 @@ export default {
                         icon: "report_problem"
                     });
                 });
-                    this.newProduct = false;
-                    this.addInventory();
         },
 
-        updateProduct: function(){
+        updateProduct: function() {
             const url = "http://localhost:8080/products/update";
             axios
                 .put(url, {
@@ -263,17 +253,17 @@ export default {
                 });
         },
 
-        addInventory: function(){
+        addInventory: function(productId) {
             const url = "http://localhost:8080/inventories";
-
+            // alert(productId);
             axios
                 .post(url, {
                     productWidth: this.formWidth,
                     productLength: this.formLength,
-                    quantity:this.formQuantity,
+                    quantity: this.formQuantity,
                     updateDate: this.updateDate(),
                     product: {
-                      id: this.addNewProductId
+                        id: productId
                     },
                     description: this.formDescription
                 })
@@ -296,13 +286,21 @@ export default {
                 });
         },
 
-        updateDate: function(){
+        updateDate: function() {
             var today = new Date();
-            return today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            return today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         },
 
-        recalculateArea: function(){
+        recalculateArea: function() {
             this.formArea = this.formWidth * this.formLength * this.formQuantity;
+        },
+
+        onSubmit: function() {
+            if (this.newProduct) {
+                this.addProductAndInventory();
+            } else {
+                this.updateProductAndInventory();
+            }
         },
 
         onNewProduct: function() {
@@ -322,8 +320,8 @@ export default {
             this.recalculateArea();
         },
 
-        setFocusFormProductName: function(){
-           this.$refs.productName.focus();
+        setFocusFormProductName: function() {
+            this.$refs.productName.focus();
         }
     }
 };
