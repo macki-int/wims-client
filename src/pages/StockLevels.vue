@@ -184,6 +184,7 @@ export default {
             this.addNewProductId =  this.addProduct();
             console.log(this.addNewProductId);
 
+            this.formProductId =this.addNewProductId;
             this.addInventory(this.addNewProductId);
 
             this.newProduct = false;
@@ -206,10 +207,10 @@ export default {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
-                        message: "Product saving OK",
+                        message: "Product saving OK with id: " + response.data.id,
                         icon: "check_circle"
                     })
-                    // console.log(response.data);
+                    console.log("post product:" + response.data.id);
                     return response.data;
                 })
 
@@ -255,15 +256,19 @@ export default {
 
         addInventory: function(productId) {
             const url = "http://localhost:8080/inventories";
-            // alert(productId);
+            // var date = new Date().toJSON().slice(0,10);
+            // alert(date);
+            console.log("post invetntory: " + this.productId);
+
             axios
                 .post(url, {
                     productWidth: this.formWidth,
                     productLength: this.formLength,
                     quantity: this.formQuantity,
-                    updateDate: this.updateDate(),
+                    updateDate: new Date().toJSON().slice(0,10),
+                    // updateDate: this.updateDate(),
                     product: {
-                        id: productId
+                        id: this.productId
                     },
                     description: this.formDescription
                 })
@@ -271,7 +276,7 @@ export default {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
-                        message: "Inventory of product saving OK",
+                        message: "Inventory of product saving OK with id: " + response.date.id ,
                         icon: "check_circle"
                     })
                 })
@@ -284,11 +289,6 @@ export default {
                         icon: "report_problem"
                     });
                 });
-        },
-
-        updateDate: function() {
-            var today = new Date();
-            return today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         },
 
         recalculateArea: function() {
