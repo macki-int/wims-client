@@ -16,7 +16,7 @@
 
     <q-item-section>
         <q-btn-group spread>
-            <q-btn size="8px" color="primary" icon="edit" v-on:click="save = true" />
+            <q-btn size="8px" color="blue" icon="edit" v-on:click="save = true" />
             <q-dialog v-model="save" persistent>
                 <q-card style="min-width: 350px">
                     <q-card-section>
@@ -34,7 +34,7 @@
                 </q-card>
             </q-dialog>
 
-            <q-btn size="8px" color="red-10" icon="disabled_by_default" v-on:click="confirmDelete = true" />
+            <q-btn size="8px" color="red" icon="disabled_by_default" v-on:click="confirmDelete = true" />
             <q-dialog v-model="confirmDelete" persistent>
                 <q-card>
 

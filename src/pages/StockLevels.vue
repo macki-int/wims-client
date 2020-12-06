@@ -1,77 +1,77 @@
 <template>
-    <q-page class="flex flex-left">
-        <div class="q-pa-md">
-            <div class="row">
-                <div class="col-6-md q-pr-md">
-                    <q-card class="my-card" style="width: 1000px">
-                        <div style="min-height: 800px">
-                            <q-card-section>
-                                <div class="text-h6">{{ productType.name }} <span class="text-subtitle1">(data aktualizacji: )</span> </div>
-                            </q-card-section>
-                            <q-markup-table dense class="no-shadow">
-                                <thead>
-                                    <tr>
-                                        <th hidden class="text-left">Id</th>
-                                        <th class="text-left">Nazwa</th>
-                                        <th class="text-right">Szerokość</th>
-                                        <th class="text-right">Długość</th>
-                                        <th class="text-right">Ilość</th>
-                                        <th class="text-right">Powierzchnia</th>
-                                        <th class="text-right">Aktywny</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(product, id) in products" :key="id" @click="onRowClick(product)">
-                                        <td hidden class="text-left">{{ product.product.id }}</td>
-                                        <td class="text-left">{{ product.product.name }}</td>
-                                        <td class="text-right">{{ product.productWidth }}</td>
-                                        <td class="text-right">{{ product.productLength }}</td>
-                                        <td class="text-right">{{ product.quantity }}</td>
-                                        <td class="text-right">
-                                            {{ product.productWidth * product.productLength * product.quantity }}
-                                        </td>
-                                        <td class="text-right">
-                                            <q-checkbox size="xs" disable v-model="product.product.active"></q-checkbox>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </q-markup-table>
-                        </div>
-                    </q-card>
-                </div>
+<q-page class="flex flex-left">
+    <div class="q-pa-md">
+        <div class="row">
+            <div class="col-6-md q-pr-md">
+                <q-card class="my-card" style="width: 1000px">
+                    <div style="min-height: 800px">
+                        <q-card-section>
+                            <div class="text-h6">{{ productType.name }} <span class="text-subtitle1">(data aktualizacji: )</span> </div>
+                        </q-card-section>
+                        <q-markup-table dense class="no-shadow">
+                            <thead>
+                                <tr>
+                                    <th hidden class="text-left">Id</th>
+                                    <th class="text-left">Nazwa</th>
+                                    <th class="text-right">Szerokość</th>
+                                    <th class="text-right">Długość</th>
+                                    <th class="text-right">Ilość</th>
+                                    <th class="text-right">Powierzchnia</th>
+                                    <th class="text-right">Aktywny</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(product, id) in products" :key="id" @click="onRowClick(product)">
+                                    <td hidden class="text-left">{{ product.product.id }}</td>
+                                    <td class="text-left">{{ product.product.name }}</td>
+                                    <td class="text-right">{{ product.productWidth }}</td>
+                                    <td class="text-right">{{ product.productLength }}</td>
+                                    <td class="text-right">{{ product.quantity }}</td>
+                                    <td class="text-right">
+                                        {{ product.productWidth * product.productLength * product.quantity }}
+                                    </td>
+                                    <td class="text-right">
+                                        <q-checkbox size="xs" disable v-model="product.product.active"></q-checkbox>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </q-markup-table>
+                    </div>
+                </q-card>
+            </div>
 
-                <div class="col-3-md" style="width: 500px">
-                    <q-card class="my-card">
-                        <div style="min-height: 800px">
-                            <q-card-section>
-                                <!--div class="text-h6">{{ productType.name }}</div-->
+            <div class="col-3-md" style="width: 500px">
+                <q-card class="my-card">
+                    <div style="min-height: 800px">
+                        <q-card-section>
+                            <!--div class="text-h6">{{ productType.name }}</div-->
 
-                                <div class="q-pa-md" style="max-width: 470px">
-                                    <q-form @submit="onSubmit" @reset="onNewProduct" class="q-gutter-md">
-                                        <q-input full-width no-outline readonly type="text" v-model="productType.name" :options="productType" label="Kategoria wyrobu" />
-                                        <q-input @input="onChange" full-width no-outline type="text" v-model="formProductName" label="Nazwa" ref="productName" lazy-rules :rules="[
+                            <div class="q-pa-md" style="max-width: 470px">
+                                <q-form @submit="onSubmit" @reset="onNewProduct" class="q-gutter-md">
+                                    <q-input full-width no-outline readonly type="text" v-model="productType.name" :options="productType" label="Kategoria wyrobu" />
+                                    <q-input @input="onChange" full-width no-outline type="text" v-model="formProductName" label="Nazwa" ref="productName" lazy-rules :rules="[
                                             val => (val && val.length > 0) || 'Podaj nazwę wyrobu!'
                                           ]" />
-                                        <q-input @input="onChange" full-width no-outline type="number" v-model="formWidth" label="Szerokość" />
-                                        <q-input @input="onChange" full-width no-outline type="number" v-model="formLength" label="Długość" step="100" />
-                                        <q-input @input="onChange" full-width no-outline type="number" v-model="formQuantity" label="Ilość" />
-                                        <q-input full-width no-outline readonly v-model="formArea" type="number" label="Powierzchnia" />
-                                        <q-toggle @input="onChange" v-model="formActiveValue" label="Produkt aktywny" />
-                                        <q-input @input="onChange" full-width no-outline v-model="formDescription" type="textarea" label="Uwagi" />
+                                    <q-input @input="onChange" full-width no-outline type="number" v-model="formWidth" label="Szerokość" />
+                                    <q-input @input="onChange" full-width no-outline type="number" v-model="formLength" label="Długość" step="100" />
+                                    <q-input @input="onChange" full-width no-outline type="number" v-model="formQuantity" label="Ilość" />
+                                    <q-input full-width no-outline readonly v-model="formArea" type="number" label="Powierzchnia" />
+                                    <q-toggle @input="onChange" v-model="formActiveValue" label="Produkt aktywny" />
+                                    <q-input @input="onChange" full-width no-outline v-model="formDescription" type="textarea" label="Uwagi" />
 
-                                        <div>
-                                            <q-btn :disabled="disabled" label="Zapisz" type="submit" color="primary" />
-                                            <q-btn label="Nowy" type="reset" color="primary" flat class="q-ml-sm" />
-                                        </div>
-                                    </q-form>
-                                </div>
-                            </q-card-section>
-                        </div>
-                    </q-card>
-                </div>
+                                    <div>
+                                        <q-btn :disabled="disabled" label="Zapisz" type="submit" color="primary" />
+                                        <q-btn label="Nowy" type="reset" color="primary" flat class="q-ml-sm" />
+                                    </div>
+                                </q-form>
+                            </div>
+                        </q-card-section>
+                    </div>
+                </q-card>
             </div>
         </div>
-    </q-page>
+    </div>
+</q-page>
 </template>
 
 <script>
@@ -115,9 +115,8 @@ export default {
         };
     },
 
-
     methods: {
-        getProductType: function() {
+        getProductType: function () {
             const url =
                 "http://localhost:8080/product-types/" + this.$route.params.id;
             axios
@@ -147,7 +146,7 @@ export default {
         //     }
         // },
 
-        getProductsAndQuantityByProductTypeId: function() {
+        getProductsAndQuantityByProductTypeId: function () {
             const url =
                 "http://localhost:8080/products/product-types/" + this.$route.params.id;
             axios
@@ -167,11 +166,11 @@ export default {
                         icon: "report_problem"
                     });
                 });
-                // console.log("test obiektu")
-        // console.log(this.products[0]);
+            // console.log("test obiektu")
+            // console.log(this.products[0]);
         },
 
-        onRowClick: function(product) {
+        onRowClick: function (product) {
             this.formProductId = product.product.id;
             this.formProductName = product.product.name;
             this.formWidth = product.productWidth;
@@ -183,7 +182,7 @@ export default {
             this.recalculateArea();
         },
 
-        addProductAndInventory: function() {
+        addProductAndInventory: function () {
             this.addNewProductId = this.addProduct();
             console.log(this.addNewProductId);
 
@@ -194,11 +193,11 @@ export default {
             this.disabled = true;
         },
 
-        updateProductAndInventory: function() {
+        updateProductAndInventory: function () {
 
         },
 
-        addProduct: function() {
+        addProduct: function () {
             const url = "http://localhost:8080/products";
             return axios
                 .post(url, {
@@ -227,7 +226,7 @@ export default {
                 });
         },
 
-        updateProduct: function() {
+        updateProduct: function () {
             const url = "http://localhost:8080/products/update";
             axios
                 .put(url, {
@@ -236,7 +235,6 @@ export default {
                     name: this.formProductName,
                     productType: this.productType
                 })
-
 
                 .then(response => {
                     this.$q.notify({
@@ -257,7 +255,7 @@ export default {
                 });
         },
 
-        addInventory: function(productId) {
+        addInventory: function (productId) {
             const url = "http://localhost:8080/inventories";
             // var date = new Date().toJSON().slice(0,10);
             // alert(date);
@@ -294,11 +292,11 @@ export default {
                 });
         },
 
-        recalculateArea: function() {
+        recalculateArea: function () {
             this.formArea = this.formWidth * this.formLength * this.formQuantity;
         },
 
-        onSubmit: function() {
+        onSubmit: function () {
             if (this.newProduct) {
                 this.addProductAndInventory();
             } else {
@@ -306,7 +304,7 @@ export default {
             }
         },
 
-        onNewProduct: function() {
+        onNewProduct: function () {
             this.formProductName = "";
             this.formWidth = 5.0;
             this.formLength = 100.0;
@@ -318,12 +316,12 @@ export default {
             this.setFocusFormProductName();
         },
 
-        onChange: function() {
+        onChange: function () {
             this.disabled = false;
             this.recalculateArea();
         },
 
-        setFocusFormProductName: function() {
+        setFocusFormProductName: function () {
             this.$refs.productName.focus();
         }
     }
