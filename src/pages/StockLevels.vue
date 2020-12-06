@@ -6,7 +6,7 @@
                     <q-card class="my-card" style="width: 1000px">
                         <div style="min-height: 800px">
                             <q-card-section>
-                                <div class="text-h6">{{ productType.name }}</div>
+                                <div class="text-h6">{{ productType.name }} <span class="text-subtitle1">(data aktualizacji: )</span> </div>
                             </q-card-section>
                             <q-markup-table dense class="no-shadow">
                                 <thead>
@@ -50,8 +50,8 @@
                                     <q-form @submit="onSubmit" @reset="onNewProduct" class="q-gutter-md">
                                         <q-input full-width no-outline readonly type="text" v-model="productType.name" :options="productType" label="Kategoria wyrobu" />
                                         <q-input @input="onChange" full-width no-outline type="text" v-model="formProductName" label="Nazwa" ref="productName" lazy-rules :rules="[
-                                        val => (val && val.length > 0) || 'Podaj nazwę wyrobu!'
-                                      ]" />
+                                            val => (val && val.length > 0) || 'Podaj nazwę wyrobu!'
+                                          ]" />
                                         <q-input @input="onChange" full-width no-outline type="number" v-model="formWidth" label="Szerokość" />
                                         <q-input @input="onChange" full-width no-outline type="number" v-model="formLength" label="Długość" step="100" />
                                         <q-input @input="onChange" full-width no-outline type="number" v-model="formQuantity" label="Ilość" />
@@ -98,7 +98,7 @@ export default {
 
     data() {
         return {
-          addNewProductId:[],
+            addNewProductId: [],
             disabled: true,
             newProduct: false,
             productType: [],
@@ -158,6 +158,7 @@ export default {
                 .then(response => {
                     this.products = response.data;
                 })
+
                 .catch(() => {
                     this.$q.notify({
                         color: "negative",
@@ -166,6 +167,8 @@ export default {
                         icon: "report_problem"
                     });
                 });
+                // console.log("test obiektu")
+        // console.log(this.products[0]);
         },
 
         onRowClick: function(product) {
@@ -181,10 +184,10 @@ export default {
         },
 
         addProductAndInventory: function() {
-            this.addNewProductId =  this.addProduct();
+            this.addNewProductId = this.addProduct();
             console.log(this.addNewProductId);
 
-            this.formProductId =this.addNewProductId;
+            this.formProductId = this.addNewProductId;
             this.addInventory(this.addNewProductId);
 
             this.newProduct = false;
@@ -265,7 +268,7 @@ export default {
                     productWidth: this.formWidth,
                     productLength: this.formLength,
                     quantity: this.formQuantity,
-                    updateDate: new Date().toJSON().slice(0,10),
+                    updateDate: new Date().toJSON().slice(0, 10),
                     // updateDate: this.updateDate(),
                     product: {
                         id: this.productId
@@ -276,7 +279,7 @@ export default {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
-                        message: "Inventory of product saving OK with id: " + response.date.id ,
+                        message: "Inventory of product saving OK with id: " + response.date.id,
                         icon: "check_circle"
                     })
                 })

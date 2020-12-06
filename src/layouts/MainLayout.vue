@@ -5,6 +5,7 @@
                 <q-btn flat dense round icon="menu" aria-label="Menu" @click="leftDrawerOpen = !leftDrawerOpen" />
                 <q-toolbar-title>
                     <q-btn to="/" flat color="white" label="Wims App" no-caps/>
+                    <q-btn to="/" flat color="white" label="Produkty" no-caps/>
                 </q-toolbar-title>
                 <div>Wims v{{ $q.version }}</div>
             </q-toolbar>
@@ -15,6 +16,7 @@
                 <q-item-label header class="text-grey-1">KATEGORIA:</q-item-label>
                 <ProductTypeMenuLink class="text-grey-1" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
             </q-list>
+
             <NewProductType />
         </q-drawer>
 
