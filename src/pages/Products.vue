@@ -24,8 +24,8 @@
                             </td>
                             <td class="text-right">
                                 <q-btn-group>
-                                    <q-btn color="blue" icon="edit" @click="editProduct()" size=sm no-caps></q-btn>
-
+                                    <q-btn color="blue" icon="edit" v-on:click="editProduct()" size=sm no-caps></q-btn>
+                                    
                                     <q-btn color="red" icon="disabled_by_default" v-on:click="deleteProduct(product)" size=sm no-caps />
                                 </q-btn-group>
                             </td>
@@ -152,12 +152,7 @@ export default {
                 });
             // location.reload();
             //EventBus.$emit("productTypesUpdated");
-        },
-
-        getProductByProductId: function (id) {
-            });
-
-        },
+        }
     },
 };
 </script>

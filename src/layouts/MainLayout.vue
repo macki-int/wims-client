@@ -15,6 +15,8 @@
         <q-list ref="onUpdateProductTypeList">
             <q-item-label header class="text-grey-1">KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class="text-grey-1" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
+
+
         </q-list>
 
         <NewProductType />
@@ -43,12 +45,12 @@ export default {
 
     mounted: function () {
         this.getProductTypes();
+        this.getAllProducts();
     },
 
     data() {
         return {
             leftDrawerOpen: false,
-            // [{"id":1,"name":"geotkanina"},{"id":2,"name":"geosiatka"}],
             productTypes: []
         };
     },
@@ -75,6 +77,10 @@ export default {
                     });
                 });
             // console.log("refresh");
+        },
+
+        getAllProducts(){
+            alert("Wszystkie produkty");
         },
 
         getProductsByProductType: function () {
