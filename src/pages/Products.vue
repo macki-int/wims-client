@@ -1,7 +1,7 @@
 <template>
 <q-page class="flex flex-left">
     <div class="q-pa-md">
-        <q-card class="my-card" style="width: 1500px">
+        <q-card class="my-card" style="width: 1515px">
             <div style="min-height: 800px">
                 <q-card-section>
                     <div class="text-h6">Wszystkie produkty</div>
@@ -25,7 +25,7 @@
                             <td class="text-right">
                                 <q-btn-group>
                                     <q-btn color="blue" icon="edit" v-on:click="editProduct()" size=sm no-caps></q-btn>
-                                    
+
                                     <q-btn color="red" icon="disabled_by_default" v-on:click="deleteProduct(product)" size=sm no-caps />
                                 </q-btn-group>
                             </td>
