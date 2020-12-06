@@ -45,7 +45,6 @@ export default {
 
     mounted: function () {
         this.getProductTypes();
-        this.getAllProducts();
     },
 
     data() {
