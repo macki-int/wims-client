@@ -110,7 +110,7 @@ export default {
             const url = "http://localhost:8080/product-types";
 
             axios
-                .put(url + "/update", {
+                .put(url, {
                     id: this.id,
                     name: this.newNameProductType,
                 })
