@@ -27,7 +27,6 @@
                                     <q-btn color="blue" icon="edit" @click="editProduct()" size=sm no-caps></q-btn>
 
                                     <q-btn color="red" icon="disabled_by_default" v-on:click="deleteProduct(product)" size=sm no-caps />
-
                                 </q-btn-group>
                             </td>
                         </q-tr>
@@ -96,7 +95,6 @@ export default {
                         icon: "report_problem",
                     });
                 });
-            // EventBus.$emit("productTypesUpdated");
         },
 
         deleteProduct: function (product) {
@@ -104,7 +102,6 @@ export default {
 
             axios
                 .delete(url + "/" + product.id)
-                // .then((response) => {})
                 .then(response => {
                     this.$q.notify({
                             color: "positive",
@@ -122,7 +119,6 @@ export default {
                         icon: "report_problem",
                     });
                 });
-            //EventBus.$emit("productTypesUpdated");
         },
 
         activateProduct: function (product) {
@@ -137,7 +133,6 @@ export default {
 
             axios
                 .patch(this.url + "/" + product.id)
-                // .then((response) => {})
                 .then(response => {
                     this.$q.notify({
                         color: "positive",
@@ -160,10 +155,6 @@ export default {
         },
 
         getProductByProductId: function (id) {
-
-            // alert("Clicked Product Type: " + id);
-            this.$router.push({
-                path: "/" + this.id,
             });
 
         },

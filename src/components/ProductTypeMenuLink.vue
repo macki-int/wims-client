@@ -39,7 +39,6 @@
                 <q-card>
 
                     <q-card-section class="row items-center bg-negative">
-
                         <q-avatar icon="report_problem" text-color="white" />
                         <span class="q-ml-sm text-white">
                             Czy usunąć kategorię:
@@ -49,9 +48,10 @@
                     </q-card-section>
 
                     <q-card-actions align="right">
-
+                        <q-btn flat label="Anuluj" color="negative" v-close-popup />
                         <q-btn flat label="Usuń" color="negative" v-on:click="deleteProductType" v-close-popup />
                     </q-card-actions>
+
                 </q-card>
             </q-dialog>
         </q-btn-group>
