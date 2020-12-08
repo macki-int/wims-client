@@ -6,7 +6,7 @@
                 <q-card class="my-card" style="width: 1000px">
                     <div style="min-height: 800px">
                         <q-card-section>
-                            <div class="text-h6">{{ productType.name }} <span class="text-subtitle1">(data aktualizacji: )</span> </div>
+                            <div class="text-h6">{{ productType.name }} <span class="text-subtitle1">(data aktualizacji: {{ maxUpdateDate[0] }})</span> </div>
                         </q-card-section>
                         <q-markup-table dense class="no-shadow">
                             <thead>
@@ -21,7 +21,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(product, id) in products" :key="id" @click="onRowClick(product)">
+                                <tr v-for="(product, id) in products" :key="id" v-on:click="onRowClick(product)">
                                     <td class="text-left">{{ product.product.id }}</td>
                                     <td class="text-left">{{ product.product.name }}</td>
                                     <td class="text-right">{{ product.productWidth }}</td>
@@ -29,7 +29,7 @@
                                     <td class="text-right">{{ product.quantity }}</td>
                                     <td class="text-right">
                                         {{ product.productWidth * product.productLength * product.quantity }}
-                                    </td>
+                                    <td>
                                     <td class="text-right">
                                         <q-checkbox size="xs" disable v-model="product.product.active"></q-checkbox>
                                     </td>
@@ -44,8 +44,6 @@
                 <q-card class="my-card">
                     <div style="min-height: 800px">
                         <q-card-section>
-                            <!--div class="text-h6">{{ productType.name }}</div-->
-
                             <div class="q-pa-md" style="max-width: 470px">
                                 <q-form @submit="onSubmit" @reset="onNewInventory" class="q-gutter-md">
                                     <q-input full-width no-outline readonly type="text" v-model="productType.name" :options="productType" label="Kategoria wyrobu" />
@@ -58,7 +56,6 @@
                                     <q-input @input="onChange" full-width no-outline type="number" v-model="formQuantity" label="Ilość" />
                                     <q-input full-width no-outline readonly type="number" v-model="formArea" label="Powierzchnia" />
                                     <q-input @input="onChange" full-width no-outline type="textarea" v-model="formDescription" label="Uwagi" />
-
                                     <div>
                                         <q-btn :disabled="disabled" label="Zapisz" type="submit" color="primary" />
                                         <q-btn label="Nowy" type="reset" color="primary" flat class="q-ml-sm" />
@@ -85,12 +82,15 @@ export default {
             this.getProductType();
             this.getProductsAndQuantityByProductTypeId();
             this.recalculateArea();
+            this.getMaxUpdateDateByProductType();
         }
     },
 
     mounted() {
         this.getProductType();
         this.getProductsAndQuantityByProductTypeId();
+        this.getMaxUpdateDateByProductType();
+
         // this.addProductAndInventory();
         // this.addProduct();
         // this.addInventory();
@@ -102,6 +102,7 @@ export default {
             disabled: true,
             newProduct: false,
             productType: [],
+            maxUpdateDate: [],
             products: [],
             product: "",
             formProductName: "",
@@ -169,6 +170,29 @@ export default {
             // console.log("test obiektu")
             // console.log(this.products[0]);
         },
+        getMaxUpdateDateByProductType: function () {
+            const url =
+                "http://localhost:8080/products/product-types/max/" + this.$route.params.id;
+            axios
+                .get(url, {
+                    dataType: "json",
+                    headers: {}
+                })
+                .then(response => {
+                    this.maxUpdateDate = response.data;
+                    // alert(event.target.tagName);
+                    //console.log("response: " + JSON.stringify(response.data));
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Last update date loading failed",
+                        icon: "report_problem"
+                    });
+                });
+            console.log(this.maxUpdateDate);
+        },
 
         addProductAndInventory: function () {
             this.addNewProductId = this.addProduct();
@@ -215,7 +239,7 @@ export default {
         },
 
         updateProduct: function () {
-            const url = "http://localhost:8080/products/update";
+            const url = "http://localhost:8080/products";
             axios
                 .put(url, {
                     id: this.formProductId,
