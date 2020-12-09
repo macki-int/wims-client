@@ -191,7 +191,6 @@ export default {
                         icon: "report_problem"
                     });
                 });
-            console.log(this.maxUpdateDate);
         },
 
         addProductAndInventory: function () {
@@ -296,7 +295,7 @@ export default {
                             message: "Inventory of product saving OK",
                             icon: "check_circle"
                         }),
-                        location.reload();
+                        this.getProductsAndQuantityByProductTypeId();
                 })
 
                 .catch(() => {
@@ -331,7 +330,8 @@ export default {
                             message: "Inventory of product updating OK",
                             icon: "check_circle"
                         }),
-                        location.reload();
+                        // location.reload();
+                        this.getProductsAndQuantityByProductTypeId();
                 })
 
                 .catch(() => {

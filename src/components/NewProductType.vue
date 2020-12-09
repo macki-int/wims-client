@@ -66,9 +66,8 @@ export default {
             this.$router.push({
                 path: "/",
             });
-
-            location.reload();
-            // EventBus.$emit("productTypesUpdated");
+            // location.reload();
+            EventBus.$emit("getProductTypes");
         }
     }
 };

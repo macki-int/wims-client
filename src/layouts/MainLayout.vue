@@ -34,7 +34,6 @@
 import ProductTypeMenuLink from "components/ProductTypeMenuLink.vue";
 import NewProductType from "components/NewProductType.vue";
 import axios from "axios";
-// import vuex from "vuex";
 
 export default {
     name: "MainLayout",
@@ -75,7 +74,6 @@ export default {
                         icon: "report_problem"
                     });
                 });
-            // console.log("refresh");
         },
 
         getAllProducts(){
