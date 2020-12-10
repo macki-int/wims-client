@@ -123,7 +123,7 @@ export default {
                         icon: "report_problem",
                     });
                 });
-            // EventBus.$emit("productTypesUpdated");
+            this.$root.$emit('updateProductType')
         },
 
         deleteProductType: function () {
@@ -140,13 +140,12 @@ export default {
                         icon: "report_problem",
                     });
                 });
-            location.reload();
+            this.$root.$emit('updateProductType')
             //EventBus.$emit("productTypesUpdated");
         },
 
         getProductsByProductType: function (id) {
 
-            // alert("Clicked Product Type: " + id);
             this.$router.push({
                 path: "/" + this.id,
             });

@@ -60,6 +60,8 @@
                                         <q-btn :disabled="disabled" label="Zapisz" type="submit" color="primary" />
                                         <q-btn label="Nowy" type="reset" color="primary" flat class="q-ml-sm" />
                                     </div>
+                                        <q-badge v-if="newInventory" outline color="primary" align="middle" label="Dodajesz nowy asortyment" />
+                                        <q-badge v-if="!newInventory && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" />
                                 </q-form>
                             </div>
                         </q-card-section>
@@ -101,6 +103,7 @@ export default {
             addNewProductId: [],
             disabled: true,
             newProduct: false,
+            newInventory: false,
             productType: [],
             maxUpdateDate: [],
             products: [],
@@ -201,6 +204,7 @@ export default {
             this.addInventory(this.addNewProductId);
 
             this.newProduct = false;
+            this.newInventory = false;
             this.disabled = true;
         },
 
@@ -296,6 +300,8 @@ export default {
                             icon: "check_circle"
                         }),
                         this.getProductsAndQuantityByProductTypeId();
+                    this.getMaxUpdateDateByProductType();
+
                 })
 
                 .catch(() => {
@@ -330,8 +336,9 @@ export default {
                             message: "Inventory of product updating OK",
                             icon: "check_circle"
                         }),
-                        // location.reload();
                         this.getProductsAndQuantityByProductTypeId();
+                    this.getMaxUpdateDateByProductType();
+
                 })
 
                 .catch(() => {
@@ -354,6 +361,7 @@ export default {
             this.formActiveValue = product.product.active;
 
             this.newProduct = false;
+            this.newInventory = false;
             this.disabled = true;
             this.recalculateArea();
         },

@@ -16,7 +16,6 @@
             <q-item-label header class="text-grey-1">KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class="text-grey-1" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
 
-
         </q-list>
 
         <NewProductType />
@@ -44,6 +43,9 @@ export default {
 
     mounted: function () {
         this.getProductTypes();
+        this.$root.$on('updateProductType', () => {
+            // this.getProductTypes();
+        });
     },
 
     data() {
@@ -76,7 +78,7 @@ export default {
                 });
         },
 
-        getAllProducts(){
+        getAllProducts() {
             alert("Wszystkie produkty");
         },
 
