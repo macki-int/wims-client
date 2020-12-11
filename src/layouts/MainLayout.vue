@@ -57,8 +57,8 @@ export default {
 
     methods: {
         getProductTypes: function () {
-            const url = "http://192.168.5.122:8080/product-types";
-
+            const url = this.$apiURI + "product-types";
+            alert(url)
             axios
                 .get(url, {
                     dataType: "json",
