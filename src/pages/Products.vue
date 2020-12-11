@@ -1,7 +1,7 @@
 <template>
 <q-page class="flex flex-left">
     <div class="q-pa-md">
-        <q-card class="my-card" style="width: 1515px">
+        <q-card class="my-card" style="width: 1300px">
             <div style="min-height: 800px">
                 <q-card-section>
                     <div class="text-h6">Wszystkie produkty</div>
@@ -59,7 +59,7 @@ export default {
     methods: {
         getProducts: function () {
             const url =
-                "http://localhost:8080/products";
+                "http://192.168.5.122:8080/products";
             axios
                 .get(url, {
                     dataType: "json",
@@ -79,7 +79,7 @@ export default {
         },
 
         editProduct: function () {
-            const url = "http://localhost:8080/products";
+            const url = "http://192.168.5.122:8080/products";
 
             axios
                 .put(url, {
@@ -98,7 +98,7 @@ export default {
         },
 
         deleteProduct: function (product) {
-            const url = "http://localhost:8080/products";
+            const url = "http://192.168.5.122:8080/products";
 
             axios
                 .delete(url + "/" + product.id)
@@ -125,10 +125,10 @@ export default {
             const url = "";
 
             if (product.active) {
-                this.url = "http://localhost:8080/products/activate";
+                this.url = "http://192.168.5.122:8080/products/activate";
 
             } else {
-                this.url = "http://localhost:8080/products/deactivate";
+                this.url = "http://192.168.5.122:8080/products/deactivate";
             };
 
             axios

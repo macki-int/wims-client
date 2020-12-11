@@ -107,7 +107,7 @@ export default {
             //     " id: " +
             //     this.id
             // );
-            const url = "http://localhost:8080/product-types";
+            const url = "http://192.168.5.122:8080/product-types";
 
             axios
                 .put(url, {
@@ -127,7 +127,7 @@ export default {
         },
 
         deleteProductType: function () {
-            const url = "http://localhost:8080/product-types";
+            const url = "http://192.168.5.122:8080/product-types";
 
             axios
                 .delete(url + "/" + this.id)

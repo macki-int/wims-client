@@ -3,7 +3,7 @@
     <div class="q-pa-md">
         <div class="row">
             <div class="col-6-md q-pr-md">
-                <q-card class="my-card" style="width: 1000px">
+                <q-card class="my-card" style="width: 900px">
                     <div style="min-height: 800px">
                         <q-card-section>
                             <div class="text-h6">{{ productType.name }} <span class="text-subtitle1">(data aktualizacji: {{ maxUpdateDate[0] }})</span> </div>
@@ -40,7 +40,7 @@
                 </q-card>
             </div>
 
-            <div class="col-3-md" style="width: 500px">
+            <div class="col-3-md" style="width: 400px">
                 <q-card class="my-card">
                     <div style="min-height: 800px">
                         <q-card-section>
@@ -122,7 +122,7 @@ export default {
     methods: {
         getProductType: function () {
             const url =
-                "http://localhost:8080/product-types/" + this.$route.params.id;
+                "http://192.168.5.122:8080/product-types/" + this.$route.params.id;
             axios
                 .get(url, {
                     dataType: "json",
@@ -152,7 +152,7 @@ export default {
 
         getProductsAndQuantityByProductTypeId: function () {
             const url =
-                "http://localhost:8080/products/product-types/" + this.$route.params.id;
+                "http://192.168.5.122:8080/products/product-types/" + this.$route.params.id;
             axios
                 .get(url, {
                     dataType: "json",
@@ -175,7 +175,7 @@ export default {
         },
         getMaxUpdateDateByProductType: function () {
             const url =
-                "http://localhost:8080/products/product-types/max/" + this.$route.params.id;
+                "http://192.168.5.122:8080/products/product-types/max/" + this.$route.params.id;
             axios
                 .get(url, {
                     dataType: "json",
@@ -213,7 +213,7 @@ export default {
         },
 
         addProduct: function () {
-            const url = "http://localhost:8080/products";
+            const url = "http://192.168.5.122:8080/products";
             return axios
                 .post(url, {
                     name: this.formProductName,
@@ -242,7 +242,7 @@ export default {
         },
 
         updateProduct: function () {
-            const url = "http://localhost:8080/products";
+            const url = "http://192.168.5.122:8080/products";
             axios
                 .put(url, {
                     id: this.formProductId,
@@ -279,7 +279,7 @@ export default {
         },
 
         addInventory: function () {
-            const url = "http://localhost:8080/inventories";
+            const url = "http://192.168.5.122:8080/inventories";
 
             axios
                 .post(url, {
@@ -315,7 +315,7 @@ export default {
         },
 
         updateInventory: function () {
-            const url = "http://localhost:8080/inventories";
+            const url = "http://192.168.5.122:8080/inventories";
 
             axios
                 .put(url, {

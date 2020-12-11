@@ -57,7 +57,7 @@ export default {
 
     methods: {
         getProductTypes: function () {
-            const url = "http://localhost:8080/product-types";
+            const url = "http://192.168.5.122:8080/product-types";
 
             axios
                 .get(url, {
