@@ -59,7 +59,7 @@ export default {
     methods: {
         getProducts: function () {
             const url =
-                "http://192.168.5.122:8080/products";
+                "/api/products";
             axios
                 .get(url, {
                     dataType: "json",
@@ -79,7 +79,7 @@ export default {
         },
 
         editProduct: function () {
-            const url = "http://192.168.5.122:8080/products";
+            const url = "/api/products";
 
             axios
                 .put(url, {
@@ -98,7 +98,7 @@ export default {
         },
 
         deleteProduct: function (product) {
-            const url = "http://192.168.5.122:8080/products";
+            const url = "/api/products";
 
             axios
                 .delete(url + "/" + product.id)
@@ -125,10 +125,10 @@ export default {
             const url = "";
 
             if (product.active) {
-                this.url = "http://192.168.5.122:8080/products/activate";
+                this.url = "/api/products/activate";
 
             } else {
-                this.url = "http://192.168.5.122:8080/products/deactivate";
+                this.url = "/api/products/deactivate";
             };
 
             axios

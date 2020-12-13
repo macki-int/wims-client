@@ -45,7 +45,7 @@ export default {
         // },
 
         addProductType: function () {
-            const url = "http://192.168.5.122:8080/product-types";
+            const url = "/api/product-types";
 
             axios
                 .post(url, {

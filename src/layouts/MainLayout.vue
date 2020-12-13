@@ -57,8 +57,8 @@ export default {
 
     methods: {
         getProductTypes: function () {
-            const url = this.$apiURI + "product-types";
-            alert(url)
+            const url = "/api/product-types";
+            
             axios
                 .get(url, {
                     dataType: "json",

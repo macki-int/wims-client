@@ -60,8 +60,8 @@
                                         <q-btn :disabled="disabled" label="Zapisz" type="submit" color="primary" />
                                         <q-btn label="Nowy" type="reset" color="primary" flat class="q-ml-sm" />
                                     </div>
-                                        <q-badge v-if="newInventory" outline color="primary" align="middle" label="Dodajesz nowy asortyment" />
-                                        <q-badge v-if="!newInventory && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" />
+                                    <q-badge v-if="newInventory" outline color="primary" align="middle" label="Dodajesz nowy asortyment" />
+                                    <q-badge v-if="!newInventory && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" />
                                 </q-form>
                             </div>
                         </q-card-section>
@@ -121,8 +121,8 @@ export default {
 
     methods: {
         getProductType: function () {
-            const url =
-                "http://192.168.5.122:8080/product-types/" + this.$route.params.id;
+            const url = "/api/product-types/" + this.$route.params.id;
+
             axios
                 .get(url, {
                     dataType: "json",
@@ -151,8 +151,8 @@ export default {
         // },
 
         getProductsAndQuantityByProductTypeId: function () {
-            const url =
-                "http://192.168.5.122:8080/products/product-types/" + this.$route.params.id;
+            const url = "/api/products/product-types/" + this.$route.params.id;
+
             axios
                 .get(url, {
                     dataType: "json",
@@ -174,8 +174,8 @@ export default {
             // console.log(this.products[0]);
         },
         getMaxUpdateDateByProductType: function () {
-            const url =
-                "http://192.168.5.122:8080/products/product-types/max/" + this.$route.params.id;
+            const url = "/api/products/product-types/max/" + this.$route.params.id;
+
             axios
                 .get(url, {
                     dataType: "json",
@@ -213,7 +213,7 @@ export default {
         },
 
         addProduct: function () {
-            const url = "http://192.168.5.122:8080/products";
+            const url = "/api/products";
             return axios
                 .post(url, {
                     name: this.formProductName,
@@ -242,7 +242,7 @@ export default {
         },
 
         updateProduct: function () {
-            const url = "http://192.168.5.122:8080/products";
+            const url = "/api/products";
             axios
                 .put(url, {
                     id: this.formProductId,
@@ -279,7 +279,7 @@ export default {
         },
 
         addInventory: function () {
-            const url = "http://192.168.5.122:8080/inventories";
+            const url = "/api/inventories";
 
             axios
                 .post(url, {
@@ -315,7 +315,7 @@ export default {
         },
 
         updateInventory: function () {
-            const url = "http://192.168.5.122:8080/inventories";
+            const url = "/api/inventories";
 
             axios
                 .put(url, {
