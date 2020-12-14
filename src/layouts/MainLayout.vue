@@ -45,6 +45,8 @@ export default {
         this.getProductTypes();
         this.$root.$on('updateProductType', () => {
             // this.getProductTypes();
+            location.reload();
+
         });
     },
 
@@ -58,15 +60,15 @@ export default {
     methods: {
         getProductTypes: function () {
             const url = "/api/product-types";
-            
+
             axios
                 .get(url, {
                     dataType: "json",
                     headers: {}
                 })
                 .then(response => {
-                    //console.log("response: " + JSON.stringify(response.data));
                     this.productTypes = response.data;
+                    // console.log("response: " + JSON.stringify(response.data));
                 })
                 .catch(() => {
                     this.$q.notify({

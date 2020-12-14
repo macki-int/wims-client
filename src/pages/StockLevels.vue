@@ -131,7 +131,7 @@ export default {
                 .then(response => {
                     this.productType = response.data;
                     // alert(event.target.tagName);
-                    //console.log("response: " + JSON.stringify(response.data));
+                    // console.log("response: " + JSON.stringify(response.data));
                 })
                 .catch(() => {
                     this.$q.notify({
