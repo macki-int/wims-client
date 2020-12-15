@@ -43,11 +43,11 @@ export default {
 
     mounted: function () {
         this.getProductTypes();
-        this.$root.$on('updateProductType', () => {
-            // this.getProductTypes();
-            location.reload();
+        // this.$root.$on('updateProductType', () => {
+        //     // this.getProductTypes();
+        //     location.reload();
 
-        });
+        // });
     },
 
     data() {

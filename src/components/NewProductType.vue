@@ -66,7 +66,8 @@ export default {
             this.$router.push({
                 path: "/",
             });
-            this.$root.$emit('updateProductType')
+            // this.$root.$emit('updateProductType')
+            location.reload();
         }
     }
 };
