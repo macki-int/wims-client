@@ -11,6 +11,7 @@
                         <q-tr>
                             <th class="text-left">Id</th>
                             <th class="text-left">Nazwa</th>
+                            <th class="text-left">Typ</th>
                             <th class="text-right">Aktywny</th>
                             <th class="text-right"></th>
                         </q-tr>
@@ -19,12 +20,30 @@
                         <q-tr v-for="(product, id) in products" :key="id">
                             <td class="text-left">{{ product.id }}</td>
                             <td class="text-left">{{ product.name }}</td>
+                            <td class="text-left">{{ product.productType.name }}</td>
                             <td class="text-right">
-                                <q-checkbox size="xs" v-model="product.active" v-on:click.native="activateProduct(product)"></q-checkbox>
+                                <q-checkbox size="xs" color="grey" v-model="product.active" v-on:click.native="activateProduct(product)">
+                                </q-checkbox>
                             </td>
                             <td class="text-right">
                                 <q-btn-group>
-                                    <q-btn color="blue" icon="edit" v-on:click="editProduct()" size=sm no-caps></q-btn>
+                                    <q-btn color="blue" icon="edit" v-on:click="save = true" size=sm></q-btn>
+                                    <!-- <q-dialog v-model="save" persistent>
+                                        <q-card style="min-width: 350px">
+                                            <q-card-section>
+                                                <div class="text-primary">Edycja nazwy produktu</div>
+                                            </q-card-section>
+
+                                            <q-card-section class="q-pt-none">
+                                                <q-input v-model.trim="newProductName" @focus="$event.target.select()" autofocus dense v-on:keyup.enter="save = false" />
+                                            </q-card-section>
+
+                                            <q-card-actions align="right" class="text-primary">
+                                                <q-btn flat label="Anuluj" v-close-popup />
+                                                <q-btn flat label="Zapisz" v-on:click="editProductName" v-close-popup />
+                                            </q-card-actions>
+                                        </q-card>
+                                    </q-dialog> -->
 
                                     <q-btn color="red" icon="disabled_by_default" v-on:click="deleteProduct(product)" size=sm no-caps />
                                 </q-btn-group>
@@ -52,6 +71,8 @@ export default {
         return {
             products: [],
             confirmDelete: false,
+            newProductName: "",
+
             save: false
         };
     },
@@ -78,15 +99,22 @@ export default {
                 });
         },
 
-        editProduct: function () {
+        editProductName: function () {
             const url = "/api/products";
 
             axios
                 .put(url, {
                     id: this.id,
-                    name: this.newNameProductType,
+                    name: this.newProductName,
                 })
-                .then((response) => {})
+                .then((response) => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Product name saving OK",
+                        icon: "check_circle",
+                    });
+                })
                 .catch(() => {
                     this.$q.notify({
                         color: "negative",
