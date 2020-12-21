@@ -52,6 +52,7 @@
                         <q-card-section>
                             <div class="q-pa-md" style="max-width: 470px">
                                 <q-form @submit="onSubmit" @reset="onNewInventory" class="q-gutter-md">
+<div>
                                     <q-input
                                      :rules="[
                         (val) => (val && val.length > 0) || 'Wybierz wyrób z listy!',
@@ -82,7 +83,7 @@
             </q-card-actions>
         </q-card>
     </q-dialog>
-
+</div>
                       <q-separator color="primary" class="q-ml-sm" size="3px"/>
                                     <!-- <q-toggle
                       disable
