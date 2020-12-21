@@ -8,13 +8,15 @@
                         <q-card-section>
                             <div class="text-h6">
                                 {{ productType.name }}
-                                <span class="text-subtitle1">(data aktualizacji: {{ maxUpdateDate[0] }})</span>
-                            </div>
+                                <q-badge outline color="primary" align="top">stan na {{ maxUpdateDate[0] }}</q-badge>
+                                        <q-checkbox class="text-body2 q-pl-xl" size="xs"  color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
+                                        <q-checkbox class="text-body2 q-pl-md" size="xs"  color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne peodukty"></q-checkbox>
+                          </div>
                         </q-card-section>
                         <q-markup-table dense class="no-shadow">
                             <thead>
                                 <tr>
-                                    <th class="text-left">Id</th>
+                                    <th class="text-left" hidden>Id</th>
                                     <th class="text-left">Nazwa</th>
                                     <th class="text-right">Szerokość</th>
                                     <th class="text-right">Długość</th>
@@ -25,15 +27,13 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(product, id) in products" :key="id" v-on:click="onRowClick(product)">
-                                    <td class="text-left">{{ product.product.id }}</td>
+                                    <td class="text-left" hidden>{{ product.product.id }}</td>
                                     <td class="text-left">{{ product.product.name }}</td>
                                     <td class="text-right">{{ product.productWidth }}</td>
                                     <td class="text-right">{{ product.productLength }}</td>
                                     <td class="text-right">{{ product.quantity }}</td>
                                     <td class="text-right">
-                                        {{
-                        product.productWidth * product.productLength * product.quantity
-                      }}
+                                        {{ product.productWidth * product.productLength * product.quantity }}
                                     </td>
 
                                     <td class="text-right">
@@ -52,39 +52,27 @@
                         <q-card-section>
                             <div class="q-pa-md" style="max-width: 470px">
                                 <q-form @submit="onSubmit" @reset="onNewInventory" class="q-gutter-md">
-<div>
-                                    <q-input
-                                     :rules="[
-                        (val) => (val && val.length > 0) || 'Wybierz wyrób z listy!',
-                      ]"
-                                    full-width
-                                    no-outline
-                                    type="text"
-                                    v-model="formProductName"
-                                    label="Nazwa"
-                                    lazy-rules
-                                    />
+                                    <div>
+                                        <q-input :rules="[(val) => (val && val.length > 0) || 'Wybierz wyrób z listy!']" full-width no-outline type="text" v-model="formProductName" label="Nazwa" lazy-rules />
+                                        <q-btn label="Nowy" color="primary" v-on:click="save = true" />
+                                        <q-dialog v-model="save" persistent>
+                                            <q-card style="min-width: 350px">
+                                                <q-card-section>
+                                                    <div class="text-primary">Nazwa nowego produktu</div>
+                                                </q-card-section>
 
-                      <q-btn label="Nowy" color="primary"  v-on:click="save = true" />
+                                                <q-card-section class="q-pt-none">
+                                                    <q-input dense v-model.trim="newProduct" autofocus v-on:keyup.enter="save = false" v-close-popup />
+                                                </q-card-section>
 
-    <q-dialog v-model="save" persistent>
-        <q-card style="min-width: 350px">
-            <q-card-section>
-                <div class="text-primary">Nazwa produktu</div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-                <q-input dense v-model.trim="newProduct" autofocus v-on:keyup.enter="save = false" v-close-popup />
-            </q-card-section>
-
-            <q-card-actions align="right" class="text-primary">
-                <q-btn flat label="Anuluj" v-close-popup />
-                <q-btn flat label="Zapisz" v-on:click="addProduct" v-close-popup />
-            </q-card-actions>
-        </q-card>
-    </q-dialog>
-</div>
-                      <q-separator color="primary" class="q-ml-sm" size="3px"/>
+                                                <q-card-actions align="right" class="text-primary">
+                                                    <q-btn flat label="Anuluj" v-close-popup />
+                                                    <q-btn flat label="Zapisz" v-on:click="addProduct" v-close-popup />
+                                                </q-card-actions>
+                                            </q-card>
+                                        </q-dialog>
+                                    </div>
+                                    <q-separator color="primary" class="q-ml-sm" size="3px" />
                                     <!-- <q-toggle
                       disable
                       size="xs"
@@ -92,22 +80,14 @@
                       label="Produkt aktywny"
                       left-label
                     /> -->
-                                    <q-input @input="onChange"
-                                    full-width
-                                    no-outline
-                                    type="number"
-                                    :decimals="2"
-                                    :step="0.01"
-                                    v-model="formWidth"
-                                    label="Szerokość"
-                                    ref="width" />
+                                    <q-input @input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model="formWidth" label="Szerokość" ref="width" />
                                     <q-input @input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model="formLength" label="Długość" />
                                     <q-input @input="onChange" full-width no-outline type="number" v-model="formQuantity" label="Ilość" />
                                     <q-input full-width no-outline readonly type="number" v-model="formArea" label="Powierzchnia" />
                                     <q-input @input="onChange" full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
                                     <div>
                                         <q-btn :disabled="disabled" label="Zapisz" type="submit" color="primary" />
-                                        <q-btn label="Nowy" type="reset" color="primary"  class="q-ml-sm" />
+                                        <q-btn label="Nowy" type="reset" color="primary" class="q-ml-sm" />
                                     </div>
                                     <q-badge v-if="newInventory" outline color="primary" align="middle" label="Dodajesz nowy asortyment" />
                                     <q-badge v-if="!newInventory && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" />
@@ -141,10 +121,6 @@ export default {
         this.getProductType();
         this.getProductsAndQuantityByProductTypeId();
         this.getMaxUpdateDateByProductType();
-
-        // this.addProductAndInventory();
-        // this.addProduct();
-        // this.addInventory();
     },
 
     data() {
@@ -164,6 +140,8 @@ export default {
             formActiveValue: true,
             formDescription: "",
             newProduct: "",
+            showZeroValue: false,
+            showActiveProduct: false,
             save: false
         };
     },
@@ -192,13 +170,6 @@ export default {
                 });
         },
 
-        // computed: {
-        //     calculateArea: function (){
-        //         alert(this.formWidth * this.formLength * this.formQuantity);
-        //         return this.formWidth * this.formLength * this.formQuantity;
-        //     }
-        // },
-
         getProductsAndQuantityByProductTypeId: function () {
             const url = "/api/products/product-types/" + this.$route.params.id;
 
@@ -219,8 +190,6 @@ export default {
                         icon: "report_problem",
                     });
                 });
-            // console.log("test obiektu")
-            // console.log(this.products[0]);
         },
         getMaxUpdateDateByProductType: function () {
             const url = "/api/products/product-types/max/" + this.$route.params.id;
@@ -232,8 +201,6 @@ export default {
                 })
                 .then((response) => {
                     this.maxUpdateDate = response.data;
-                    // alert(event.target.tagName);
-                    //console.log("response: " + JSON.stringify(response.data));
                 })
                 .catch(() => {
                     this.$q.notify({
@@ -277,7 +244,7 @@ export default {
                     });
                     // console.log("post product:" + response.data.id);
                     this.formProductId = response.data.id;
-            this.formProductName = response.data.name;
+                    this.formProductName = response.data.name;
                     return response.data;
                 })
 
@@ -349,7 +316,9 @@ export default {
                             message: "Inventory of product saving OK",
                             icon: "check_circle",
                         }),
-                        this.getProductsAndQuantityByProductTypeId();
+                        this.newInventory = false;
+                    this.disabled = true;
+                    this.getProductsAndQuantityByProductTypeId();
                     this.getMaxUpdateDateByProductType();
                 })
 
@@ -385,7 +354,8 @@ export default {
                             message: "Inventory of product updating OK",
                             icon: "check_circle",
                         }),
-                        this.getProductsAndQuantityByProductTypeId();
+                        this.disabled = true;
+                    this.getProductsAndQuantityByProductTypeId();
                     this.getMaxUpdateDateByProductType();
                 })
 
