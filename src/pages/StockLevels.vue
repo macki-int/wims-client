@@ -9,9 +9,9 @@
                             <div class="text-h6">
                                 {{ productType.name }}
                                 <q-badge outline color="primary" align="top">stan na {{ maxUpdateDate[0] }}</q-badge>
-                                        <q-checkbox class="text-body2 q-pl-xl" size="xs"  color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
-                                        <q-checkbox class="text-body2 q-pl-md" size="xs"  color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne peodukty"></q-checkbox>
-                          </div>
+                                <q-checkbox class="text-body2 q-pl-xl" size="xs" color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
+                                <q-checkbox class="text-body2 q-pl-md" size="xs" color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne produkty"></q-checkbox>
+                            </div>
                         </q-card-section>
                         <q-markup-table dense class="no-shadow">
                             <thead>
@@ -48,12 +48,12 @@
 
             <div class="col-3-md" style="width: 400px">
                 <q-card class="my-card">
-                    <div style="min-height: 300px">
+                    <div style="min-height: 800px">
                         <q-card-section>
                             <div class="q-pa-md" style="max-width: 470px">
                                 <q-form @submit="onSubmit" @reset="onNewInventory" class="q-gutter-md">
                                     <div>
-                                        <q-input :rules="[(val) => (val && val.length > 0) || 'Wybierz wyrób z listy!']" full-width no-outline type="text" v-model="formProductName" label="Nazwa" lazy-rules />
+                                        <q-input :rules="[(val) => (val && val.length > 0) || 'Wybierz wyrób z listy!']" full-width no-outline type="text" v-model="formProductName" label="Nazwa" lazy-rules readonly />
                                         <q-btn label="Nowy" color="primary" v-on:click="save = true" />
                                         <q-dialog v-model="save" persistent>
                                             <q-card style="min-width: 350px">
@@ -176,7 +176,11 @@ export default {
             axios
                 .get(url, {
                     dataType: "json",
-                    headers: {},
+                    params: {
+                        zeroValue: this.showZeroValue,
+                        activeValue: this.showActiveProduct
+                    },
+                    headers: {}
                 })
                 .then((response) => {
                     this.products = response.data;
@@ -192,7 +196,7 @@ export default {
                 });
         },
         getMaxUpdateDateByProductType: function () {
-            const url = "/api/products/product-types/max/" + this.$route.params.id;
+            const url = "/api/products/product-types/max-update-date/" + this.$route.params.id;
 
             axios
                 .get(url, {
@@ -212,19 +216,17 @@ export default {
                 });
         },
 
-        addProductAndInventory: function () {
-            this.addNewProductId = this.addProduct();
-            console.log(this.addNewProductId);
+        // addProductAndInventory: function () {
+        //     this.addNewProductId = this.addProduct();
+        //     console.log(this.addNewProductId);
 
-            this.formProductId = this.addNewProductId;
-            this.addInventory(this.addNewProductId);
+        //     this.formProductId = this.addNewProductId;
+        //     this.addInventory(this.addNewProductId);
 
-            this.newProduct = false;
-            this.newInventory = false;
-            this.disabled = true;
-        },
-
-        updateProductAndInventory: function () {},
+        //     this.newProduct = false;
+        //     this.newInventory = false;
+        //     this.disabled = true;
+        // },
 
         addProduct: function () {
             const url = "/api/products";
@@ -245,7 +247,8 @@ export default {
                     // console.log("post product:" + response.data.id);
                     this.formProductId = response.data.id;
                     this.formProductName = response.data.name;
-                    return response.data;
+                    // return response.data;
+                    this.onNewInventory();
                 })
 
                 .catch(() => {
