@@ -177,8 +177,8 @@ export default {
                 .get(url, {
                     dataType: "json",
                     params: {
-                        zeroValue: this.showZeroValue,
-                        activeValue: this.showActiveProduct
+                        withZeroValue: this.showZeroValue,
+                        withInactiveValue: this.showActiveProduct
                     },
                     headers: {}
                 })
@@ -195,6 +195,7 @@ export default {
                     });
                 });
         },
+
         getMaxUpdateDateByProductType: function () {
             const url = "/api/products/product-types/max-update-date/" + this.$route.params.id;
 
