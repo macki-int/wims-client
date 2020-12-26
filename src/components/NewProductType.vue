@@ -19,6 +19,7 @@
         </q-card>
     </q-dialog>
 </div>
+
 </template>
 
 <script>
@@ -70,5 +71,6 @@ export default {
             location.reload();
         }
     }
+
 };
 </script>

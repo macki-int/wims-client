@@ -1,4 +1,5 @@
 <template>
+
 <q-layout view="lHh Lpr lFf">
     <q-header elevated>
         <q-toolbar>
@@ -18,18 +19,22 @@
 
         </q-list>
 
+
         <NewProductType />
     </q-drawer>
 
     <q-page-container>
+
         <q-page padding>
             <router-view />
         </q-page>
+
     </q-page-container>
 </q-layout>
 </template>
 
 <script>
+
 import ProductTypeMenuLink from "components/ProductTypeMenuLink.vue";
 import NewProductType from "components/NewProductType.vue";
 import axios from "axios";
@@ -87,6 +92,7 @@ export default {
         getProductsByProductType: function () {
             alert("Click Product Type: ");
         }
+
     }
 };
 </script>
