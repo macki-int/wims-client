@@ -9,8 +9,8 @@
                             <div class="text-h6">
                                 {{ productType.name }}
                                 <q-badge outline color="primary" align="top">stan na {{ maxUpdateDate[0] }}</q-badge>
-                                <q-checkbox class="text-body2 q-pl-xl" size="xs" color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
-                                <q-checkbox class="text-body2 q-pl-md" size="xs" color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne produkty"></q-checkbox>
+                                <q-checkbox @input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-xl" size="xs" color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
+                                <q-checkbox @input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-md" size="xs" color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne produkty"></q-checkbox>
                             </div>
                         </q-card-section>
                         <q-markup-table dense class="no-shadow">
