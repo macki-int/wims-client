@@ -5,7 +5,7 @@
         <q-toolbar>
             <q-btn flat dense round icon="menu" aria-label="Menu" @click="leftDrawerOpen = !leftDrawerOpen" />
             <q-toolbar-title>
-                <q-btn to="/" flat color="white" label="Wims App" no-caps />
+                <!-- <q-btn to="/" flat color="white" label="Wims App" no-caps /> -->
                 <q-btn to="products" flat color="white" label="Produkty" no-caps />
             </q-toolbar-title>
             <div>Wims v{{ $q.version }}</div>
