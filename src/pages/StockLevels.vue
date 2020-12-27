@@ -245,11 +245,11 @@ export default {
                         message: "Product saving OK with id: " + response.data.id,
                         icon: "check_circle",
                     });
-                    // console.log("post product:" + response.data.id);
                     this.formProductId = response.data.id;
                     this.formProductName = response.data.name;
-                    // return response.data;
                     this.onNewInventory();
+                    // console.log("post product:" + response.data.id);
+                    // return response.data;
                 })
 
                 .catch(() => {
