@@ -1,43 +1,43 @@
 <template>
-<q-page class="flex flex-left">
-    <div class="q-pa-md">
-        <div class="row">
-            <div class="col-6-md q-pr-md">
-                <q-card class="my-card" style="width: 900px">
-                    <div style="min-height: 800px">
+<q-page class='flex flex-left'>
+    <div class='q-pa-md'>
+        <div class='row'>
+            <div class='col-6-md q-pr-md'>
+                <q-card class='my-card' style='width: 900px'>
+                    <div style='min-height: 800px'>
                         <q-card-section>
-                            <div class="text-h6">
+                            <div class='text-h6'>
                                 {{ productType.name }}
-                                <q-badge outline color="primary" align="top">stan na {{ maxUpdateDate[0] }}</q-badge>
-                                <q-checkbox @input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-xl" size="xs" color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
-                                <q-checkbox @input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-md" size="xs" color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne produkty"></q-checkbox>
+                                <q-badge outline color='primary' align='top'>stan na {{ maxUpdateDate[0] }}</q-badge>
+                                <q-checkbox @input='getProductsAndQuantityByProductTypeId' class='text-body2 q-pl-xl' size='xs' color='grey' v-model='showZeroValue' label='Pokaż stany zerowe'></q-checkbox>
+                                <q-checkbox @input='getProductsAndQuantityByProductTypeId' class='text-body2 q-pl-md' size='xs' color='grey' v-model='showActiveProduct' label='Pokaż nieaktywne produkty'></q-checkbox>
                             </div>
                         </q-card-section>
-                        <q-markup-table dense class="no-shadow">
+                        <q-markup-table dense class='no-shadow'>
                             <thead>
                                 <tr>
-                                    <th class="text-left" hidden>Id</th>
-                                    <th class="text-left">Nazwa</th>
-                                    <th class="text-right">Szerokość</th>
-                                    <th class="text-right">Długość</th>
-                                    <th class="text-right">Ilość</th>
-                                    <th class="text-right">Powierzchnia</th>
-                                    <th class="text-right">Aktywny</th>
+                                    <th class='text-left' hidden>Id</th>
+                                    <th class='text-left'>Nazwa</th>
+                                    <th class='text-right'>Szerokość</th>
+                                    <th class='text-right'>Długość</th>
+                                    <th class='text-right'>Ilość</th>
+                                    <th class='text-right'>Powierzchnia</th>
+                                    <th class='text-right'>Aktywny</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(product, id) in products" :key="id" v-on:click="onRowClick(product)">
-                                    <td class="text-left" hidden>{{ product.product.id }}</td>
-                                    <td class="text-left">{{ product.product.name }}</td>
-                                    <td class="text-right">{{ product.productWidth }}</td>
-                                    <td class="text-right">{{ product.productLength }}</td>
-                                    <td class="text-right">{{ product.quantity }}</td>
-                                    <td class="text-right">
+                                <tr v-for='(product, id) in products' :key='id' v-on:click='onRowClick(product)'>
+                                    <td class='text-left' hidden>{{ product.product.id }}</td>
+                                    <td class='text-left'>{{ product.product.name }}</td>
+                                    <td class='text-right'>{{ product.productWidth }}</td>
+                                    <td class='text-right'>{{ product.productLength }}</td>
+                                    <td class='text-right'>{{ product.quantity }}</td>
+                                    <td class='text-right'>
                                         {{ product.productWidth * product.productLength * product.quantity }}
                                     </td>
 
-                                    <td class="text-right">
-                                        <q-checkbox size="xs" disable color="grey" v-model="product.product.active"></q-checkbox>
+                                    <td class='text-right'>
+                                        <q-checkbox size='xs' disable color='grey' v-model='product.product.active'></q-checkbox>
                                     </td>
                                 </tr>
                             </tbody>
@@ -46,51 +46,51 @@
                 </q-card>
             </div>
 
-            <div class="col-3-md" style="width: 400px">
-                <q-card class="my-card">
-                    <div style="min-height: 800px">
+            <div class='col-3-md' style='width: 400px'>
+                <q-card class='my-card'>
+                    <div style='min-height: 800px'>
                         <q-card-section>
-                            <div class="q-pa-md" style="max-width: 470px">
-                                <q-form @submit="onSubmit" @reset="onNewInventory" class="q-gutter-md">
+                            <div class='q-pa-md' style='max-width: 470px'>
+                                <q-form @submit='onSubmit' @reset='onNewInventory' class='q-gutter-md'>
                                     <div>
-                                        <q-input :rules="[(val) => (val && val.length > 0) || 'Wybierz wyrób z listy!']" full-width no-outline type="text" v-model="formProductName" label="Nazwa" lazy-rules readonly />
-                                        <q-btn label="Nowy" color="primary" v-on:click="save = true" />
-                                        <q-dialog v-model="save" persistent>
-                                            <q-card style="min-width: 350px">
+                                        <q-input :rules="[(val) => (val && val.length > 0) || 'Wybierz wyrób z listy!']" full-width no-outline type='text' v-model='formProductName' label='Nazwa' lazy-rules readonly />
+                                        <q-btn label='Nowy' color='primary' v-on:click='save = true' />
+                                        <q-dialog v-model='save' persistent>
+                                            <q-card style='min-width: 350px'>
                                                 <q-card-section>
-                                                    <div class="text-primary">Nazwa nowego produktu</div>
+                                                    <div class='text-primary'>Nazwa nowego produktu</div>
                                                 </q-card-section>
 
-                                                <q-card-section class="q-pt-none">
-                                                    <q-input dense v-model.trim="newProduct" autofocus v-on:keyup.enter="save = false" v-close-popup />
+                                                <q-card-section class='q-pt-none'>
+                                                    <q-input dense v-model.trim='newProduct' autofocus v-on:keyup.enter='save = false' v-close-popup />
                                                 </q-card-section>
 
-                                                <q-card-actions align="right" class="text-primary">
-                                                    <q-btn flat label="Anuluj" v-close-popup />
-                                                    <q-btn flat label="Zapisz" v-on:click="addProduct" v-close-popup />
+                                                <q-card-actions align='right' class='text-primary'>
+                                                    <q-btn flat label='Anuluj' v-close-popup />
+                                                    <q-btn flat label='Zapisz' v-on:click='addProduct' v-close-popup />
                                                 </q-card-actions>
                                             </q-card>
                                         </q-dialog>
                                     </div>
-                                    <q-separator color="primary" class="q-ml-sm" size="3px" />
+                                    <q-separator color='primary' class='q-ml-sm' size='3px' />
                                     <!-- <q-toggle
                       disable
-                      size="xs"
-                      v-model="formActiveValue"
-                      label="Produkt aktywny"
+                      size='xs'
+                      v-model='formActiveValue'
+                      label='Produkt aktywny'
                       left-label
                     /> -->
-                                    <q-input @input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model="formWidth" label="Szerokość" ref="width" />
-                                    <q-input @input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model="formLength" label="Długość" />
-                                    <q-input @input="onChange" full-width no-outline type="number" v-model="formQuantity" label="Ilość" />
-                                    <q-input full-width no-outline readonly type="number" v-model="formArea" label="Powierzchnia" />
-                                    <q-input @input="onChange" full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
+                                    <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formWidth' label='Szerokość' ref='width' />
+                                    <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formLength' label='Długość' />
+                                    <q-input @input='onChange' full-width no-outline type='number' v-model='formQuantity' label='Ilość' />
+                                    <q-input full-width no-outline readonly type='number' v-model='formArea' label='Powierzchnia' />
+                                    <q-input @input='onChange' full-width no-outline type='textarea' autogrow v-model='formDescription' label='Uwagi' />
                                     <div>
-                                        <q-btn :disabled="disabled" label="Zapisz" type="submit" color="primary" />
-                                        <q-btn label="Nowy" type="reset" color="primary" class="q-ml-sm" />
+                                        <q-btn :disabled='disabled' label='Zapisz' type='submit' color='primary' />
+                                        <q-btn label='Nowy' type='reset' color='primary' class='q-ml-sm' />
                                     </div>
-                                    <q-badge v-if="newInventory" outline color="primary" align="middle" label="Dodajesz nowy asortyment" />
-                                    <q-badge v-if="!newInventory && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" />
+                                    <q-badge v-if='newInventory' outline color='primary' align='middle' label='Dodajesz nowy asortyment' />
+                                    <q-badge v-if='!newInventory && !disabled' outline color='primary' align='middle' label='Edytujesz istniejący asortyment' />
                                 </q-form>
                             </div>
                         </q-card-section>
@@ -103,10 +103,10 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 export default {
-    name: "StockLevels",
+    name: 'StockLevels',
 
     watch: {
         $route(to, from) {
@@ -131,15 +131,15 @@ export default {
             productType: [],
             maxUpdateDate: [],
             products: [],
-            product: "",
-            formProductName: "",
-            formWidth: "5.00",
-            formLength: "100.00",
-            formQuantity: "0",
-            formArea: "",
+            product: '',
+            formProductName: '',
+            formWidth: '5.00',
+            formLength: '100.00',
+            formQuantity: '0',
+            formArea: '',
             formActiveValue: true,
-            formDescription: "",
-            newProduct: "",
+            formDescription: '',
+            newProduct: '',
             showZeroValue: false,
             showActiveProduct: false,
             save: false
@@ -148,34 +148,34 @@ export default {
 
     methods: {
         getProductType: function () {
-            const url = "https://wims-mj.herokuapp.com/product-types/" + this.$route.params.id;
+            const url = 'https://wims-mj.herokuapp.com/product-types/' + this.$route.params.id;
 
             axios
                 .get(url, {
-                    dataType: "json",
+                    dataType: 'json',
                     headers: {},
                 })
                 .then((response) => {
                     this.productType = response.data;
                     // alert(event.target.tagName);
-                    // console.log("response: " + JSON.stringify(response.data));
+                    // console.log('response: ' + JSON.stringify(response.data));
                 })
                 .catch(() => {
                     this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Product type loading failed",
-                        icon: "report_problem",
+                        color: 'negative',
+                        position: 'top',
+                        message: 'Product type loading failed',
+                        icon: 'report_problem',
                     });
                 });
         },
 
         getProductsAndQuantityByProductTypeId: function () {
-            const url = "https://wims-mj.herokuapp.com/products/product-types/" + this.$route.params.id;
+            const url = 'https://wims-mj.herokuapp.com/products/product-types/' + this.$route.params.id;
 
             axios
                 .get(url, {
-                    dataType: "json",
+                    dataType: 'json',
                     params: {
                         withZeroValue: this.showZeroValue,
                         withInactiveValue: this.showActiveProduct
@@ -188,20 +188,20 @@ export default {
 
                 .catch(() => {
                     this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Products loading failed",
-                        icon: "report_problem",
+                        color: 'negative',
+                        position: 'top',
+                        message: 'Products loading failed',
+                        icon: 'report_problem',
                     });
                 });
         },
 
         getMaxUpdateDateByProductType: function () {
-            const url = "https://wims-mj.herokuapp.com/products/product-types/max-update-date/" + this.$route.params.id;
+            const url = 'https://wims-mj.herokuapp.com/products/product-types/max-update-date/' + this.$route.params.id;
 
             axios
                 .get(url, {
-                    dataType: "json",
+                    dataType: 'json',
                     headers: {},
                 })
                 .then((response) => {
@@ -209,10 +209,10 @@ export default {
                 })
                 .catch(() => {
                     this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Last update date loading failed",
-                        icon: "report_problem",
+                        color: 'negative',
+                        position: 'top',
+                        message: 'Last update date loading failed',
+                        icon: 'report_problem',
                     });
                 });
         },
@@ -230,7 +230,7 @@ export default {
         // },
 
         addProduct: function () {
-            const url = "https://wims-mj.herokuapp.com/products";
+            const url = 'https://wims-mj.herokuapp.com/products';
             return axios
                 .post(url, {
                     // name: this.formProductName,
@@ -240,30 +240,30 @@ export default {
 
                 .then((response) => {
                     this.$q.notify({
-                        color: "positive",
-                        position: "top",
-                        message: "Product saving OK with id: " + response.data.id,
-                        icon: "check_circle",
+                        color: 'positive',
+                        position: 'top',
+                        message: 'Product saving OK with id: ' + response.data.id,
+                        icon: 'check_circle',
                     });
                     this.formProductId = response.data.id;
                     this.formProductName = response.data.name;
                     this.onNewInventory();
-                    // console.log("post product:" + response.data.id);
+                    // console.log('post product:' + response.data.id);
                     // return response.data;
                 })
 
                 .catch(() => {
                     this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Product saving failed",
-                        icon: "report_problem",
+                        color: 'negative',
+                        position: 'top',
+                        message: 'Product saving failed',
+                        icon: 'report_problem',
                     });
                 });
         },
 
         updateProduct: function () {
-            const url = "https://wims-mj.herokuapp.com/products";
+            const url = 'https://wims-mj.herokuapp.com/products';
             axios
                 .put(url, {
                     id: this.formProductId,
@@ -274,19 +274,19 @@ export default {
 
                 .then((response) => {
                     this.$q.notify({
-                        color: "positive",
-                        position: "top",
-                        message: "Product update OK",
-                        icon: "check_circle",
+                        color: 'positive',
+                        position: 'top',
+                        message: 'Product update OK',
+                        icon: 'check_circle',
                     });
                 })
 
                 .catch(() => {
                     this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Product update failed",
-                        icon: "report_problem",
+                        color: 'negative',
+                        position: 'top',
+                        message: 'Product update failed',
+                        icon: 'report_problem',
                     });
                 });
         },
@@ -300,7 +300,7 @@ export default {
         },
 
         addInventory: function () {
-            const url = "https://wims-mj.herokuapp.com/inventories";
+            const url = 'https://wims-mj.herokuapp.com/inventories';
 
             axios
                 .post(url, {
@@ -315,10 +315,10 @@ export default {
                 })
                 .then((response) => {
                     this.$q.notify({
-                            color: "positive",
-                            position: "top",
-                            message: "Inventory of product saving OK",
-                            icon: "check_circle",
+                            color: 'positive',
+                            position: 'top',
+                            message: 'Inventory of product saving OK',
+                            icon: 'check_circle',
                         }),
                         this.newInventory = false;
                     this.disabled = true;
@@ -328,16 +328,16 @@ export default {
 
                 .catch(() => {
                     this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Inventory of product saving failed",
-                        icon: "report_problem",
+                        color: 'negative',
+                        position: 'top',
+                        message: 'Inventory of product saving failed',
+                        icon: 'report_problem',
                     });
                 });
         },
 
         updateInventory: function () {
-            const url = "https://wims-mj.herokuapp.com/inventories";
+            const url = 'https://wims-mj.herokuapp.com/inventories';
 
             axios
                 .put(url, {
@@ -353,10 +353,10 @@ export default {
                 })
                 .then((response) => {
                     this.$q.notify({
-                            color: "positive",
-                            position: "top",
-                            message: "Inventory of product updating OK",
-                            icon: "check_circle",
+                            color: 'positive',
+                            position: 'top',
+                            message: 'Inventory of product updating OK',
+                            icon: 'check_circle',
                         }),
                         this.disabled = true;
                     this.getProductsAndQuantityByProductTypeId();
@@ -365,10 +365,10 @@ export default {
 
                 .catch(() => {
                     this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Inventory of product updating failed",
-                        icon: "report_problem",
+                        color: 'negative',
+                        position: 'top',
+                        message: 'Inventory of product updating failed',
+                        icon: 'report_problem',
                     });
                 });
         },
@@ -394,7 +394,7 @@ export default {
             this.formLength = 100.0;
             this.formQuantity = 0;
             this.formArea = 0;
-            this.formDescription = "";
+            this.formDescription = '';
 
             this.newInventory = true;
             this.disabled = true;
