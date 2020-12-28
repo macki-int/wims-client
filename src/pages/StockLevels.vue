@@ -54,11 +54,11 @@
                                 <q-form @submit='onSubmit' @reset='onNewInventory' class='q-gutter-md'>
                                     <div>
                                         <q-input :rules="[(val) => (val && val.length > 0) || 'Wybierz wyrób z listy!']" full-width no-outline type='text' v-model='formProductName' label='Nazwa' lazy-rules readonly />
-                                        <q-btn label='Nowy' color='primary' v-on:click='save = true' />
+                                        <q-btn label='Nowy produkt' color='primary' v-on:click='save = true' />
                                         <q-dialog v-model='save' persistent>
                                             <q-card style='min-width: 350px'>
                                                 <q-card-section>
-                                                    <div class='text-primary'>Nazwa nowego produktu</div>
+                                                    <div class='text-primary'>Nazwa nowego produktu:</div>
                                                 </q-card-section>
 
                                                 <q-card-section class='q-pt-none'>
@@ -87,7 +87,7 @@
                                     <q-input @input='onChange' full-width no-outline type='textarea' autogrow v-model='formDescription' label='Uwagi' />
                                     <div>
                                         <q-btn :disabled='disabled' label='Zapisz' type='submit' color='primary' />
-                                        <q-btn label='Nowy' type='reset' color='primary' class='q-ml-sm' />
+                                        <q-btn class='q-ml-sm' label='Nowy asortyment' type='reset' color='primary' />
                                     </div>
                                     <q-badge v-if='newInventory' outline color='primary' align='middle' label='Dodajesz nowy asortyment' />
                                     <q-badge v-if='!newInventory && !disabled' outline color='primary' align='middle' label='Edytujesz istniejący asortyment' />
