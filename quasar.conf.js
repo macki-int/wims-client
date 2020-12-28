@@ -72,12 +72,12 @@ module.exports = function( /* ctx */ ) {
 
         // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
         devServer: {
-            https: false,
-            port: 8090,
+            https: true,
+            //port: 8090,
             open: true, // opens browser window automatically
             proxy: {
                 "/api": {
-                    target: "http://localhost:8080",
+                    target: "https://wims-mj.herokuapp.com/",
                     changeOrigin: true,
                     pathRewrite: {
                         "^/api": ""
