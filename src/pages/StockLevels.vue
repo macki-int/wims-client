@@ -8,10 +8,11 @@
                         <q-card-section>
                             <div class='text-h6'>
                                 {{ productType.name }}
-                                <q-badge outline color='primary' align='top'>stan na {{ maxUpdateDate[0] }}</q-badge>
                                 <q-checkbox @input='getProductsAndQuantityByProductTypeId' class='text-body2 q-pl-xl' size='xs' color='grey' v-model='showZeroValue' label='Pokaż stany zerowe'></q-checkbox>
                                 <q-checkbox @input='getProductsAndQuantityByProductTypeId' class='text-body2 q-pl-md' size='xs' color='grey' v-model='showActiveProduct' label='Pokaż nieaktywne produkty'></q-checkbox>
+                                <q-badge class='float-right' outline color='primary'>stan na {{ maxUpdateDate[0] }}</q-badge>
                             </div>
+
                         </q-card-section>
                         <q-markup-table dense class='no-shadow'>
                             <thead>
@@ -54,7 +55,7 @@
                                 <q-form @submit='onSubmit' @reset='onNewInventory' class='q-gutter-md'>
                                     <div>
                                         <q-input :rules="[(val) => (val && val.length > 0) || 'Wybierz wyrób z listy!']" full-width no-outline type='text' v-model='formProductName' label='Nazwa' lazy-rules readonly />
-                                        <q-btn label='Nowy produkt' color='primary' v-on:click='save = true' />
+                                        <q-btn flat label='Nowy produkt' color='primary' v-on:click='save = true' />
                                         <q-dialog v-model='save' persistent>
                                             <q-card style='min-width: 350px'>
                                                 <q-card-section>
@@ -86,8 +87,8 @@
                                     <q-input full-width no-outline readonly type='number' v-model='formArea' label='Powierzchnia' />
                                     <q-input @input='onChange' full-width no-outline type='textarea' autogrow v-model='formDescription' label='Uwagi' />
                                     <div>
-                                        <q-btn :disabled='disabled' label='Zapisz' type='submit' color='primary' />
-                                        <q-btn class='q-ml-sm' label='Nowy asortyment' type='reset' color='primary' />
+                                        <q-btn flat class='q-ml-sm' label='Nowy asortyment' type='reset' color='primary' />
+                                        <q-btn flat :disabled='disabled' label='Zapisz' type='submit' color='primary' />
                                     </div>
                                     <q-badge v-if='newInventory' outline color='primary' align='middle' label='Dodajesz nowy asortyment' />
                                     <q-badge v-if='!newInventory && !disabled' outline color='primary' align='middle' label='Edytujesz istniejący asortyment' />

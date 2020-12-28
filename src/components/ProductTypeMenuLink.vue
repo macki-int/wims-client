@@ -20,7 +20,7 @@
             <q-dialog v-model='save' persistent>
                 <q-card style='min-width: 350px'>
                     <q-card-section>
-                        <div class='text-primary'>Edycja nazwy kategorii</div>
+                        <div class='text-primary'>Edycja nazwy kategorii:</div>
                     </q-card-section>
 
                     <q-card-section class='q-pt-none'>
@@ -123,7 +123,8 @@ export default {
                         icon: 'report_problem',
                     });
                 });
-            this.$root.$emit('updateProductType')
+                location.reload();
+            // this.$root.$emit('updateProductType')
         },
 
         deleteProductType: function () {
@@ -140,7 +141,8 @@ export default {
                         icon: 'report_problem',
                     });
                 });
-            this.$root.$emit('updateProductType')
+                location.reload();
+            // this.$root.$emit('updateProductType')
             //EventBus.$emit('productTypesUpdated');
         },
 
