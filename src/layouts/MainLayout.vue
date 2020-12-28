@@ -64,7 +64,7 @@ export default {
 
     methods: {
         getProductTypes: function () {
-            const url = "/api/product-types";
+            const url = "https://wims-mj.herokuapp.com/product-types";
 
             axios
                 .get(url, {

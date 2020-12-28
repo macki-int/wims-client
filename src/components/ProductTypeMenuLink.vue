@@ -107,7 +107,7 @@ export default {
             //     " id: " +
             //     this.id
             // );
-            const url = "/api/product-types";
+            const url = "https://wims-mj.herokuapp.com/product-types";
 
             axios
                 .put(url, {
@@ -127,7 +127,7 @@ export default {
         },
 
         deleteProductType: function () {
-            const url = "/api/product-types";
+            const url = "https://wims-mj.herokuapp.com/product-types";
 
             axios
                 .delete(url + "/" + this.id)

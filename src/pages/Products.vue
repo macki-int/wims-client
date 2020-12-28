@@ -100,7 +100,7 @@ export default {
         },
 
         editProductName: function () {
-            const url = "/api/products";
+            const url = "https://wims-mj.herokuapp.com/products";
 
             axios
                 .put(url, {
@@ -126,7 +126,7 @@ export default {
         },
 
         deleteProduct: function (product) {
-            const url = "/api/products";
+            const url = "https://wims-mj.herokuapp.com/products";
 
             axios
                 .delete(url + "/" + product.id)
@@ -153,10 +153,10 @@ export default {
             const url = "";
 
             if (product.active) {
-                this.url = "/api/products/activate";
+                this.url = "https://wims-mj.herokuapp.com/products/activate";
 
             } else {
-                this.url = "/api/products/deactivate";
+                this.url = "https://wims-mj.herokuapp.com/products/deactivate";
             };
 
             axios

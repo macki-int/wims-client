@@ -148,7 +148,7 @@ export default {
 
     methods: {
         getProductType: function () {
-            const url = "/api/product-types/" + this.$route.params.id;
+            const url = "https://wims-mj.herokuapp.com/product-types/" + this.$route.params.id;
 
             axios
                 .get(url, {
@@ -171,7 +171,7 @@ export default {
         },
 
         getProductsAndQuantityByProductTypeId: function () {
-            const url = "/api/products/product-types/" + this.$route.params.id;
+            const url = "https://wims-mj.herokuapp.com/products/product-types/" + this.$route.params.id;
 
             axios
                 .get(url, {
@@ -197,7 +197,7 @@ export default {
         },
 
         getMaxUpdateDateByProductType: function () {
-            const url = "/api/products/product-types/max-update-date/" + this.$route.params.id;
+            const url = "https://wims-mj.herokuapp.com/products/product-types/max-update-date/" + this.$route.params.id;
 
             axios
                 .get(url, {
@@ -230,7 +230,7 @@ export default {
         // },
 
         addProduct: function () {
-            const url = "/api/products";
+            const url = "https://wims-mj.herokuapp.com/products";
             return axios
                 .post(url, {
                     // name: this.formProductName,
@@ -263,7 +263,7 @@ export default {
         },
 
         updateProduct: function () {
-            const url = "/api/products";
+            const url = "https://wims-mj.herokuapp.com/products";
             axios
                 .put(url, {
                     id: this.formProductId,
@@ -300,7 +300,7 @@ export default {
         },
 
         addInventory: function () {
-            const url = "/api/inventories";
+            const url = "https://wims-mj.herokuapp.com/inventories";
 
             axios
                 .post(url, {
@@ -337,7 +337,7 @@ export default {
         },
 
         updateInventory: function () {
-            const url = "/api/inventories";
+            const url = "https://wims-mj.herokuapp.com/inventories";
 
             axios
                 .put(url, {
