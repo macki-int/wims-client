@@ -87,7 +87,7 @@
                                     <q-input full-width no-outline readonly type='number' v-model='formArea' label='Powierzchnia' />
                                     <q-input @input='onChange' full-width no-outline type='textarea' autogrow v-model='formDescription' label='Uwagi' />
                                     <div>
-                                        <q-btn flat class='q-ml-sm' label='Nowy asortyment' type='reset' color='primary' />
+                                        <q-btn flat label='Nowy asortyment' type='reset' color='primary' />
                                         <q-btn flat :disabled='disabled' label='Zapisz' type='submit' color='primary' />
                                     </div>
                                     <q-badge v-if='newInventory' outline color='primary' align='middle' label='Dodajesz nowy asortyment' />
