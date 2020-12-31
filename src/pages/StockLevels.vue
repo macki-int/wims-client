@@ -52,7 +52,7 @@
                     <div style='min-height: 800px'>
                         <q-card-section>
                             <div class='q-pa-md' style='max-width: 470px'>
-                                <q-form @submit='onSubmit' @reset='onNewInventory' class='q-gutter-md'>
+                                <q-form @submit='onSubmitInwentory' @reset='onNewInventory' class='q-gutter-md'>
                                     <div>
                                         <q-input :rules="[(val) => (val && val.length > 0) || 'Wybierz wyrób z listy!']" full-width no-outline type='text' v-model='formProductName' label='Nazwa' lazy-rules readonly />
                                         <q-btn flat label='Nowy produkt' color='primary' v-on:click='save = true' />
@@ -74,13 +74,7 @@
                                         </q-dialog>
                                     </div>
                                     <q-separator color='primary' class='q-ml-sm' size='3px' />
-                                    <!-- <q-toggle
-                      disable
-                      size='xs'
-                      v-model='formActiveValue'
-                      label='Produkt aktywny'
-                      left-label
-                    /> -->
+
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formWidth' label='Szerokość' ref='width' />
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formLength' label='Długość' />
                                     <q-input @input='onChange' full-width no-outline type='number' v-model='formQuantity' label='Ilość' />
@@ -90,8 +84,8 @@
                                         <q-btn flat label='Nowy asortyment' type='reset' color='primary' />
                                         <q-btn flat :disabled='disabled' label='Zapisz' type='submit' color='primary' />
                                     </div>
-                                    <q-badge v-if='newInventory' outline color='primary' align='middle' label='Dodajesz nowy asortyment' />
-                                    <q-badge v-if='!newInventory && !disabled' outline color='primary' align='middle' label='Edytujesz istniejący asortyment' />
+                                    <q-badge v-if='newInventoryIndicator' outline color='primary' align='middle' label='Dodajesz nowy asortyment' />
+                                    <q-badge v-if='!newInventoryIndicator && !disabled' outline color='primary' align='middle' label='Edytujesz istniejący asortyment' />
                                 </q-form>
                             </div>
                         </q-card-section>
@@ -126,23 +120,24 @@ export default {
 
     data() {
         return {
-            addNewProductId: [],
-            disabled: true,
-            newInventory: false,
+            newProduct: '',
             productType: [],
             maxUpdateDate: [],
             products: [],
             product: '',
+
             formProductName: '',
             formWidth: '5.00',
             formLength: '100.00',
-            formQuantity: '0',
+            formQuantity: '0.00',
             formArea: '',
             formActiveValue: true,
             formDescription: '',
-            newProduct: '',
+
             showZeroValue: false,
             showActiveProduct: false,
+            newInventoryIndicator: false,
+            disabled: true,
             save: false
         };
     },
@@ -218,23 +213,10 @@ export default {
                 });
         },
 
-        // addProductAndInventory: function () {
-        //     this.addNewProductId = this.addProduct();
-        //     console.log(this.addNewProductId);
-
-        //     this.formProductId = this.addNewProductId;
-        //     this.addInventory(this.addNewProductId);
-
-        //     this.newProduct = false;
-        //     this.newInventory = false;
-        //     this.disabled = true;
-        // },
-
         addProduct: function () {
             const url = 'https://wims-mj.herokuapp.com/products';
             return axios
                 .post(url, {
-                    // name: this.formProductName,
                     name: this.newProduct,
                     productType: this.productType,
                 })
@@ -292,8 +274,8 @@ export default {
                 });
         },
 
-        onSubmit: function () {
-            if (this.newInventory) {
+        onSubmitInwentory: function () {
+            if (this.newInventoryIndicator) {
                 this.addInventory();
             } else {
                 this.updateInventory();
@@ -321,7 +303,7 @@ export default {
                             message: 'Inventory of product saving OK',
                             icon: 'check_circle',
                         }),
-                        this.newInventory = false;
+                        this.newInventoryIndicator = false;
                     this.disabled = true;
                     this.getProductsAndQuantityByProductTypeId();
                     this.getMaxUpdateDateByProductType();
@@ -385,19 +367,19 @@ export default {
             this.formActiveValue = product.product.active;
 
             this.newProduct = false;
-            this.newInventory = false;
+            this.newInventoryIndicator = false;
             this.disabled = true;
             this.recalculateArea();
         },
 
         onNewInventory: function () {
-            this.formWidth = 5.0;
-            this.formLength = 100.0;
-            this.formQuantity = 0;
-            this.formArea = 0;
+            this.formWidth = 5.00;
+            this.formLength = 100.00;
+            this.formQuantity = 0.00;
+            this.formArea = 0.00;
             this.formDescription = '';
 
-            this.newInventory = true;
+            this.newInventoryIndicator = true;
             this.disabled = true;
             this.setFocusFormWidth();
         },
