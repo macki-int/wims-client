@@ -119,12 +119,12 @@ export default {
     },
 
     data() {
-        return {
-            newProduct: '',
-            productType: [],
+      return {
+        productType: [],
             maxUpdateDate: [],
-            products: [],
+            newProduct: '',
             product: '',
+            products: [],
 
             formProductName: '',
             formWidth: '5.00',
@@ -136,6 +136,7 @@ export default {
 
             showZeroValue: false,
             showActiveProduct: false,
+
             newInventoryIndicator: false,
             disabled: true,
             save: false
@@ -366,7 +367,7 @@ export default {
             this.formDescription = product.description;
             this.formActiveValue = product.product.active;
 
-            this.newProduct = false;
+            this.newProduct = '';
             this.newInventoryIndicator = false;
             this.disabled = true;
             this.recalculateArea();
