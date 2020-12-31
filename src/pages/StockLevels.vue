@@ -187,7 +187,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Products loading failed',
+                        message: 'Stock status loading failed',
                         icon: 'report_problem',
                     });
                 });
@@ -208,7 +208,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Last update date loading failed',
+                        message: 'Last stock update date loading failed',
                         icon: 'report_problem',
                     });
                 });
@@ -226,7 +226,7 @@ export default {
                     this.$q.notify({
                         color: 'positive',
                         position: 'top',
-                        message: 'Product saving OK with id: ' + response.data.id,
+                        message: 'New product saving OK',
                         icon: 'check_circle',
                     });
                     this.formProductId = response.data.id;
@@ -240,7 +240,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Product saving failed',
+                        message: 'New product saving failed',
                         icon: 'report_problem',
                     });
                 });
@@ -301,7 +301,7 @@ export default {
                     this.$q.notify({
                             color: 'positive',
                             position: 'top',
-                            message: 'Inventory of product saving OK',
+                            message: 'Stock new status saving OK',
                             icon: 'check_circle',
                         }),
                         this.newInventoryIndicator = false;
@@ -314,7 +314,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Inventory of product saving failed',
+                        message: 'Stock new status saving failed',
                         icon: 'report_problem',
                     });
                 });
@@ -339,7 +339,7 @@ export default {
                     this.$q.notify({
                             color: 'positive',
                             position: 'top',
-                            message: 'Inventory of product updating OK',
+                            message: 'Stock status updating OK',
                             icon: 'check_circle',
                         }),
                         this.disabled = true;
@@ -351,7 +351,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Inventory of product updating failed',
+                        message: 'Stock status updating failed',
                         icon: 'report_problem',
                     });
                 });
