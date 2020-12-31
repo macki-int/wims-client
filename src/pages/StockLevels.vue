@@ -81,7 +81,7 @@
                                     <q-input full-width no-outline readonly type='number' v-model='formArea' label='Powierzchnia' />
                                     <q-input @input='onChange' full-width no-outline type='textarea' autogrow v-model='formDescription' label='Uwagi' />
                                     <div>
-                                        <q-btn flat label='Nowy asortyment' type='reset' color='primary' />
+                                        <q-btn v-show='showNewInventoryButton' flat label='Nowy asortyment' type='reset' color='primary' />
                                         <q-btn flat :disabled='disabled' label='Zapisz' type='submit' color='primary' />
                                     </div>
                                     <q-badge v-if='newInventoryIndicator' outline color='primary' align='middle' label='Dodajesz nowy asortyment' />
@@ -136,6 +136,7 @@ export default {
 
             showZeroValue: false,
             showActiveProduct: false,
+            showNewInventoryButton: true,
 
             newInventoryIndicator: false,
             disabled: true,
@@ -231,6 +232,7 @@ export default {
                     });
                     this.formProductId = response.data.id;
                     this.formProductName = response.data.name;
+                    this.showNewInventoryButton = false;
                     this.onNewInventory();
                     // console.log('post product:' + response.data.id);
                     // return response.data;
@@ -304,8 +306,10 @@ export default {
                             message: 'Stock new status saving OK',
                             icon: 'check_circle',
                         }),
-                        this.newInventoryIndicator = false;
+                    this.newInventoryIndicator = false;
+                    this.showNewInventoryButton = true;
                     this.disabled = true;
+
                     this.getProductsAndQuantityByProductTypeId();
                     this.getMaxUpdateDateByProductType();
                 })
@@ -369,6 +373,7 @@ export default {
 
             this.newProduct = '';
             this.newInventoryIndicator = false;
+            this.showNewInventoryButton = true;
             this.disabled = true;
             this.recalculateArea();
         },
