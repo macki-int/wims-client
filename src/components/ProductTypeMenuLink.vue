@@ -8,11 +8,6 @@
         <q-item-label>{{ name }}</q-item-label>
         <q-item-label hidden caption>{{ id }}</q-item-label>
     </q-item-section>
-    <!-- <q-item-section>
-      <div class='q-pa-xs q-gutter-none'>
-        <q-btn no-caps size='8px' color='blue-7' icon='edit' v-on:click='editProductType' />
-      </div>
-    </q-item-section> -->
 
     <q-item-section>
         <q-btn-group spread>
