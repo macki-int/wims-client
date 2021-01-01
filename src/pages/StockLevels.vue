@@ -162,7 +162,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Product type loading failed',
+                        message: 'Błąd pobierania typu produktu',
                         icon: 'report_problem',
                     });
                 });
@@ -188,7 +188,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Stock status loading failed',
+                        message: 'Błąd pobierania stanów magazynowych',
                         icon: 'report_problem',
                     });
                 });
@@ -209,7 +209,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Last stock update date loading failed',
+                        message: 'Błąd pobierania daty odstatniej aktualizacji stanów magazynowych',
                         icon: 'report_problem',
                     });
                 });
@@ -227,7 +227,7 @@ export default {
                     this.$q.notify({
                         color: 'positive',
                         position: 'top',
-                        message: 'New product saving OK',
+                        message: 'Dodano nowy produkt',
                         icon: 'check_circle',
                     });
                     this.formProductId = response.data.id;
@@ -242,7 +242,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'New product saving failed',
+                        message: 'Błąd dodawania noweg produktu',
                         icon: 'report_problem',
                     });
                 });
@@ -262,7 +262,7 @@ export default {
                     this.$q.notify({
                         color: 'positive',
                         position: 'top',
-                        message: 'Product update OK',
+                        message: 'Zaktualizowano nazwę produktu',
                         icon: 'check_circle',
                     });
                 })
@@ -271,7 +271,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Product update failed',
+                        message: 'Błąd aktualizacji nazwy produktu',
                         icon: 'report_problem',
                     });
                 });
@@ -303,7 +303,7 @@ export default {
                     this.$q.notify({
                             color: 'positive',
                             position: 'top',
-                            message: 'Stock new status saving OK',
+                            message: 'Dodano nowy stan magazynu',
                             icon: 'check_circle',
                         }),
                     this.newInventoryIndicator = false;
@@ -318,7 +318,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Stock new status saving failed',
+                        message: 'Błąd dodawania nowego stanu magazynu',
                         icon: 'report_problem',
                     });
                 });
@@ -343,7 +343,7 @@ export default {
                     this.$q.notify({
                             color: 'positive',
                             position: 'top',
-                            message: 'Stock status updating OK',
+                            message: 'Zaktualizowano stan magazynu',
                             icon: 'check_circle',
                         }),
                         this.disabled = true;
@@ -355,7 +355,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Stock status updating failed',
+                        message: 'Bład aktualizacji stanu magazynu',
                         icon: 'report_problem',
                     });
                 });
