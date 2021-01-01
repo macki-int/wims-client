@@ -27,7 +27,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for='(product, id) in products' :key='id' v-on:click='onRowClick(product)'>
+                                <tr class="cursor-pointer" v-for='(product, id) in products' :key='id' v-on:click='onRowClick(product)'>
                                     <td class='text-left' hidden>{{ product.product.id }}</td>
                                     <td class='text-left'>{{ product.product.name }}</td>
                                     <td class='text-right'>{{ product.productWidth }}</td>
@@ -54,7 +54,7 @@
                             <div class='q-pa-md' style='max-width: 470px'>
                                 <q-form @submit='onSubmitInwentory' @reset='onNewInventory' class='q-gutter-md'>
                                     <div>
-                                        <q-input :rules="[(val) => (val && val.length > 0) || 'Wybierz wyrób z listy!']" full-width no-outline type='text' v-model='formProductName' label='Nazwa' lazy-rules readonly />
+                                        <q-input :rules="[(val) => (val && val.length > 0) || 'Wybierz wyrób z listy!']" lazy-rules full-width no-outline type='text' v-model='formProductName' label='Nazwa' readonly />
                                         <q-btn flat label='Nowy produkt' color='primary' v-on:click='save = true' />
                                         <q-dialog v-model='save' persistent>
                                             <q-card style='min-width: 350px'>
@@ -77,7 +77,7 @@
 
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formWidth' label='Szerokość' ref='width' />
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formLength' label='Długość' />
-                                    <q-input @input='onChange' full-width no-outline type='number' v-model='formQuantity' label='Ilość' />
+                                    <q-input @input='onChange' full-width no-outline type='number' :decimals='2' v-model='formQuantity' label='Ilość' />
                                     <q-input full-width no-outline readonly type='number' v-model='formArea' label='Powierzchnia' />
                                     <q-input @input='onChange' full-width no-outline type='textarea' autogrow v-model='formDescription' label='Uwagi' />
                                     <div>
