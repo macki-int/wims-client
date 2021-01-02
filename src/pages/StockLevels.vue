@@ -74,6 +74,7 @@
                                         </q-dialog>
                                     </div>
                                     <q-separator color='primary' class='q-ml-sm' size='3px' />
+                                    <q-separator color='primary' class='q-ml-sm' size='3px' />
 
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formWidth' label='Szerokość' ref='width' />
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formLength' label='Długość' />
