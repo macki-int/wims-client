@@ -24,7 +24,7 @@
 
                     <q-card-actions align='right' class='text-primary'>
                         <q-btn flat label='Anuluj' v-close-popup />
-                        <q-btn flat label='Zapisz' v-on:click='editProductType' v-close-popup />
+                        <q-btn flat label='Zapisz' v-on:click='updateProductType' v-close-popup />
                     </q-card-actions>
                 </q-card>
             </q-dialog>
@@ -95,7 +95,7 @@ export default {
         //     },
         // },
 
-        editProductType: function () {
+        updateProductType: function () {
             // alert(
             //   'Click Edit Product Type: ' +
             //     this.newNameProductType +
