@@ -53,7 +53,6 @@
     </q-item-section>
 
 </q-item>
-
 </template>
 
 <script>
@@ -109,16 +108,23 @@ export default {
                     id: this.id,
                     name: this.newNameProductType,
                 })
-                .then((response) => {})
+                .then((response) => {
+                    this.$q.notify({
+                        color: 'positive',
+                        position: 'top',
+                        message: 'Zaktualizowano kategorie',
+                        icon: 'check_circle',
+                    });
+                })
                 .catch(() => {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'The new name of product type saving failed',
+                        message: 'Błąd aktualizacji nazwy kategorii',
                         icon: 'report_problem',
                     });
                 });
-                location.reload();
+            location.reload();
             // this.$root.$emit('updateProductType')
         },
 
@@ -127,16 +133,23 @@ export default {
 
             axios
                 .delete(url + '/' + this.id)
-                .then((response) => {})
+                .then((response) => {
+                    this.$q.notify({
+                        color: 'positive',
+                        position: 'top',
+                        message: 'Usunięto kategorię',
+                        icon: 'check_circle',
+                    });
+                })
                 .catch(() => {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'The product type deleting failed!',
+                        message: 'Błąd usuwania kategorii',
                         icon: 'report_problem',
                     });
                 });
-                location.reload();
+            location.reload();
             // this.$root.$emit('updateProductType')
             //EventBus.$emit('productTypesUpdated');
         },

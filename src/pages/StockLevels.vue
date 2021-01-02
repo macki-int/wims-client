@@ -163,7 +163,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Błąd pobierania typu produktu',
+                        message: 'Błąd pobierania kategorii',
                         icon: 'report_problem',
                     });
                 });

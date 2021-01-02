@@ -57,7 +57,7 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'Product type saving failed',
+                        message: 'Błąd dodawania nowej kategorii',
                         icon: 'report_problem'
                     });
                 });
