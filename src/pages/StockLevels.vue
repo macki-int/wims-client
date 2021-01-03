@@ -38,7 +38,7 @@
                                     </td>
 
                                     <td class='text-right'>
-                                        <q-icon v-if='product.product.active' name='check'/>
+                                        <q-icon v-if='product.product.active' name='check' />
                                         <!-- <q-checkbox size='xs' disable color='grey' v-model='product.product.active'></q-checkbox> -->
                                     </td>
                                 </tr>
@@ -75,6 +75,7 @@
                                         </q-dialog>
                                     </div>
                                     <q-separator color='primary' class='q-ml-sm' size='3px' />
+                                    <ProductReservation ref='refReservation'/>
                                     <q-separator color='primary' class='q-ml-sm' size='3px' />
 
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formWidth' label='Szerokość' ref='width' />
@@ -101,9 +102,13 @@
 
 <script>
 import axios from 'axios';
+import ProductReservation from 'components/ProductReservation.vue';
 
 export default {
     name: 'StockLevels',
+    components: {
+        ProductReservation
+    },
 
     watch: {
         $route(to, from) {
@@ -121,8 +126,8 @@ export default {
     },
 
     data() {
-      return {
-        productType: [],
+        return {
+            productType: [],
             maxUpdateDate: [],
             newProduct: '',
             product: '',
@@ -308,7 +313,7 @@ export default {
                             message: 'Dodano nowy stan magazynu',
                             icon: 'check_circle',
                         }),
-                    this.newInventoryIndicator = false;
+                        this.newInventoryIndicator = false;
                     this.showNewInventoryButton = true;
                     this.disabled = true;
 
@@ -378,6 +383,8 @@ export default {
             this.showNewInventoryButton = true;
             this.disabled = true;
             this.recalculateArea();
+
+            this.$refs.refReservation.getReservations();
         },
 
         onNewInventory: function () {
