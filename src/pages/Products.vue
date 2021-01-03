@@ -126,10 +126,10 @@ export default {
         },
 
         deleteProduct: function (product) {
-            const url = 'https://wims-mj.herokuapp.com/products';
+            const url = 'https://wims-mj.herokuapp.com/products/' + product.id;
 
             axios
-                .delete(url + '/' + product.id)
+                .delete(url)
                 .then(response => {
                     this.$q.notify({
                             color: 'positive',
@@ -153,14 +153,14 @@ export default {
             const url = '';
 
             if (product.active) {
-                this.url = 'https://wims-mj.herokuapp.com/products/activate';
+                this.url = 'https://wims-mj.herokuapp.com/products/activate/' + product.id;
 
             } else {
-                this.url = 'https://wims-mj.herokuapp.com/products/deactivate';
+                this.url = 'https://wims-mj.herokuapp.com/products/deactivate/' + product.id;
             };
 
             axios
-                .patch(this.url + '/' + product.id)
+                .patch(this.url)
                 .then(response => {
                     this.$q.notify({
                         color: 'positive',
