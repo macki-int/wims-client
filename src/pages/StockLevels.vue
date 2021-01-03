@@ -75,8 +75,6 @@
                                         </q-dialog>
                                     </div>
                                     <q-separator color='primary' class='q-ml-sm' size='2px' />
-                                    <ProductReservation ref='refReservation'/>
-                                    <q-separator color='primary' class='q-ml-sm' size='2px' />
 
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formWidth' label='Szerokość' ref='width' />
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formLength' label='Długość' />
@@ -89,6 +87,9 @@
                                     </div>
                                     <q-badge v-if='newInventoryIndicator' outline color='primary' align='middle' label='Dodajesz nowy asortyment' />
                                     <q-badge v-if='!newInventoryIndicator && !disabled' outline color='primary' align='middle' label='Edytujesz istniejący asortyment' />
+                                    
+                                    <q-separator color='primary' class='q-ml-sm' size='2px' />
+                                    <ProductReservation ref='refReservation'/>
                                 </q-form>
                             </div>
                         </q-card-section>
@@ -384,7 +385,7 @@ export default {
             this.disabled = true;
             this.recalculateArea();
 
-            this.$refs.refReservation.getReservations('1');
+            this.$refs.refReservation.getReservations(product.id);
         },
 
         onNewInventory: function () {

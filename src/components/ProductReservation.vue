@@ -2,10 +2,10 @@
 <div>
     <q-table flat :data='reservations' :columns='columns' row-key='name' @request='getReservations'>
         <q-td>
-            <q-btn size='8px' color='blue' icon='edit' v-on:click='getReservations' />
+            <q-btn color='blue' icon='edit' v-on:click='getReservations' />
         </q-td>
     </q-table>
-        <q-btn flat label='Nowa Rezerwacja' color='primary' v-on:click='getReservations'/>
+    <q-btn flat label='Nowa Rezerwacja' color='primary' v-on:click='getReservations' />
 </div>
 </template>
 
@@ -22,12 +22,21 @@ export default {
                     name: 'id',
                     label: 'Id',
                     field: 'id',
-                    align: 'left'
+                    align: 'left',
+                    headerStyle: 'max-width: 10px',
+                    style: 'max-width: 10px'
                 },
                 {
-                    name: 'nick',
+                    name: 'user',
                     label: 'Nick',
-                    field: 'user.nick',
+                    field: row => row.user.nick,
+                    align: 'left',
+                    sortable: true
+                },
+                {
+                    name: 'stopDate',
+                    label: 'Data',
+                    field: 'stopDate',
                     align: 'left',
                     sortable: true
                 },
@@ -35,16 +44,25 @@ export default {
                     name: 'quantity',
                     label: 'Ilość',
                     field: 'quantity',
-                    align: 'left',
+                    align: 'right',
+                    headerStyle: 'max-width: 100px',
+                    style: 'max-width: 100px',
                     sortable: true
+                },
+                {
+                    name: 'edit',
+                    label: 'Edytuj',
+                    align: 'right',
+                    icon: 'done'
                 }
             ]
         };
     },
 
     methods: {
-        getReservations: function () {
-            const url = 'https://wims-mj.herokuapp.com/reservations';
+        getReservations: function (id) {
+            const url = 'https://wims-mj.herokuapp.com/reservations/inventories/' + id;
+
             axios
                 .get(url, {
                     dataType: 'json',
@@ -52,7 +70,6 @@ export default {
                 })
                 .then(response => {
                     this.reservations = response.data;
-                    console.log(this.reservations);
                 })
                 .catch(() => {
                     this.$q.notify({
