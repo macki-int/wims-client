@@ -74,9 +74,9 @@
                                             </q-card>
                                         </q-dialog>
                                     </div>
-                                    <q-separator color='primary' class='q-ml-sm' size='3px' />
+                                    <q-separator color='primary' class='q-ml-sm' size='2px' />
                                     <ProductReservation ref='refReservation'/>
-                                    <q-separator color='primary' class='q-ml-sm' size='3px' />
+                                    <q-separator color='primary' class='q-ml-sm' size='2px' />
 
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formWidth' label='Szerokość' ref='width' />
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' :step='0.01' v-model='formLength' label='Długość' />
@@ -384,7 +384,7 @@ export default {
             this.disabled = true;
             this.recalculateArea();
 
-            this.$refs.refReservation.getReservations();
+            this.$refs.refReservation.getReservations('1');
         },
 
         onNewInventory: function () {
