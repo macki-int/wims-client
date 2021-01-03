@@ -1,13 +1,12 @@
 <template>
-<div class="q-pa-md">
-    <q-table
-      title="Reserwacja"
-      :data="data"
-      :columns="columns"
-      row-key="name"
-    />
-  </div>
-
+<div>
+    <q-table flat :data='reservations' :columns='columns' row-key='name' @request='getReservations'>
+        <q-td>
+            <q-btn size='8px' color='blue' icon='edit' v-on:click='getReservations' />
+        </q-td>
+    </q-table>
+        <q-btn flat label='Nowa Rezerwacja' color='primary' v-on:click='getReservations'/>
+</div>
 </template>
 
 <script>
@@ -15,44 +14,74 @@ import axios from 'axios';
 
 export default {
     name: 'ProductReservation',
-    props: {
-        id: {
-            type: Number,
-            required: true,
-        },
-        name: {
-            type: String,
-            required: true,
-        }
-    },
 
     data() {
         return {
-          columns: [
-
-          ]
+            reservations: [],
+            columns: [{
+                    name: 'id',
+                    label: 'Id',
+                    field: 'id',
+                    align: 'left'
+                },
+                {
+                    name: 'nick',
+                    label: 'Nick',
+                    field: 'user.nick',
+                    align: 'left',
+                    sortable: true
+                },
+                {
+                    name: 'quantity',
+                    label: 'Ilość',
+                    field: 'quantity',
+                    align: 'left',
+                    sortable: true
+                }
+            ]
         };
     },
 
     methods: {
-        editReservation: function () {
+        getReservations: function () {
+            const url = 'https://wims-mj.herokuapp.com/reservations';
+            axios
+                .get(url, {
+                    dataType: 'json',
+                    headers: {}
+                })
+                .then(response => {
+                    this.reservations = response.data;
+                    console.log(this.reservations);
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: 'negative',
+                        position: 'top',
+                        message: 'Błąd pobierania informacji o rezerwacjach',
+                        icon: 'report_problem'
+                    });
+                });
+        },
+
+        updateReservation: function () {
             const url = 'https://wims-mj.herokuapp.com/reservations';
 
             axios
                 .put(url, {
-                    id: this.id,
-                    name: this.newNameProductType,
+                    id: this.reservation.id,
+                    nick: this.reservation.nick,
                 })
                 .then((response) => {})
                 .catch(() => {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'The new name of product type saving failed',
+                        message: 'Błąd aktualizacji stanu rezerwacji',
                         icon: 'report_problem',
                     });
                 });
-                location.reload();
+            location.reload();
         },
 
         deleteReservation: function () {
@@ -65,11 +94,11 @@ export default {
                     this.$q.notify({
                         color: 'negative',
                         position: 'top',
-                        message: 'The product type deleting failed!',
+                        message: 'Błąd usuwania rezerwacji!',
                         icon: 'report_problem',
                     });
                 });
-                location.reload();
+            location.reload();
         },
     },
 
