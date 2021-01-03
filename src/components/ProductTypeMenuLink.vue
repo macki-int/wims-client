@@ -129,10 +129,10 @@ export default {
         },
 
         deleteProductType: function () {
-            const url = 'https://wims-mj.herokuapp.com/product-types';
+            const url = 'https://wims-mj.herokuapp.com/product-types/' + this.id;
 
             axios
-                .delete(url + '/' + this.id)
+                .delete(url)
                 .then((response) => {
                     this.$q.notify({
                         color: 'positive',
