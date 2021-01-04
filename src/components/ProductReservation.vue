@@ -1,6 +1,6 @@
 <template>
 <div>
-    <q-table flat :data='reservations' :columns='columns' row-key='name' v-bind:request='getReservationsByInventoryId'>
+     <q-table flat :data='reservations' :columns='columns' row-key='name' v-bind:request='getReservationsByInventoryId'>
         <q-tr slot='body' slot-scope='props' :props='props'>
             <q-td key='user' :props='props'>
                 {{ props.row.user.nick }}
@@ -41,7 +41,7 @@
     <q-dialog v-model='save' persistent>
         <q-card style='min-width: 350px'>
             <q-card-section>
-                <div class='text-primary'>Dodawanie rezerwacji: {{ this.product }}</div>
+                <div class='text-primary'>Dodawanie rezerwacji:</div>
             </q-card-section>
             <q-card-section class='q-pt-none'>
                 <q-select dense v-model='user' :options='filteredUsers' label='użytkownik' @filter='filterUsers' :display-value='user.nick' autofocus>
@@ -56,11 +56,6 @@
                         <q-separator class="q-virtual-scroll--with-prev"></q-separator>
                     </template>
                 </q-select>
-
-                <!-- <q-badge color="primary" multi-line>
-                    Model: "{{ user }}"
-                </q-badge> -->
-
                 <q-input dense v-model.trim='newReservationQuantity' label='ilość' type='number' :decimals='2' :rules="[ val => val && val.length > 0]" />
                 <q-input dense v-model='newReservationStopDate' label='data zakończenia rezerwacji' mask='date' :rules="['date']">
                     <template v-slot:append>
@@ -94,6 +89,8 @@ import axios from 'axios';
 export default {
     name: 'ProductReservation',
 
+    props: ['selectedInventory'],
+
     mounted: function () {
         this.getUsers();
     },
@@ -106,7 +103,6 @@ export default {
             user: [],
             users: [],
             filteredUsers: [],
-            productInventory: [],
 
             newReservationQuantity: '1.00',
             newReservationStopDate: new Date().toJSON().slice(0, 10),
@@ -144,8 +140,9 @@ export default {
     },
 
     methods: {
-        getReservationsByInventoryId: function (product) {
-            const url = 'https://wims-mj.herokuapp.com/reservations/inventories/' + product.id;
+        getReservationsByInventoryId: function () {
+            const url = 'https://wims-mj.herokuapp.com/reservations/inventories/' + this.selectedInventory.id;
+            alert(this.selectedInventory.id);
 
             axios
                 .get(url, {
@@ -167,13 +164,19 @@ export default {
 
         addReservation: function () {
             const url = 'https://wims-mj.herokuapp.com/reservations';
+            // console.log(this.inventory);
+            // console.log(this.newReservationQuantity);
+            // console.log(new Date().toJSON().slice(0, 10));
+            // console.log(this.newReservationStopDate);
+            // console.log(this.user);
+
             return axios
                 .post(url, {
                     description: '',
-                    inventory: this.product,
+                    inventory: this.inventory,
                     quantity: this.newReservationQuantity,
                     startDate: new Date().toJSON().slice(0, 10),
-                    stopDate:this.newReservationStopDate,
+                    stopDate: this.newReservationStopDate,
                     user: this.user
                 })
 

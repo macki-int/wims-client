@@ -81,15 +81,16 @@
                                     <q-input @input='onChange' full-width no-outline type='number' :decimals='2' v-model='formQuantity' label='Ilość' />
                                     <q-input full-width no-outline readonly type='number' v-model='formArea' label='Powierzchnia' />
                                     <q-input @input='onChange' full-width no-outline type='textarea' autogrow v-model='formDescription' label='Uwagi' />
-                                    <div>
-                                        <q-btn v-show='showNewInventoryButton' flat label='Nowy asortyment' type='reset' color='primary' />
-                                        <q-btn flat :disabled='disabled' label='Zapisz' type='submit' color='primary' />
-                                    </div>
-                                    <q-badge v-if='newInventoryIndicator' outline color='primary' align='middle' label='Dodajesz nowy asortyment' />
-                                    <q-badge v-if='!newInventoryIndicator && !disabled' outline color='primary' align='middle' label='Edytujesz istniejący asortyment' />
-                                    
-                                    <q-separator color='primary' class='q-ml-sm' size='2px' />
-                                    <ProductReservation ref='refReservation'/>
+                                    <p>{{ this.formInventoryId }}
+                                        <div>
+                                            <q-btn v-show='showNewInventoryButton' flat label='Nowy asortyment' type='reset' color='primary' />
+                                            <q-btn flat :disabled='disabled' label='Zapisz' type='submit' color='primary' />
+                                        </div>
+                                        <q-badge v-if='newInventoryIndicator' outline color='primary' align='middle' label='Dodajesz nowy asortyment' />
+                                        <q-badge v-if='!newInventoryIndicator && !disabled' outline color='primary' align='middle' label='Edytujesz istniejący asortyment' />
+
+                                        <q-separator color='primary' class='q-ml-sm' size='2px' />
+                                        <ProductReservation ref='refReservation' v-bind:selectedInventory='selectedInventory' />
                                 </q-form>
                             </div>
                         </q-card-section>
@@ -107,6 +108,7 @@ import ProductReservation from 'components/ProductReservation.vue';
 
 export default {
     name: 'StockLevels',
+
     components: {
         ProductReservation
     },
@@ -134,6 +136,7 @@ export default {
             product: '',
             products: [],
 
+            formInventoryId: '',
             formProductName: '',
             formWidth: '5.00',
             formLength: '100.00',
@@ -147,6 +150,9 @@ export default {
             showNewInventoryButton: true,
 
             newInventoryIndicator: false,
+
+            selectedInventory: '',
+
             disabled: true,
             save: false
         };
@@ -370,7 +376,9 @@ export default {
         },
 
         onRowClick: function (product) {
-            this.formProductId = product.product.id;
+          this.selectedInventory = product;
+
+          this.formProductId = product.product.id;
             this.formProductName = product.product.name;
             this.formInventoryId = product.id;
             this.formWidth = product.productWidth;
@@ -385,7 +393,8 @@ export default {
             this.disabled = true;
             this.recalculateArea();
 
-            this.$refs.refReservation.getReservationsByInventoryId(product);
+
+            this.$refs.refReservation.getReservationsByInventoryId();
         },
 
         onNewInventory: function () {
