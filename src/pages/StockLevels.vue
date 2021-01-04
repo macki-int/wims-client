@@ -385,7 +385,7 @@ export default {
             this.disabled = true;
             this.recalculateArea();
 
-            this.$refs.refReservation.getReservationsByInventoryId(product.id);
+            this.$refs.refReservation.getReservationsByInventoryId(product);
         },
 
         onNewInventory: function () {
