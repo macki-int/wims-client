@@ -1,48 +1,25 @@
 <template>
-  <div>
-    <q-table
-      flat
-      :data="reservations"
-      :columns="columns"
-      row-key="name"
-      v-bind:request="getReservationsByInventoryId"
-      dense
-    >
-      <q-tr slot="body" slot-scope="props" :props="props">
-        <q-td key="user" :props="props">
-          {{ props.row.user.nick }}
-        </q-td>
-        <q-td key="stopDate" :props="props">
-          {{ props.row.stopDate }}
-        </q-td>
-        <q-td key="quantity" :props="props">
-          {{ props.row.quantity }}
-        </q-td>
-        <q-td key="action" :props="props">
-          <q-btn
-            size="xs"
-            dense
-            color="primary"
-            icon="create"
-            class="q-mr-xs"
-            v-on:click="confirmEdit(props)"
-          />
-          <q-btn
-            size="xs"
-            dense
-            color="negative"
-            icon="clear"
-            v-on:click="confirmDelete(props)"
-          />
-          <!-- <q-dialog v-model="confirmDelete" persistent>
+<div>
+    <q-table flat :data="reservations" :columns="columns" row-key="name" v-bind:request="getReservationsByInventoryId" dense>
+        <q-tr slot="body" slot-scope="props" :props="props">
+            <q-td key="user" :props="props">
+                {{ props.row.user.nick }}
+            </q-td>
+            <q-td key="stopDate" :props="props">
+                {{ props.row.stopDate }}
+            </q-td>
+            <q-td key="quantity" :props="props">
+                {{ props.row.quantity }}
+            </q-td>
+            <q-td key="action" :props="props">
+                <q-btn size="xs" dense color="primary" icon="create" class="q-mr-xs" v-on:click="confirmEdit(props)" />
+                <q-btn size="xs" dense color="negative" icon="clear" v-on:click="confirmDelete(props)" />
+                <!-- <q-dialog v-model="dialogDelete" persistent>
                     <q-card>
                         <q-card-section class="row items-center bg-negative">
                             <q-avatar icon="report_problem" text-color="white" />
                             <span class="q-ml-sm text-white">
-                                Czy usunąć rezerwację o id: {{ props.row.id }}:
-                                <br />
-                                <strong>{{ props.row.user.nick }}</strong> (ilość:
-                                {{ props.row.quantity }})?
+                                Czy usunąć rezerwację o id: {{ dialogDelete.row }}:
                             </span>
                         </q-card-section>
 
@@ -52,289 +29,272 @@
                         </q-card-actions>
                     </q-card>
                 </q-dialog> -->
-        </q-td>
-        <!-- </template> -->
-      </q-tr>
+            </q-td>
+            
+        </q-tr>
     </q-table>
 
-    <q-btn flat label="Nowa Rezerwacja" color="primary" v-on:click="save = true" />
+    <q-btn flat :disabled="disabled" label="Nowa Rezerwacja" color="primary" v-on:click="save = true" />
     <q-dialog v-model="save" persistent>
-      <q-card style="min-width: 350px">
-        <q-card-section>
-          <div class="text-primary">Dodawanie rezerwacji:</div>
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          <q-select
-            dense
-            v-model="user"
-            :options="filteredUsers"
-            label="użytkownik"
-            @filter="filterUsers"
-            :display-value="user.nick"
-            
-            autofocus
-          >
-            <template #option="{ opt, toggleOption }">
-              <q-item dense clickable @click="toggleOption(opt)">
-                <q-item-section>
-                  <q-item-label>
-                    {{ `${opt.nick}` }}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-separator class="q-virtual-scroll--with-prev"></q-separator>
-            </template>
-          </q-select>
-          <q-input
-            dense
-            v-model.trim="newReservationQuantity"
-            label="ilość"
-            type="number"
-            :decimals="2"
-            :rules="[(val) => val >= 0 && val.length > 0]"
-          />
-          <q-input
-            dense
-            v-model="newReservationStopDate"
-            label="data zakończenia rezerwacji"
-            :rules="['date']"
-          >
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy
-                  ref="qDateProxy"
-                  transition-show="scale"
-                  transition-hide="scale"
-                >
-                  <q-date v-model="newReservationStopDate" mask="YYYY-MM-DD" minimal>
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Zamknij" color="primary" flat />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-          <q-input
-            dense
-            v-model="newReservationDescription"
-            label="Uwagi"
-            type="textarea"
-            autogrow
-          />
-        </q-card-section>
+        <q-card style="min-width: 350px">
+            <q-card-section>
+                <div class="text-primary">Dodawanie rezerwacji:</div>
+            </q-card-section>
+            <q-card-section class="q-pt-none">
+                <q-select dense v-model="user" :options="filteredUsers" label="użytkownik" @filter="filterUsers" :display-value="user.nick" autofocus>
+                    <template #option="{ opt, toggleOption }">
+                        <q-item dense clickable @click="toggleOption(opt)">
+                            <q-item-section>
+                                <q-item-label>
+                                    {{ `${opt.nick}` }}
+                                </q-item-label>
+                            </q-item-section>
+                        </q-item>
+                        <q-separator class="q-virtual-scroll--with-prev"></q-separator>
+                    </template>
+                </q-select>
+                <q-input dense v-model.trim="newReservationQuantity" label="ilość" type="number" :decimals="2" :rules="[(val) => val >= 0 && val.length > 0]" />
+                <q-input dense v-model="newReservationStopDate" label="data zakończenia rezerwacji">
+                    <template v-slot:append>
+                        <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                                <q-date v-model="newReservationStopDate" mask="YYYY-MM-DD" minimal>
+                                    <div class="row items-center justify-end">
+                                        <q-btn v-close-popup label="Zamknij" color="primary" flat />
+                                    </div>
+                                </q-date>
+                            </q-popup-proxy>
+                        </q-icon>
+                    </template>
+                </q-input>
+                <q-input dense v-model="newReservationDescription" label="Uwagi" type="textarea" autogrow />
+            </q-card-section>
 
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Anuluj" v-close-popup />
-          <q-btn flat label="Zapisz" v-on:click="addReservation" v-close-popup />
-        </q-card-actions>
-      </q-card>
+            <q-card-actions align="right" class="text-primary">
+                <q-btn flat label="Anuluj" v-close-popup />
+                <q-btn flat label="Zapisz" v-on:click="addReservation" v-close-popup />
+            </q-card-actions>
+        </q-card>
     </q-dialog>
-  </div>
+</div>
 </template>
 
 <script>
 import axios from "axios";
 
 export default {
-  name: "ProductReservation",
+    name: "ProductReservation",
 
-  mounted: function () {
-    EventBus.$on("click", (product) => {
-      this.inventory = product;
-    });
-    this.getUsers();
-  },
+    mounted: function () {
+        EventBus.$on("click", (product) => {
+            this.inventory = product;
+            this.disabled = false;
+        });
+        this.getUsers();
+    },
 
-  data() {
-    return {
-      save: false,
-      // confirmDelete: false,
+    data() {
+        return {
+            save: false,
+            disabled: true,
 
-      user: [],
-      users: [],
-      filteredUsers: [],
-      inventory: "",
+            user: [],
+            users: [],
+            filteredUsers: [],
+            inventory: "",
 
-      newReservationQuantity: 1.0,
-      newReservationStopDate: new Date().toJSON().slice(0, 10),
-      newReservationDescription: "",
+            newReservationQuantity: 1.0,
+            newReservationStopDate: new Date().toJSON().slice(0, 10),
+            newReservationDescription: "",
 
-      reservations: [],
-      columns: [
-        {
-          name: "user",
-          label: "Osoba",
-          field: (row) => row.user.nick,
-          align: "left",
-          sortable: true,
+            reservations: [],
+
+            columns: [{
+                    name: "user",
+                    label: "Osoba",
+                    field: (row) => row.user.nick,
+                    align: "left",
+                    sortable: true,
+                },
+                {
+                    name: "stopDate",
+                    label: "Data",
+                    field: "stopDate",
+                    align: "left",
+                    sortable: true,
+                },
+                {
+                    name: "quantity",
+                    label: "Ilość",
+                    field: "quantity",
+                    align: "right",
+                    color: "primary",
+                    sortable: true,
+                },
+                {
+                    name: "action",
+                    align: "right",
+                    field: "",
+                },
+            ],
+        };
+    },
+
+    methods: {
+        getReservationsByInventoryId: function () {
+            const url =
+                "https://wims-mj.herokuapp.com/reservations/inventories/" + this.inventory.id;
+
+            axios
+                .get(url, {
+                    dataType: "json",
+                    headers: {},
+                })
+                .then((response) => {
+                    this.reservations = response.data;
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd pobierania informacji o rezerwacjach",
+                        icon: "report_problem",
+                    });
+                });
         },
-        {
-          name: "stopDate",
-          label: "Data",
-          field: "stopDate",
-          align: "left",
-          sortable: true,
+
+        addReservation: function () {
+            const url = "https://wims-mj.herokuapp.com/reservations";
+            console.log(this.newReservationQuantity);
+            console.log(new Date().toJSON().slice(0, 10));
+            console.log(this.newReservationStopDate);
+            console.log(this.newReservationDescription);
+            console.log(this.inventory.id);
+            console.log(this.user.id);
+
+            return axios
+                .post(url, {
+                    quantity: this.newReservationQuantity,
+                    startDate: new Date().toJSON().slice(0, 10),
+                    stopDate: this.newReservationStopDate,
+                    description: this.newReservationDescription,
+                    inventory: {
+                        id: this.inventory.id,
+                    },
+                    user: {
+                        id: this.user.id,
+                    },
+                })
+
+                .then((response) => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Dodano nową rezerwację",
+                        icon: "check_circle",
+                    });
+                    this.getReservationsByInventoryId();
+                })
+
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd dodawania nowej rezerwacji",
+                        icon: "report_problem",
+                    });
+                });
         },
-        {
-          name: "quantity",
-          label: "Ilość",
-          field: "quantity",
-          align: "right",
-          color: "primary",
-          sortable: true,
+
+        updateReservation: function () {
+            const url = "https://wims-mj.herokuapp.com/reservations";
+
+            axios
+                .put(url, {
+                    id: this.reservation.id,
+                    nick: this.reservation.nick,
+                })
+                .then((response) => {})
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd aktualizacji stanu rezerwacji",
+                        icon: "report_problem",
+                    });
+                });
+            // location.reload();
         },
-        {
-          name: "action",
-          align: "right",
-          field: "",
+
+        deleteReservation: function (id) {
+            const url = "https://wims-mj.herokuapp.com/reservations/" + id;
+
+            axios
+                .delete(url)
+                .then((response) => {
+                    this.getReservationsByInventoryId();
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd usuwania rezerwacji!",
+                        icon: "report_problem",
+                    });
+                });
+            // location.reload();
         },
-      ],
-    };
-  },
 
-  methods: {
-    getReservationsByInventoryId: function () {
-      const url =
-        "https://wims-mj.herokuapp.com/reservations/inventories/" + this.inventory.id;
+        getUsers: function () {
+            const url = "https://wims-mj.herokuapp.com/users";
 
-      axios
-        .get(url, {
-          dataType: "json",
-          headers: {},
-        })
-        .then((response) => {
-          this.reservations = response.data;
-        })
-        .catch(() => {
-          this.$q.notify({
-            color: "negative",
-            position: "top",
-            message: "Błąd pobierania informacji o rezerwacjach",
-            icon: "report_problem",
-          });
-        });
+            axios
+                .get(url, {
+                    dataType: "json",
+                    headers: {},
+                })
+                .then((response) => {
+                    this.users = response.data;
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd pobierania listy użytkowników",
+                        icon: "report_problem",
+                    });
+                });
+        },
+
+        filterUsers(val, update, abort) {
+            update(() => {
+                if (!val) return (this.filteredUsers = [...this.users]);
+
+                const needle = val.toLowerCase();
+                this.filteredUsers = this.users.filter((v) => `${v.nick}`.indexOf(needle) > -1);
+            });
+        },
+
+        confirmDelete: function (props) {
+            // alert(props.row.user.nick);
+            
+            this.$q.dialog({
+                title: 'Czy usunąć rezerwację dla osoby: ' + props.row.user.nick,
+                message: 'ważną do dnia: ' + props.row.stopDate + ' dla ilości: ' + props.row.quantity,
+                ok: 'Usuń',
+                cancel: 'Anuluj',
+                color: 'negative'
+            }).then(() => {
+                this.$q.notify('Usuń')
+              this.deleteReservation(props.row.id);
+            }).catch(() => {
+                this.$q.notify('Anuluj')
+            })
+        },
+
+        confirmEdit: function (props) {
+            console.log(props.row.quantity);
+        },
     },
-
-    addReservation: function () {
-      const url = "https://wims-mj.herokuapp.com/reservations";
-      console.log(this.newReservationQuantity);
-      console.log(new Date().toJSON().slice(0, 10));
-      console.log(this.newReservationStopDate);
-      console.log(this.newReservationDescription);
-      console.log(this.inventory.id);
-      console.log(this.user.id);
-
-      return axios
-        .post(url, {
-          quantity: this.newReservationQuantity,
-          startDate: new Date().toJSON().slice(0, 10),
-          stopDate: this.newReservationStopDate,
-          description: this.newReservationDescription,
-          inventory: {
-            id: this.inventory.id,
-          },
-          user: {
-            id: this.user.id,
-          },
-        })
-
-        .then((response) => {
-          this.$q.notify({
-            color: "positive",
-            position: "top",
-            message: "Dodano nową rezerwację",
-            icon: "check_circle",
-          });
-          this.getReservationsByInventoryId();
-        })
-
-        .catch(() => {
-          this.$q.notify({
-            color: "negative",
-            position: "top",
-            message: "Błąd dodawania nowej rezerwacji",
-            icon: "report_problem",
-          });
-        });
-    },
-
-    updateReservation: function () {
-      const url = "https://wims-mj.herokuapp.com/reservations";
-
-      axios
-        .put(url, {
-          id: this.reservation.id,
-          nick: this.reservation.nick,
-        })
-        .then((response) => {})
-        .catch(() => {
-          this.$q.notify({
-            color: "negative",
-            position: "top",
-            message: "Błąd aktualizacji stanu rezerwacji",
-            icon: "report_problem",
-          });
-        });
-      // location.reload();
-    },
-
-    deleteReservation: function (id) {
-      const url = "https://wims-mj.herokuapp.com/reservations/" + id;
-      alert(url);
-      axios
-        .delete(url)
-        .then((response) => {
-          this.getReservationsByInventoryId();
-        })
-        .catch(() => {
-          this.$q.notify({
-            color: "negative",
-            position: "top",
-            message: "Błąd usuwania rezerwacji!",
-            icon: "report_problem",
-          });
-        });
-      // location.reload();
-    },
-
-    getUsers: function () {
-      const url = "https://wims-mj.herokuapp.com/users";
-
-      axios
-        .get(url, {
-          dataType: "json",
-          headers: {},
-        })
-        .then((response) => {
-          this.users = response.data;
-        })
-        .catch(() => {
-          this.$q.notify({
-            color: "negative",
-            position: "top",
-            message: "Błąd pobierania listy użytkowników",
-            icon: "report_problem",
-          });
-        });
-    },
-
-    filterUsers(val, update, abort) {
-      update(() => {
-        if (!val) return (this.filteredUsers = [...this.users]);
-
-        const needle = val.toLowerCase();
-        this.filteredUsers = this.users.filter((v) => `${v.nick}`.indexOf(needle) > -1);
-      });
-    },
-
-    confirmDelete: function (props) {
-      this.deleteReservation(props.row.id);
-    },
-
-    confirmEdit: function (props) {
-      console.log(props.row.quantity);
-    },
-  },
 };
 </script>

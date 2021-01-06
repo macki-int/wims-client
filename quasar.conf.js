@@ -91,6 +91,9 @@ module.exports = function( /* ctx */ ) {
         iconSet: "material-icons", // Quasar icon set
         lang: "pl", // Quasar language pack
         config: {},
+        
+        // components: ['QDialog'],
+
 
         // Possible values for "importStrategy":
         // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives
