@@ -92,9 +92,6 @@ module.exports = function( /* ctx */ ) {
         lang: "pl", // Quasar language pack
         config: {},
         
-        // components: ['QDialog'],
-
-
         // Possible values for "importStrategy":
         // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives
         // * 'all'  - Manually specify what to import

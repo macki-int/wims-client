@@ -30,7 +30,6 @@
                     </q-card>
                 </q-dialog> -->
             </q-td>
-            
         </q-tr>
     </q-table>
 
@@ -276,20 +275,17 @@ export default {
         },
 
         confirmDelete: function (props) {
-            // alert(props.row.user.nick);
-            
-            this.$q.dialog({
-                title: 'Czy usunąć rezerwację dla osoby: ' + props.row.user.nick,
-                message: 'ważną do dnia: ' + props.row.stopDate + ' dla ilości: ' + props.row.quantity,
-                ok: 'Usuń',
-                cancel: 'Anuluj',
-                color: 'negative'
-            }).then(() => {
-                this.$q.notify('Usuń')
-              this.deleteReservation(props.row.id);
-            }).catch(() => {
-                this.$q.notify('Anuluj')
-            })
+            this.$q
+                .dialog({
+                    title: "Czy usunąć rezerwację dla osoby: " + props.row.user.nick,
+                    message: "ważną do dnia: " + props.row.stopDate + " dla ilości: " + props.row.quantity,
+                    color: 'negative',
+                    ok: true,
+                    cancel: true,
+                }).onOk(() => {
+                    this.$q.notify("Usuń");
+                })
+              //   // this.deleteReservation(props.row.id);
         },
 
         confirmEdit: function (props) {
