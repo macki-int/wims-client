@@ -3,7 +3,7 @@
 <q-layout view='lHh Lpr lFf'>
     <q-header elevated>
         <q-toolbar>
-            <q-btn flat dense round icon='menu' aria-label='Menu' @click='leftDrawerOpen = !leftDrawerOpen' />
+            <q-btn flat dense round icon='menu' aria-label='Menu' v-on:click='leftDrawerOpen = !leftDrawerOpen' />
             <q-toolbar-title>
                 <q-btn to='products' flat color='white' label='Produkty' no-caps />
                 <q-btn to='/' flat color='white' label='Logowanie' no-caps />
@@ -16,10 +16,7 @@
         <q-list ref='onUpdateProductTypeList'>
             <q-item-label header class='text-grey-1'>KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class='text-grey-1' v-for='productType in productTypes' :key='productType.id' v-bind='productType' />
-
         </q-list>
-
-
         <NewProductType />
     </q-drawer>
 
