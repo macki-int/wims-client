@@ -8,8 +8,8 @@
                         <q-card-section>
                             <div class="text-h6">
                                 {{ productType.name }}
-                                <q-checkbox @input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-xl" size="xs" color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
-                                <q-checkbox @input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-md" size="xs" color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne produkty"></q-checkbox>
+                                <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-xl" size="xs" color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
+                                <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-md" size="xs" color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne produkty"></q-checkbox>
                                 <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                             </div>
                         </q-card-section>
@@ -39,7 +39,7 @@
                                     </td>
 
                                     <td class="text-right">
-                                        <q-icon v-if="product.product.active" name="check" />
+                                        <q-icon class="q-pr-md" v-if="product.product.active" name="check" />
                                         <!-- <q-checkbox size='xs' disable color='grey' v-model='product.product.active'></q-checkbox> -->
                                     </td>
                                 </tr>
@@ -54,42 +54,60 @@
                     <div style="min-height: 800px">
                         <q-card-section>
                             <div class="q-pa-md" style="max-width: 470px">
-                                <q-form @submit="onSubmitInwentory" @reset="onNewInventory" class="q-gutter-md">
+                                <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
+                                    <template>
+                                        <div>
+                                            <q-input full-width no-outline type="text" v-model="formProductName" label="Nazwa" readonly />
+                                            <q-btn flat label="Nowy produkt" color="primary" v-on:click="dialogNewProduct = true" />
+                                            <q-dialog v-model="dialogNewProduct" persistent>
+                                                <q-card style="min-width: 350px">
+                                                    <q-card-section>
+                                                        <div class="text-primary">Nazwa nowego produktu:</div>
+                                                    </q-card-section>
+
+                                                    <q-card-section class="q-pt-none">
+                                                        <q-input dense v-model.trim="newProduct" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']" v-on:keyup.enter="dialogNewProduct = false" autofocus />
+                                                    </q-card-section>
+
+                                                    <q-card-actions align="right" class="text-primary">
+                                                        <q-btn flat label="Anuluj" v-close-popup />
+                                                        <q-btn flat label="Zapisz" v-on:click="addProduct" v-close-popup />
+                                                    </q-card-actions>
+                                                </q-card>
+                                            </q-dialog>
+                                        </div>
+                                    </template>
+                                    <q-separator color="primary" class="q-ml-sm" size="2px" />
+
+                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model="formWidth" label="Szerokość" ref="width" />
+                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model="formLength" label="Długość" />
+                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" v-model="formQuantity" label="Ilość" />
+                                    <q-input full-width no-outline readonly type="number" v-model="formArea" label="Powierzchnia" />
+                                    <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
                                     <div>
-                                        <q-input :rules="[
-                          (val) => (val && val.length > 0) || 'Wybierz wyrób z listy!',
-                        ]" lazy-rules full-width no-outline type="text" v-model="formProductName" label="Nazwa" readonly />
-                                        <q-btn flat label="Nowy produkt" color="primary" v-on:click="save = true" />
-                                        <q-dialog v-model="save" persistent>
+                                        <q-btn flat :disabled="disabled" label="Nowy asortyment" type="reset" color="primary" />
+                                        <q-dialog v-model="dialogNewInventory" persistent>
                                             <q-card style="min-width: 350px">
                                                 <q-card-section>
-                                                    <div class="text-primary">Nazwa nowego produktu:</div>
+                                                    <div class="text-primary">Dodawanie nowego asortymentu:</div>
                                                 </q-card-section>
-
                                                 <q-card-section class="q-pt-none">
-                                                    <q-input dense v-model.trim="newProduct" autofocus v-on:keyup.enter="save = false" v-close-popup />
+                                                    <q-input dense v-model="formWidth" label="Szerokość" type="number" :decimals="2" :rules="[(val) => val > 0 && val.length > 0]" autofocus />
+                                                    <q-input dense v-model="formLength" label="Długość" type="number" :decimals="2" :rules="[(val) => val > 0 && val.length > 0]" />
+                                                    <q-input dense v-model="formQuantity" label="Ilość" type="number" :decimals="2" :rules="[(val) => val > 0 && val.length > 0]" />
+                                                    <q-input dense v-model="formDescription" label="Uwagi" type="textarea" autogrow />
                                                 </q-card-section>
-
                                                 <q-card-actions align="right" class="text-primary">
                                                     <q-btn flat label="Anuluj" v-close-popup />
-                                                    <q-btn flat label="Zapisz" v-on:click="addProduct" v-close-popup />
+                                                    <q-btn flat label="Zapisz" v-on:click="addInventory" v-close-popup />
                                                 </q-card-actions>
                                             </q-card>
                                         </q-dialog>
-                                    </div>
-                                    <q-separator color="primary" class="q-ml-sm" size="2px" />
 
-                                    <q-input @input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model="formWidth" label="Szerokość" ref="width" />
-                                    <q-input @input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model="formLength" label="Długość" />
-                                    <q-input @input="onChange" full-width no-outline type="number" :decimals="2" v-model="formQuantity" label="Ilość" />
-                                    <q-input full-width no-outline readonly type="number" v-model="formArea" label="Powierzchnia" />
-                                    <q-input @input="onChange" full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
-                                    <div>
-                                        <q-btn v-show="showNewInventoryButton" flat label="Nowy asortyment" type="reset" color="primary" />
                                         <q-btn flat :disabled="disabled" label="Zapisz" type="submit" color="primary" />
                                     </div>
-                                    <q-badge v-if="newInventoryIndicator" outline color="primary" align="middle" label="Dodajesz nowy asortyment" />
-                                    <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" />
+                                    <!-- <q-badge v-if="newInventoryIndicator" outline color="primary" align="middle" label="Dodajesz nowy asortyment" />
+                                    <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" /> -->
 
                                     <q-separator color="primary" class="q-ml-sm" size="2px" />
                                     <ProductReservation ref="refReservation" />
@@ -149,14 +167,10 @@ export default {
 
             showZeroValue: false,
             showActiveProduct: false,
-            showNewInventoryButton: true,
-
-            newInventoryIndicator: false,
-
-            selectedInventory: "this.product",
 
             disabled: true,
-            save: false,
+            dialogNewProduct: false,
+            dialogNewInventory: false
         };
     },
 
@@ -251,8 +265,8 @@ export default {
                     });
                     this.formProductId = response.data.id;
                     this.formProductName = response.data.name;
-                    this.showNewInventoryButton = false;
-                    this.onNewInventory();
+                    this.dialogNewInventory = true;
+
                     // console.log('post product:' + response.data.id);
                     // return response.data;
                 })
@@ -296,14 +310,6 @@ export default {
                 });
         },
 
-        onSubmitInwentory: function () {
-            if (this.newInventoryIndicator) {
-                this.addInventory();
-            } else {
-                this.updateInventory();
-            }
-        },
-
         addInventory: function () {
             const url = "https://wims-mj.herokuapp.com/inventories";
 
@@ -325,9 +331,7 @@ export default {
                             message: "Dodano nowy stan magazynu",
                             icon: "check_circle",
                         }),
-                    this.newInventoryIndicator = false;
-                    this.showNewInventoryButton = true;
-                    this.disabled = true;
+                        (this.disabled = true);
 
                     this.getProductsAndQuantityByProductTypeId();
                     this.getMaxUpdateDateByProductType();
@@ -391,12 +395,9 @@ export default {
             this.formActiveValue = product.product.active;
 
             this.newProduct = "";
-            this.newInventoryIndicator = false;
-            this.showNewInventoryButton = true;
-            this.disabled = true;
+            this.disabled = false;
             this.recalculateArea();
 
-            //   this.selectedInventory = product;
             EventBus.$emit("click", product);
             this.$refs.refReservation.getReservationsByInventoryId();
         },
@@ -407,24 +408,18 @@ export default {
             this.formQuantity = 0.0;
             this.formArea = 0.0;
             this.formDescription = "";
-
-            this.newInventoryIndicator = true;
-            this.disabled = true;
-            this.setFocusFormWidth();
         },
 
         onChange: function () {
-            this.disabled = false;
+            if (this.formProductName.length > 0) {
+                this.disabled = false;
+            }
             this.recalculateArea();
         },
 
         recalculateArea: function () {
             this.formArea = this.formWidth * this.formLength * this.formQuantity;
-        },
-
-        setFocusFormWidth: function () {
-            this.$refs.width.focus();
-        },
+        }
     },
 };
 </script>
