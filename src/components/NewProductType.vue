@@ -9,7 +9,7 @@
             </q-card-section>
 
             <q-card-section class='q-pt-none'>
-                <q-input dense v-model.trim='newProductType' autofocus v-on:keyup.enter='save = false' v-close-popup />
+                <q-input dense v-model.trim='newProductType' v-on:keyup.enter='save = false' :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']" lazy-rules autofocus />
             </q-card-section>
 
             <q-card-actions align='right' class='text-primary'>
