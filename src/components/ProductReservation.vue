@@ -231,6 +231,12 @@ export default {
             axios
                 .delete(url)
                 .then((response) => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Usunięto rezerwację rezerwację",
+                        icon: "check_circle",
+                    });
                     this.getReservationsByInventoryId();
                 })
                 .catch(() => {
@@ -277,15 +283,27 @@ export default {
         confirmDelete: function (props) {
             this.$q
                 .dialog({
-                    title: "Czy usunąć rezerwację dla osoby: " + props.row.user.nick,
-                    message: "ważną do dnia: " + props.row.stopDate + " dla ilości: " + props.row.quantity,
+                    title: "<span class=text-negative>Usuwanie rezerwacji</span>",
+                    message: "<span class=text-negative>Czy usunąć rezerwację użytkownika: <strong>" + props.row.user.nick +
+                        "</strong> <br/> dla ilości: <strong>" +
+                        props.row.quantity +
+                        "</strong>, ważną do dnia: <strong>" + 
+                        props.row.stopDate + "</strong>?</span>",
                     color: 'negative',
+                    color: 'negative',
+                    html: true,
+                    persistent: true,
                     ok: true,
                     cancel: true,
                 }).onOk(() => {
-                    this.$q.notify("Usuń");
+                    // this.$q.notify({
+                    //     position: 'top',
+                    //     color: 'positive',
+                    //     icon: 'check_circle',
+                    //     message: "Usunięto"
+                    // } );
+                    this.deleteReservation(props.row.id);
                 })
-              //   // this.deleteReservation(props.row.id);
         },
 
         confirmEdit: function (props) {
