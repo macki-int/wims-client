@@ -234,7 +234,7 @@ export default {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
-                        message: "Usunięto rezerwację rezerwację",
+                        message: "Usunięto rezerwację",
                         icon: "check_circle",
                     });
                     this.getReservationsByInventoryId();
@@ -287,7 +287,7 @@ export default {
                     message: "<span class=text-negative>Czy usunąć rezerwację użytkownika: <strong>" + props.row.user.nick +
                         "</strong> <br/> dla ilości: <strong>" +
                         props.row.quantity +
-                        "</strong>, ważną do dnia: <strong>" + 
+                        "</strong>, ważną do dnia: <strong>" +
                         props.row.stopDate + "</strong>?</span>",
                     color: 'negative',
                     color: 'negative',
