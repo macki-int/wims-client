@@ -39,7 +39,7 @@
                                     </td>
 
                                     <td class="text-right">
-                                        <q-icon class="q-pr-md" v-if="product.product.active" name="check" />
+                                        <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="product.product.active" name="check" />
                                         <!-- <q-checkbox size='xs' disable color='grey' v-model='product.product.active'></q-checkbox> -->
                                     </td>
                                 </tr>
