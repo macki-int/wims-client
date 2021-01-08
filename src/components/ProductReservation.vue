@@ -12,8 +12,8 @@
                 {{ props.row.quantity }}
             </q-td>
             <q-td key="action" :props="props">
-                <q-btn size="xs" dense color="primary" icon="create" class="q-mr-xs" v-on:click="confirmEdit(props)" />
-                <q-btn size="xs" dense color="negative" icon="clear" v-on:click="confirmDelete(props)" />
+                <q-btn size="xs" unelevated dense color="primary" icon="create" class="q-mr-xs" v-on:click="confirmEdit(props)" />
+                <q-btn size="xs" unelevated dense color="negative" icon="clear" v-on:click="confirmDelete(props)" />
                 <!-- <q-dialog v-model="dialogDelete" persistent>
                     <q-card>
                         <q-card-section class="row items-center bg-negative">
@@ -97,7 +97,7 @@ export default {
             save: false,
             disabled: true,
 
-            user: [],
+            user: '',
             users: [],
             filteredUsers: [],
             inventory: "",
@@ -293,7 +293,11 @@ export default {
                     color: 'negative',
                     html: true,
                     persistent: true,
-                    ok: true,
+                    ok: {
+                        // unelevated: true,
+                        label: 'usuń',
+                        flat: true
+                    },
                     cancel: true,
                 }).onOk(() => {
                     // this.$q.notify({
