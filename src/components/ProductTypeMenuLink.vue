@@ -33,9 +33,9 @@
             <q-dialog v-model='confirmDelete' persistent>
                 <q-card>
 
-                    <q-card-section class='row items-center bg-negative'>
-                        <q-avatar icon='report_problem' text-color='white' />
-                        <span class='q-ml-sm text-white'>
+                    <q-card-section class='row items-center'>
+                        <q-avatar icon='report_problem' size="7em" text-color='negative' />
+                        <span class='q-ml-sm text-negative'>
                             Czy usunąć kategorię:
                             <br />
                             <strong>{{ this.name }}</strong>?
