@@ -44,7 +44,7 @@
                             {{ props.row.productType.name }}
                         </q-td>
                         <q-td key="active" :props="props">
-                            <q-checkbox dense v-model="props.row.active" size="sm" color="grey"/>
+                            <q-checkbox dense v-model="props.row.active" size="sm" color="grey" v-on:click.native="activateProduct(props)" />
                         </q-td>
                         <q-td key="action" :props="props">
                             <q-btn size="xs" unelevated dense color="primary" icon="create" class="q-mr-xs" v-on:click="editProduct(props)" />
@@ -197,13 +197,16 @@ export default {
                 });
         },
 
-        activateProduct: function (id) {
+        activateProduct: function (props) {
             const url = "";
+            const message = "";
 
-            if (product.active) {
-                this.url = "https://wims-mj.herokuapp.com/products/activate/" + product.id;
+            if (props.row.active) {
+                this.message = "Aktywowano";
+                this.url = "https://wims-mj.herokuapp.com/products/activate/" + props.row.id;
             } else {
-                this.url = "https://wims-mj.herokuapp.com/products/deactivate/" + product.id;
+                this.message = "Dezaktywowano";
+                this.url = "https://wims-mj.herokuapp.com/products/deactivate/" + props.row.id;
             }
 
             axios
@@ -212,7 +215,7 @@ export default {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
-                        message: "Product updated: " + product.name,
+                        message: this.message + " produkt: " + props.row.name,
                         icon: "check_circle",
                     });
                 })
@@ -220,10 +223,10 @@ export default {
                     this.$q.notify({
                             color: "negative",
                             position: "top",
-                            message: "The product updating failed!",
+                            message: "Błąd aktywacji/desaktywacji produktu!",
                             icon: "report_problem",
                         }),
-                       this.getProducts();
+                        this.getProducts();
                 });
         },
 
