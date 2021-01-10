@@ -60,10 +60,6 @@
 </template>
 
 <script>
-// import {
-//     required,
-//     minLength
-// } from 'vuelidate/lib/validators';
 import axios from 'axios';
 
 export default {
@@ -91,13 +87,6 @@ export default {
     },
 
     methods: {
-        // validations: {
-        //     newNameProductType: {
-        //         required,
-        //         minLength: minLength(3)
-        //     },
-        // },
-
         updateProductType: function () {
             // alert(
             //   'Click Edit Product Type: ' +
@@ -159,7 +148,6 @@ export default {
         },
 
         getProductsByProductType: function (id) {
-
             this.$router.push({
                 path: '/' + this.id,
             });
