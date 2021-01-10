@@ -142,18 +142,18 @@ export default {
             showEditReservationDialog: false,
             disabled: true,
 
-            user: '',
+            user: "",
             users: [],
             filteredUsers: [],
             inventory: "",
 
             editedReservation: "",
+            reservations: [],
 
             newReservationQuantity: 1.0,
             newReservationStopDate: new Date().toJSON().slice(0, 10),
             newReservationDescription: "",
 
-            reservations: [],
 
             columns: [{
                     name: "user",
@@ -181,7 +181,7 @@ export default {
                     name: "action",
                     align: "right",
                     field: "",
-                },
+                }
             ],
         };
     },
@@ -243,6 +243,11 @@ export default {
                 });
         },
 
+        editReservation: function (props) {
+            this.editedReservation = Object.assign({}, props.row);
+            this.showEditReservationDialog = true;
+        },
+
         updateReservation: function (editedReservation) {
             const url = "https://wims-mj.herokuapp.com/reservations";
             
@@ -279,6 +284,28 @@ export default {
                 });
         },
 
+        confirmDelete: function (props) {
+            this.$q
+                .dialog({
+                    title: "<span class=text-negative>Usuwanie rezerwacji</span>",
+                    message: "<span class=text-negative>Czy usunąć rezerwację użytkownika: <strong>" + props.row.user.nick +
+                        "</strong> <br/> dla ilości: <strong>" +
+                        props.row.quantity +
+                        "</strong>, ważną do dnia: <strong>" +
+                        props.row.stopDate + "</strong>?</span>",
+                    color: 'negative',
+                    html: true,
+                    persistent: true,
+                    ok: {
+                        label: 'usuń',
+                        flat: true
+                    },
+                    cancel: true,
+                }).onOk(() => {
+                    this.deleteReservation(props.row.id);
+                })
+        },
+
         deleteReservation: function (id) {
             const url = "https://wims-mj.herokuapp.com/reservations/" + id;
 
@@ -301,8 +328,8 @@ export default {
                         icon: "report_problem",
                     });
                 });
-            // location.reload();
         },
+        
 
         getUsers: function () {
             const url = "https://wims-mj.herokuapp.com/users";
@@ -334,33 +361,6 @@ export default {
             });
         },
 
-        confirmDelete: function (props) {
-            this.$q
-                .dialog({
-                    title: "<span class=text-negative>Usuwanie rezerwacji</span>",
-                    message: "<span class=text-negative>Czy usunąć rezerwację użytkownika: <strong>" + props.row.user.nick +
-                        "</strong> <br/> dla ilości: <strong>" +
-                        props.row.quantity +
-                        "</strong>, ważną do dnia: <strong>" +
-                        props.row.stopDate + "</strong>?</span>",
-                    color: 'negative',
-                    html: true,
-                    persistent: true,
-                    ok: {
-                        label: 'usuń',
-                        flat: true
-                    },
-                    cancel: true,
-                }).onOk(() => {
-                    this.deleteReservation(props.row.id);
-                })
-        },
-
-        editReservation: function (props) {
-            this.editedReservation = Object.assign({}, props.row);
-            // console.log(this.editedReservation);
-            this.showEditReservationDialog = true;
-        },
     },
 };
 </script>
