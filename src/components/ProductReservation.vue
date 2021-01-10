@@ -1,6 +1,6 @@
 <template>
 <div>
-    <q-table flat :data="reservations" :columns="columns" row-key="name" v-bind:request="getReservationsByInventoryId" dense>
+    <q-table dense flat :data="reservations" :columns="columns" row-key="name" v-bind:request="getReservationsByInventoryId" >
         <q-tr slot="body" slot-scope="props" :props="props">
             <q-td key="user" :props="props">
                 {{ props.row.user.nick }}
@@ -250,7 +250,7 @@ export default {
 
         updateReservation: function (editedReservation) {
             const url = "https://wims-mj.herokuapp.com/reservations";
-            
+
             axios
                 .put(url, {
                     id: this.editedReservation.id,
@@ -329,7 +329,7 @@ export default {
                     });
                 });
         },
-        
+
 
         getUsers: function () {
             const url = "https://wims-mj.herokuapp.com/users";
