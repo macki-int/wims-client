@@ -35,7 +35,7 @@
                     </tbody>
                 </q-markup-table> -->
 
-                <q-table flat :data="products" :columns="columns" row-key="name" :pagination.sync="pagination" v-bind:request="getProducts" dense>
+                <q-table dense flat :data="products" :columns="columns" row-key="name" :pagination.sync="pagination" v-bind:request="getProducts">
                     <q-tr slot="body" slot-scope="props" :props="props">
                         <q-td key="name" :props="props">
                             {{ props.row.name }}
@@ -44,7 +44,7 @@
                             {{ props.row.productType.name }}
                         </q-td>
                         <q-td key="active" :props="props">
-                            {{ props.row.active }}
+                            <q-checkbox dense v-model="props.row.active" size="sm" color="grey"/>
                         </q-td>
                         <q-td key="action" :props="props">
                             <q-btn size="xs" unelevated dense color="primary" icon="create" class="q-mr-xs" v-on:click="editProduct(props)" />
@@ -107,7 +107,7 @@ export default {
 
             editedProduct: "",
             products: [],
-            
+
             pagination: {
                 sortBy: 'type',
                 descending: false,
@@ -223,7 +223,7 @@ export default {
                             message: "The product updating failed!",
                             icon: "report_problem",
                         }),
-                       this.getProducts(); 
+                       this.getProducts();
                 });
         },
 
