@@ -12,7 +12,51 @@
                 {{ props.row.quantity }}
             </q-td>
             <q-td key="action" :props="props">
-                <q-btn size="xs" unelevated dense color="primary" icon="create" class="q-mr-xs" v-on:click="confirmEdit(props)" />
+                <q-btn size="xs" unelevated dense color="primary" icon="create" class="q-mr-xs" v-on:click="editReservation(props)" />
+                <q-dialog v-model="showEditReservationDialog">
+                    <q-card style="min-width: 350px">
+                        <q-card-section>
+                            <div class="text-primary">Edycja rezerwacji:</div>
+                        </q-card-section>
+                        <q-card-section class="q-pt-none">
+
+                            <!-- field: (row) => row.user.nick -->
+                            <q-select dense v-model="user" :options="filteredUsers" label="Użytkownik" @filter="filterUsers" :display-value="user.nick" autofocus>
+                                <template #option="{ opt, toggleOption }">
+                                    <q-item dense clickable @click="toggleOption(opt)">
+                                        <q-item-section>
+                                            <q-item-label>
+                                                {{ `${opt.nick}` }}
+                                            </q-item-label>
+                                        </q-item-section>
+                                    </q-item>
+                                    <q-separator class="q-virtual-scroll--with-prev"></q-separator>
+                                </template>
+                            </q-select>
+                            <q-input dense v-model.trim="editedReservation.quantity" label="Ilość" type="number" :decimals="2" :rules="[(val) => val >= 0 && val.length > 0]" />
+                            <q-input dense v-model="editedReservation.stopDate" label="Data zakończenia rezerwacji">
+                                <template v-slot:append>
+                                    <q-icon name="event" class="cursor-pointer">
+                                        <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                                            <q-date v-model="editedReservation.stopDate" mask="YYYY-MM-DD" minimal>
+                                                <div class="row items-center justify-end">
+                                                    <q-btn v-close-popup label="Zamknij" color="primary" flat />
+                                                </div>
+                                            </q-date>
+                                        </q-popup-proxy>
+                                    </q-icon>
+                                </template>
+                            </q-input>
+                            <q-input dense v-model="editedReservation.description" label="Uwagi" type="textarea" autogrow />
+                        </q-card-section>
+
+                        <q-card-actions align="right" class="text-primary">
+                            <q-btn flat label="Anuluj" v-close-popup />
+                            <q-btn flat label="Zapisz" v-on:click="updateReservation(editedReservation)" v-close-popup />
+                        </q-card-actions>
+                    </q-card>
+
+                </q-dialog>
                 <q-btn size="xs" unelevated dense color="negative" icon="clear" v-on:click="confirmDelete(props)" />
                 <!-- <q-dialog v-model="dialogDelete" persistent>
                     <q-card>
@@ -33,14 +77,14 @@
         </q-tr>
     </q-table>
 
-    <q-btn flat :disabled="disabled" label="Nowa Rezerwacja" color="primary" v-on:click="save = true" />
-    <q-dialog v-model="save" persistent>
+    <q-btn flat :disabled="disabled" label="Nowa Rezerwacja" color="primary" v-on:click="showAddReservationDialog = true" />
+    <q-dialog v-model="showAddReservationDialog" persistent>
         <q-card style="min-width: 350px">
             <q-card-section>
                 <div class="text-primary">Dodawanie rezerwacji:</div>
             </q-card-section>
             <q-card-section class="q-pt-none">
-                <q-select dense v-model="user" :options="filteredUsers" label="użytkownik" @filter="filterUsers" :display-value="user.nick" autofocus>
+                <q-select dense v-model="user" :options="filteredUsers" label="Użytkownik" @filter="filterUsers" :display-value="user.nick" autofocus>
                     <template #option="{ opt, toggleOption }">
                         <q-item dense clickable @click="toggleOption(opt)">
                             <q-item-section>
@@ -52,8 +96,8 @@
                         <q-separator class="q-virtual-scroll--with-prev"></q-separator>
                     </template>
                 </q-select>
-                <q-input dense v-model.trim="newReservationQuantity" label="ilość" type="number" :decimals="2" :rules="[(val) => val >= 0 && val.length > 0]" />
-                <q-input dense v-model="newReservationStopDate" label="data zakończenia rezerwacji">
+                <q-input dense v-model.trim="newReservationQuantity" label="Ilość" type="number" :decimals="2" :rules="[(val) => val >= 0 && val.length > 0]" />
+                <q-input dense v-model="newReservationStopDate" label="Data zakończenia rezerwacji">
                     <template v-slot:append>
                         <q-icon name="event" class="cursor-pointer">
                             <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -94,13 +138,16 @@ export default {
 
     data() {
         return {
-            save: false,
+            showAddReservationDialog: false,
+            showEditReservationDialog: false,
             disabled: true,
 
             user: '',
             users: [],
             filteredUsers: [],
             inventory: "",
+
+            editedReservation: "",
 
             newReservationQuantity: 1.0,
             newReservationStopDate: new Date().toJSON().slice(0, 10),
@@ -164,13 +211,6 @@ export default {
 
         addReservation: function () {
             const url = "https://wims-mj.herokuapp.com/reservations";
-            console.log(this.newReservationQuantity);
-            console.log(new Date().toJSON().slice(0, 10));
-            console.log(this.newReservationStopDate);
-            console.log(this.newReservationDescription);
-            console.log(this.inventory.id);
-            console.log(this.user.id);
-
             return axios
                 .post(url, {
                     quantity: this.newReservationQuantity,
@@ -184,7 +224,6 @@ export default {
                         id: this.user.id,
                     },
                 })
-
                 .then((response) => {
                     this.$q.notify({
                         color: "positive",
@@ -194,7 +233,6 @@ export default {
                     });
                     this.getReservationsByInventoryId();
                 })
-
                 .catch(() => {
                     this.$q.notify({
                         color: "negative",
@@ -205,24 +243,40 @@ export default {
                 });
         },
 
-        updateReservation: function () {
+        updateReservation: function (editedReservation) {
             const url = "https://wims-mj.herokuapp.com/reservations";
-
+            
             axios
                 .put(url, {
-                    id: this.reservation.id,
-                    nick: this.reservation.nick,
+                    id: this.editedReservation.id,
+                    quantity: this.editedReservation.quantity,
+                    startDate: new Date().toJSON().slice(0, 10),
+                    stopDate: this.editedReservation.stopDate,
+                    description: this.editedReservation.description,
+                    inventory: {
+                        id: this.inventory.id,
+                    },
+                    user: {
+                        id: this.user.id,
+                    },
                 })
-                .then((response) => {})
+                .then((response) => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Zaktualizowano rezerwację",
+                        icon: "check_circle",
+                    });
+                    this.getReservationsByInventoryId();
+                })
                 .catch(() => {
                     this.$q.notify({
                         color: "negative",
                         position: "top",
-                        message: "Błąd aktualizacji stanu rezerwacji",
+                        message: "Błąd aktualizacji rezerwacji",
                         icon: "report_problem",
                     });
                 });
-            // location.reload();
         },
 
         deleteReservation: function (id) {
@@ -290,28 +344,22 @@ export default {
                         "</strong>, ważną do dnia: <strong>" +
                         props.row.stopDate + "</strong>?</span>",
                     color: 'negative',
-                    color: 'negative',
                     html: true,
                     persistent: true,
                     ok: {
-                        // unelevated: true,
                         label: 'usuń',
                         flat: true
                     },
                     cancel: true,
                 }).onOk(() => {
-                    // this.$q.notify({
-                    //     position: 'top',
-                    //     color: 'positive',
-                    //     icon: 'check_circle',
-                    //     message: "Usunięto"
-                    // } );
                     this.deleteReservation(props.row.id);
                 })
         },
 
-        confirmEdit: function (props) {
-            console.log(props.row.quantity);
+        editReservation: function (props) {
+            this.editedReservation = Object.assign({}, props.row);
+            // console.log(this.editedReservation);
+            this.showEditReservationDialog = true;
         },
     },
 };
