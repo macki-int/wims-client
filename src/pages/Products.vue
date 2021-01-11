@@ -48,12 +48,12 @@
                         </q-td>
                         <q-td key="action" :props="props">
                             <q-btn size="xs" unelevated dense color="primary" icon="create" class="q-mr-xs" v-on:click="editProduct(props)" />
-                            <!-- <q-dialog v-model="showEditProductDialog">
-                                <q-card style="min-width: 350px">
+                            <q-dialog v-model="showEditProductDialog">
+                                <!-- <q-card style="min-width: 350px">
                                     <q-card-section>
                                         <div class="text-primary">Edycja produktu:</div>
-                                    </q-card-section>
-                                    <q-card-section class="q-pt-none">
+                                    </q-card-section> -->
+                                <!-- <q-card-section class="q-pt-none">
                                         <q-select dense v-model="productType" :options="filteredProductTypes" label="Użytkownik" @filter="filterProductTypes" :display-value="product.nick" autofocus>
                                             <template #option="{ opt, toggleOption }">
                                                 <q-item dense clickable @click="toggleOption(opt)">
@@ -67,14 +67,14 @@
                                             </template>
                                         </q-select>
                                         <q-input dense v-model.trim="editedProduct.xx" label="Ilość" type="number" :decimals="2" :rules="[(val) => val >= 0 && val.length > 0]" />
-                                    </q-card-section>
+                                    </q-card-section> -->
 
-                                    <q-card-actions align="right" class="text-primary">
+                                <!-- <q-card-actions align="right" class="text-primary">
                                         <q-btn flat label="Anuluj" v-close-popup />
                                         <q-btn flat label="Zapisz" v-on:click="updateProduct(editedProduct)" v-close-popup />
-                                    </q-card-actions>
-                                </q-card>
-                            </q-dialog> -->
+                                    </q-card-actions> -->
+                                <!-- </q-card> -->
+                            </q-dialog>
                             <q-btn size="xs" unelevated dense color="negative" icon="clear" v-on:click="confirmDelete(props)" />
                         </q-td>
                     </q-tr>
@@ -92,8 +92,8 @@ export default {
     name: "Products",
 
     mounted() {
-        this.getProducts();
         this.getProductTypes();
+        this.getProducts();
     },
 
     data() {
@@ -168,16 +168,17 @@ export default {
 
         editProduct: function (props) {
             this.editedProduct = Object.assign({}, props.row);
+            console.log(editedProduct);
             this.showEditProductDialog = true;
         },
 
-        uodateProduct: function (props) {
+        updateProduct: function (editedReservation) {
             const url = "https://wims-mj.herokuapp.com/products";
 
             axios
                 .put(url, {
-                    id: this.id,
-                    name: this.newProductName,
+                    id: this.editedReservation.id,
+                    name: this.editedReservation.name,
                 })
                 .then((response) => {
                     this.$q.notify({
