@@ -58,21 +58,7 @@
 
                 </q-dialog>
                 <q-btn size="xs" unelevated dense color="negative" icon="clear" v-on:click="confirmDelete(props)" />
-                <!-- <q-dialog v-model="dialogDelete" persistent>
-                    <q-card>
-                        <q-card-section class="row items-center bg-negative">
-                            <q-avatar icon="report_problem" text-color="white" />
-                            <span class="q-ml-sm text-white">
-                                Czy usunąć rezerwację o id: {{ dialogDelete.row }}:
-                            </span>
-                        </q-card-section>
 
-                        <q-card-actions align="right">
-                            <q-btn flat label="Anuluj" color="negative" v-close-popup />
-                            <q-btn flat label="Usuń" color="negative" v-on:click="deleteReservation" v-close-popup />
-                        </q-card-actions>
-                    </q-card>
-                </q-dialog> -->
             </q-td>
         </q-tr>
     </q-table>
