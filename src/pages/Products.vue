@@ -31,9 +31,9 @@
                     <q-card-section>
                         <div class="text-primary">Szczegóły produktu: {{detailedProduct.name}} </div>
                     </q-card-section>
-                    <q-card-section >
+                    <q-card-section>
                         <template>
-                        <ProductDetail ref="refProductDetail" />
+                            <ProductDetail ref="refProductDetail" />
                         </template>
                         <!-- <q-input dense v-model="detailedProduct.name" label="Nazwa produktu" /> 
                         <q-input dense v-model="detailedProduct.productType.name" label="Typ produktu" />  -->
@@ -49,23 +49,23 @@
                     <q-card-section>
                         <div class="text-primary">Edycja produktu:</div>
                     </q-card-section>
-
-                    <!-- <q-card-section class="q-pt-none">
-                                        <q-select dense v-model="productType" :options="filteredProductTypes" label="Kategoria produktu" @filter="filterProductTypes" :display-value="productType.name" autofocus>
-                                            <template #option="{ opt, toggleOption }">
-                                                <q-item dense clickable @click="toggleOption(opt)">
-                                                    <q-item-section>
-                                                        <q-item-label>
-                                                            {{ `${opt.name}` }}
-                                                        </q-item-label>
-                                                    </q-item-section>
-                                                </q-item>
-                                                <q-separator class="q-virtual-scroll--with-prev"></q-separator>
-                                            </template>
-                                        </q-select>
-                                    </q-card-section> -->
-                    <!-- <q-input dense v-model="editedProduct.name" label="Nazwa produktu" />
-                                    <q-input dense v-model="editedProduct.active" label="Nazwa produktu" /> -->
+                    <q-card-section class="q-pt-none">
+                        <q-select dense v-model="productType" :options="filteredProductTypes" label="Kategoria produktu" @filter="filterProductTypes" :display-value="productType.name" autofocus>
+                            <template #option="{ opt, toggleOption }">
+                                <q-item dense clickable @click="toggleOption(opt)">
+                                    <q-item-section>
+                                        <q-item-label>
+                                            {{ `${opt.name}` }}
+                                        </q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                                <q-separator class="q-virtual-scroll--with-prev"></q-separator>
+                            </template>
+                        </q-select>
+                        <q-input dense v-model="editedProduct.name" label="Nazwa produktu" :rules="[(val) => val  && val.length > 0]"/>
+                        <!-- <q-input dense v-model="editedProduct.active" label="Nazwa produktu" /> -->
+                        <q-checkbox class="q-pt-md" dense v-model="editedProduct.active" size="sm" label="Aktywny" />
+                    </q-card-section>
                     <q-card-actions align="right" class="text-primary">
                         <q-btn flat label="Anuluj" v-close-popup />
                         <q-btn flat label="Zapisz" v-on:click="updateProduct(editedProduct)" v-close-popup />
@@ -202,13 +202,15 @@ export default {
             this.showEditProductDialog = true;
         },
 
-        updateProduct: function (editedReservation) {
+        updateProduct: function (editedProduct) {
             const url = "https://wims-mj.herokuapp.com/products";
 
             axios
                 .put(url, {
-                    id: this.editedReservation.id,
-                    name: this.editedReservation.name,
+                    id: this.editedProduct.id,
+                    name: this.editedProduct.name,
+                    active: this.editedProduct.active,
+                    productType: this.productType
                 })
                 .then((response) => {
                     this.$q.notify({
@@ -217,6 +219,7 @@ export default {
                         message: "Product name saving OK",
                         icon: "check_circle",
                     });
+                    this.getProducts();
                 })
                 .catch(() => {
                     this.$q.notify({
