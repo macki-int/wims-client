@@ -2,42 +2,10 @@
 <q-page class="flex flex-left">
     <div class="q-pa-md">
         <q-card class="my-card" style="min-width: 700px">
-            <div style="min-height: 800px">
-                <q-card-section>
-                    <div class="text-h6">Wszystkie produkty</div>
-                </q-card-section>
-                <!-- <q-markup-table dense class='no-shadow'>
-                    <thead>
-                        <q-tr>
-                            <th class='text-left'>Id</th>
-                            <th class='text-left'>Nazwa</th>
-                            <th class='text-left'>Typ</th>
-                            <th class='text-right'>Aktywny</th>
-                            <th class='text-right'></th>
-                        </q-tr>
-                    </thead>
-                    <tbody>
-                        <q-tr v-for='(product, id) in products' :key='id'>
-                            <td class='text-left'>{{ product.id }}</td>
-                            <td class='text-left'>{{ product.name }}</td>
-                            <td class='text-left'>{{ product.productType.name }}</td>
-                            <td class='text-right'>
-                                <q-checkbox size='xs' color='grey' v-model='product.active' v-on:click.native='activateProduct(product)'>
-                                </q-checkbox>
-                            </td>
-                            <td class='text-right'>
-                                <q-btn-group>
-                                    <q-btn color='blue' icon='edit' v-on:click='save = true' size=sm></q-btn>
-                                    <q-btn color='red' icon='disabled_by_default' v-on:click='deleteProduct(product)' size=sm no-caps />
-                                </q-btn-group>
-                            </td>
-                        </q-tr>
-                    </tbody>
-                </q-markup-table> -->
-
+            <q-card>
                 <q-table dense flat :data="products" :columns="columns" row-key="name" :pagination.sync="pagination" v-bind:request="getProducts">
                     <q-tr slot="body" slot-scope="props" :props="props">
-                        <q-td key="name" :props="props">
+                        <q-td key="product" :props="props">
                             {{ props.row.name }}
                         </q-td>
                         <q-td key="type" :props="props">
@@ -47,49 +15,79 @@
                             <q-checkbox dense v-model="props.row.active" size="sm" color="grey" v-on:click.native="activateProduct(props)" />
                         </q-td>
                         <q-td key="action" :props="props">
-                            <q-btn size="xs" unelevated dense color="primary" icon="create" class="q-mr-xs" v-on:click="editProduct(props)" />
-                            <q-dialog v-model="showEditProductDialog">
-                                <!-- <q-card style="min-width: 350px">
-                                    <q-card-section>
-                                        <div class="text-primary">Edycja produktu:</div>
-                                    </q-card-section> -->
-                                <!-- <q-card-section class="q-pt-none">
-                                        <q-select dense v-model="productType" :options="filteredProductTypes" label="Użytkownik" @filter="filterProductTypes" :display-value="product.nick" autofocus>
+                            <q-btn size="sm" dense unelevated color="positive" icon="more_horiz" class="q-mr-xs" v-on:click="detailProduct(props.row)" />
+
+                            <q-btn size="sm" dense unelevated color="primary" icon="create" class="q-mr-xs" v-on:click="editProduct(props)" />
+
+                            <q-btn size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)" />
+                        </q-td>
+                    </q-tr>
+                </q-table>
+
+            </q-card>
+
+            <q-dialog v-model="showDetailProductDialog">
+                <q-card style="min-width: 350px">
+                    <q-card-section>
+                        <div class="text-primary">Szczegóły produktu: {{detailedProduct.name}} </div>
+                    </q-card-section>
+                    <q-card-section >
+                        <template>
+                        <ProductDetail ref="refProductDetail" />
+                        </template>
+                        <!-- <q-input dense v-model="detailedProduct.name" label="Nazwa produktu" /> 
+                        <q-input dense v-model="detailedProduct.productType.name" label="Typ produktu" />  -->
+                    </q-card-section>
+                    <q-card-actions align="right" class="text-primary">
+                        <q-btn flat label="OK" v-close-popup />
+                    </q-card-actions>
+                </q-card>
+            </q-dialog>
+
+            <q-dialog v-model="showEditProductDialog">
+                <q-card style="min-width: 350px">
+                    <q-card-section>
+                        <div class="text-primary">Edycja produktu:</div>
+                    </q-card-section>
+
+                    <!-- <q-card-section class="q-pt-none">
+                                        <q-select dense v-model="productType" :options="filteredProductTypes" label="Kategoria produktu" @filter="filterProductTypes" :display-value="productType.name" autofocus>
                                             <template #option="{ opt, toggleOption }">
                                                 <q-item dense clickable @click="toggleOption(opt)">
                                                     <q-item-section>
                                                         <q-item-label>
-                                                            {{ `${opt.nick}` }}
+                                                            {{ `${opt.name}` }}
                                                         </q-item-label>
                                                     </q-item-section>
                                                 </q-item>
                                                 <q-separator class="q-virtual-scroll--with-prev"></q-separator>
                                             </template>
                                         </q-select>
-                                        <q-input dense v-model.trim="editedProduct.xx" label="Ilość" type="number" :decimals="2" :rules="[(val) => val >= 0 && val.length > 0]" />
                                     </q-card-section> -->
-
-                                <!-- <q-card-actions align="right" class="text-primary">
-                                        <q-btn flat label="Anuluj" v-close-popup />
-                                        <q-btn flat label="Zapisz" v-on:click="updateProduct(editedProduct)" v-close-popup />
-                                    </q-card-actions> -->
-                                <!-- </q-card> -->
-                            </q-dialog>
-                            <q-btn size="xs" unelevated dense color="negative" icon="clear" v-on:click="confirmDelete(props)" />
-                        </q-td>
-                    </q-tr>
-                </q-table>
-            </div>
+                    <!-- <q-input dense v-model="editedProduct.name" label="Nazwa produktu" />
+                                    <q-input dense v-model="editedProduct.active" label="Nazwa produktu" /> -->
+                    <q-card-actions align="right" class="text-primary">
+                        <q-btn flat label="Anuluj" v-close-popup />
+                        <q-btn flat label="Zapisz" v-on:click="updateProduct(editedProduct)" v-close-popup />
+                    </q-card-actions>
+                </q-card>
+            </q-dialog>
         </q-card>
     </div>
+
 </q-page>
 </template>
 
 <script>
 import axios from "axios";
+import ProductDetail from "components/ProductDetail.vue";
 
 export default {
     name: "Products",
+
+    components: {
+        ProductDetail
+    },
 
     mounted() {
         this.getProductTypes();
@@ -98,24 +96,26 @@ export default {
 
     data() {
         return {
-
             showEditProductDialog: false,
+            showDetailProductDialog: false,
 
             productType: "",
             productTypes: [],
             filteredProductTypes: [],
 
-            editedProduct: "",
+            editedProduct: [],
             products: [],
 
+            detailedProduct: [],
+
             pagination: {
-                sortBy: 'type',
+                sortBy: "type",
                 descending: false,
-                rowsPerPage: 25
+                rowsPerPage: 25,
             },
 
             columns: [{
-                    name: "name",
+                    name: "product",
                     label: "Nazwa",
                     field: "name",
                     align: "left",
@@ -140,14 +140,36 @@ export default {
                     name: "action",
                     align: "right",
                     field: "",
-                }
+                },
             ],
         };
     },
 
     methods: {
+        getProductTypes: function () {
+            const url = "https://wims-mj.herokuapp.com/product-types";
+
+            axios
+                .get(url, {
+                    dataType: "json",
+                    headers: {},
+                })
+                .then((response) => {
+                    this.productTypes = response.data;
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd pobierania kategorii",
+                        icon: "report_problem",
+                    });
+                });
+        },
+
         getProducts: function () {
             const url = "https://wims-mj.herokuapp.com/products";
+
             axios
                 .get(url, {
                     dataType: "json",
@@ -168,7 +190,15 @@ export default {
 
         editProduct: function (props) {
             this.editedProduct = Object.assign({}, props.row);
-            console.log(editedProduct);
+            // console.log(this.editedProduct);
+            // console.log(this.editedProduct.name);
+            // console.log(this.editedProduct.productType.name);
+            // this.$q.notify({
+            //     color: "primary",
+            //     position: "center",
+            //     message: `${JSON.stringify(this.editedProduct)}`,
+
+            // });
             this.showEditProductDialog = true;
         },
 
@@ -196,6 +226,19 @@ export default {
                         icon: "report_problem",
                     });
                 });
+        },
+
+        detailProduct: function (props) {
+            this.detailedProduct = Object.assign({}, props);
+            // this.$q.notify({
+            //     color: "positive",
+            //     position: "center",
+            //     message: `${JSON.stringify(this.detailedProduct)}`,
+
+            // });
+            EventBus.$emit("click", this.detailedProduct);
+            // this.showDetailProductDialog = true;
+            // this.$refs.refProductDetail.getInventoriesByProductId();
         },
 
         activateProduct: function (props) {
@@ -235,18 +278,21 @@ export default {
             this.$q
                 .dialog({
                     title: "<span class=text-negative>Usuwanie productu</span>",
-                    message: "<span class=text-negative>Czy usunąć produkt: <strong>" + props.row.name + "?",
-                    color: 'negative',
+                    message: "<span class=text-negative>Czy usunąć produkt: <strong>" +
+                        props.row.name +
+                        "?",
+                    color: "negative",
                     html: true,
                     persistent: true,
                     ok: {
-                        label: 'usuń',
-                        flat: true
+                        label: "usuń",
+                        flat: true,
                     },
                     cancel: true,
-                }).onOk(() => {
-                    this.deleteProduct(props.row.id);
                 })
+                .onOk(() => {
+                    this.deleteProduct(props.row.id);
+                });
         },
 
         deleteProduct: function (id) {
@@ -272,28 +318,14 @@ export default {
                     });
                 });
         },
+        filterProductTypes(val, update, abort) {
+            update(() => {
+                if (!val) return (this.filteredProductTypes = [...this.productTypes]);
 
-        getProductTypes: function () {
-            const url = "https://wims-mj.herokuapp.com/product-types";
-
-            axios
-                .get(url, {
-                    dataType: "json",
-                    headers: {},
-                })
-                .then((response) => {
-                    this.productTypes = response.data;
-                })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania kategorii",
-                        icon: "report_problem",
-                    });
-                });
-        },
-
-    },
-};
+                const needle = val.toLowerCase();
+                this.filteredProductTypes = this.users.filter((v) => `${v.name}`.indexOf(needle) > -1);
+            });
+        }
+    }
+}
 </script>
