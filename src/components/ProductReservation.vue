@@ -1,6 +1,6 @@
 <template>
 <div>
-    <q-table dense flat :data="reservations" :columns="columns" row-key="name" v-bind:request="getReservationsByInventoryId" >
+    <q-table dense flat :data="reservations" :columns="columns" row-key="name" v-bind:request="getReservationsByInventoryId">
         <q-tr slot="body" slot-scope="props" :props="props">
             <q-td key="user" :props="props">
                 {{ props.row.user.nick }}
@@ -19,8 +19,6 @@
                             <div class="text-primary">Edycja rezerwacji:</div>
                         </q-card-section>
                         <q-card-section class="q-pt-none">
-
-                            <!-- field: (row) => row.user.nick -->
                             <q-select dense v-model="user" :options="filteredUsers" label="Użytkownik" @filter="filterUsers" :display-value="user.nick" autofocus>
                                 <template #option="{ opt, toggleOption }">
                                     <q-item dense clickable @click="toggleOption(opt)">
@@ -55,15 +53,14 @@
                             <q-btn flat label="Zapisz" v-on:click="updateReservation(editedReservation)" v-close-popup />
                         </q-card-actions>
                     </q-card>
-
                 </q-dialog>
-                <q-btn size="xs" unelevated dense color="negative" icon="clear" v-on:click="confirmDelete(props)" />
 
+                <q-btn size="xs" unelevated dense color="negative" icon="clear" v-on:click="confirmDelete(props)" />
             </q-td>
         </q-tr>
     </q-table>
 
-    <q-btn flat :disabled="disabled" label="Nowa Rezerwacja" color="primary" v-on:click="showAddReservationDialog = true" />
+    <q-btn flat :disabled="disabledNewReservation" label="Nowa Rezerwacja" color="primary" v-on:click="showAddReservationDialog = true" />
     <q-dialog v-model="showAddReservationDialog" persistent>
         <q-card style="min-width: 350px">
             <q-card-section>
@@ -117,7 +114,7 @@ export default {
     mounted: function () {
         EventBus.$on("click", (product) => {
             this.inventory = product;
-            this.disabled = false;
+            this.disabledNewReservation = false;
         });
         this.getUsers();
     },
@@ -126,20 +123,19 @@ export default {
         return {
             showAddReservationDialog: false,
             showEditReservationDialog: false,
-            disabled: true,
+            disabledNewReservation: true,
 
             user: "",
             users: [],
             filteredUsers: [],
             inventory: "",
 
-            editedReservation: "",
+            editedReservation: [],
             reservations: [],
 
             newReservationQuantity: 1.0,
             newReservationStopDate: new Date().toJSON().slice(0, 10),
             newReservationDescription: "",
-
 
             columns: [{
                     name: "user",
@@ -168,7 +164,7 @@ export default {
                     align: "right",
                     field: "",
                 }
-            ],
+            ]
         };
     },
 
@@ -315,7 +311,6 @@ export default {
                     });
                 });
         },
-
 
         getUsers: function () {
             const url = "https://wims-mj.herokuapp.com/users";
