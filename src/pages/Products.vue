@@ -62,7 +62,7 @@
                                 <q-separator class="q-virtual-scroll--with-prev"></q-separator>
                             </template>
                         </q-select>
-                        <q-input dense v-model="editedProduct.name" label="Nazwa produktu" :rules="[(val) => val  && val.length > 0]"/>
+                        <q-input dense v-model="editedProduct.name" label="Nazwa produktu" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']"/>
                         <!-- <q-input dense v-model="editedProduct.active" label="Nazwa produktu" /> -->
                         <q-checkbox class="q-pt-md" dense v-model="editedProduct.active" size="sm" label="Aktywny" />
                     </q-card-section>
@@ -182,7 +182,7 @@ export default {
                     this.$q.notify({
                         color: "negative",
                         position: "top",
-                        message: "Products loading failed",
+                        message: "Błąd pobierania listy produktów",
                         icon: "report_problem",
                     });
                 });
@@ -190,15 +190,6 @@ export default {
 
         editProduct: function (props) {
             this.editedProduct = Object.assign({}, props.row);
-            // console.log(this.editedProduct);
-            // console.log(this.editedProduct.name);
-            // console.log(this.editedProduct.productType.name);
-            // this.$q.notify({
-            //     color: "primary",
-            //     position: "center",
-            //     message: `${JSON.stringify(this.editedProduct)}`,
-
-            // });
             this.showEditProductDialog = true;
         },
 
@@ -216,7 +207,7 @@ export default {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
-                        message: "Product name saving OK",
+                        message: "Zaktualizowano dane produktu",
                         icon: "check_circle",
                     });
                     this.getProducts();
@@ -225,7 +216,7 @@ export default {
                     this.$q.notify({
                         color: "negative",
                         position: "top",
-                        message: "The name of product saving failed",
+                        message: "Błąd aktualizacji produktu",
                         icon: "report_problem",
                     });
                 });
@@ -270,7 +261,7 @@ export default {
                     this.$q.notify({
                             color: "negative",
                             position: "top",
-                            message: "Błąd aktywacji/desaktywacji produktu!",
+                            message: "Błąd aktywacji/dezaktywacji produktu!",
                             icon: "report_problem",
                         }),
                         this.getProducts();
