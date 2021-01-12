@@ -27,16 +27,33 @@
             </q-card>
 
             <q-dialog v-model="showDetailProductDialog">
-                <q-card style="min-width: 350px">
+                <q-card style="min-width: 700px">
                     <q-card-section>
                         <div class="text-primary">Szczegóły produktu: {{detailedProduct.name}} </div>
                     </q-card-section>
                     <q-card-section>
-                        <template>
-                            <ProductDetail ref="refProductDetail" />
-                        </template>
-                        <!-- <q-input dense v-model="detailedProduct.name" label="Nazwa produktu" /> 
-                        <q-input dense v-model="detailedProduct.productType.name" label="Typ produktu" />  -->
+                            <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" v-bind:request="getInventoriesByProductId">
+                                <q-tr slot="body" slot-scope="props" :props="props">
+                                    <q-td key="productWidth" :props="props">
+                                        {{ props.row.productWidth }}
+                                    </q-td>
+                                    <q-td key="productLength" :props="props">
+                                        {{ props.row.productLength }}
+                                    </q-td>
+                                    <q-td key="quantity" :props="props">
+                                        {{ props.row.quantity }}
+                                    </q-td>
+                                    <q-td key="area" :props="props">
+                                        {{ props.row.productWidth * props.row.productLength * props.row.quantity }}
+                                    </q-td>
+                                    <q-td key="description" :props="props">
+                                        {{ props.row.description }}
+                                    </q-td>
+                                    <q-td key="updateDate" :props="props">
+                                        {{ props.row.updateDate }}
+                                    </q-td>
+                                </q-tr>
+                            </q-table>
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
                         <q-btn flat label="OK" v-close-popup />
@@ -62,7 +79,7 @@
                                 <q-separator class="q-virtual-scroll--with-prev"></q-separator>
                             </template>
                         </q-select>
-                        <q-input dense v-model="editedProduct.name" label="Nazwa produktu" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']"/>
+                        <q-input dense v-model="editedProduct.name" label="Nazwa produktu" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']" />
                         <!-- <q-input dense v-model="editedProduct.active" label="Nazwa produktu" /> -->
                         <q-checkbox class="q-pt-md" dense v-model="editedProduct.active" size="sm" label="Aktywny" />
                     </q-card-section>
@@ -80,13 +97,13 @@
 
 <script>
 import axios from "axios";
-import ProductDetail from "components/ProductDetail.vue";
+// import ProductDetail from "components/ProductDetail.vue";
 
 export default {
     name: "Products",
 
     components: {
-        ProductDetail
+        // ProductDetail
     },
 
     mounted() {
@@ -105,6 +122,8 @@ export default {
 
             editedProduct: [],
             products: [],
+
+            inventories: [],
 
             detailedProduct: [],
 
@@ -142,6 +161,50 @@ export default {
                     field: "",
                 },
             ],
+
+            columnsDetails: [{
+                    name: "productWidth",
+                    label: "Szerokość",
+                    field: "productWidth",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "productLength",
+                    label: "Długość",
+                    field: "productLength",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "quantity",
+                    label: "Ilość",
+                    field: "quantity",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "area",
+                    label: "Powierzchnia",
+                    field: "",
+                    align: "right",
+                    sortable: true,
+                },
+                             {
+                    name: "description",
+                    label: "Uwagi",
+                    field: "description",
+                    align: "left",
+                    sortable: true,
+                },
+                {
+                    name: "updateDate",
+                    label: "Data aktualizacji",
+                    field: "updateDate",
+                    align: "right",
+                    sortable: true,
+                }
+            ]
         };
     },
 
@@ -224,15 +287,32 @@ export default {
 
         detailProduct: function (props) {
             this.detailedProduct = Object.assign({}, props);
-            // this.$q.notify({
-            //     color: "positive",
-            //     position: "center",
-            //     message: `${JSON.stringify(this.detailedProduct)}`,
+            // EventBus.$emit("click", this.detailedProduct);
+            this.getInventoriesByProductId();
+            console.log(this.inventories);
+            this.showDetailProductDialog = true;
+        },
 
-            // });
-            EventBus.$emit("click", this.detailedProduct);
-            // this.showDetailProductDialog = true;
-            // this.$refs.refProductDetail.getInventoriesByProductId();
+        getInventoriesByProductId: function () {
+            const url =
+                "https://wims-mj.herokuapp.com/inventories/products/" + this.detailedProduct.id;
+
+            axios
+                .get(url, {
+                    dataType: "json",
+                    headers: {},
+                })
+                .then((response) => {
+                    this.inventories = response.data;
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd pobierania informacji o stanach magazynowych",
+                        icon: "report_problem",
+                    });
+                });
         },
 
         activateProduct: function (props) {
