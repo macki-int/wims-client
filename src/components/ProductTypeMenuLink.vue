@@ -1,69 +1,66 @@
 <template>
 <q-item clickable>
-    <q-item-section class='q-mr' v-if='icon' avatar v-on:click='getProductsByProductType(name)'>
-        <q-icon color='blue-3' size='14px' :name='icon' />
+    <q-item-section class="q-mr" v-if="icon" avatar v-on:click="getProductsByProductType(name)">
+        <q-icon color="blue-3" size="14px" :name="icon" />
     </q-item-section>
 
-    <q-item-section v-on:click='getProductsByProductType(id)'>
+    <q-item-section v-on:click="getProductsByProductType(id)">
         <q-item-label>{{ name }}</q-item-label>
         <q-item-label hidden caption>{{ id }}</q-item-label>
     </q-item-section>
 
     <q-item-section>
-          <div class="row">
-            <div class="col" >
-            <q-btn size="sm" unelevated dense color="white" text-color='primary' icon="create" class="q-mr-xs float-right" v-on:click='save = true' />
-            <q-dialog v-model='save' persistent>
-                <q-card style='min-width: 350px'>
-                    <q-card-section>
-                        <div class='text-primary'>Edycja nazwy kategorii:</div>
-                    </q-card-section>
+        <div class="row">
+            <div class="col">
+                <q-btn size="sm" unelevated dense color="white" text-color="primary" icon="create" class="q-mr-xs float-right" v-on:click="save = true" />
+                <q-dialog v-model="save" persistent>
+                    <q-card style="min-width: 350px">
+                        <q-card-section>
+                            <div class="text-primary">Edycja nazwy kategorii:</div>
+                        </q-card-section>
 
-                    <q-card-section class='q-pt-none'>
-                        <q-input v-model.trim='newNameProductType' @focus='$event.target.select()' autofocus dense v-on:keyup.enter='save = false' />
-                    </q-card-section>
+                        <q-card-section class="q-pt-none">
+                            <q-input v-model.trim="newNameProductType" @focus="$event.target.select()" autofocus dense v-on:keyup.enter="save = false" />
+                        </q-card-section>
 
-                    <q-card-actions align='right' class='text-primary'>
-                        <q-btn flat label='Anuluj' v-close-popup />
-                        <q-btn flat label='Zapisz' v-on:click='updateProductType' v-close-popup />
-                    </q-card-actions>
-                </q-card>
-            </q-dialog>
+                        <q-card-actions align="right" class="text-primary">
+                            <q-btn flat label="Anuluj" v-close-popup />
+                            <q-btn flat label="Zapisz" v-on:click="updateProductType" v-close-popup />
+                        </q-card-actions>
+                    </q-card>
+                </q-dialog>
             </div>
 
             <div class="col">
-            <q-btn size="sm" unelevated dense color="white" text-color='negative' icon="clear" class="q-mr-xs float-center" v-on:click='confirmDelete = true' />
-            <q-dialog v-model='confirmDelete' persistent>
-                <q-card>
+                <q-btn size="sm" unelevated dense color="white" text-color="negative" icon="clear" class="q-mr-xs float-center" v-on:click="confirmDelete = true" />
+                <q-dialog v-model="confirmDelete" persistent>
+                    <q-card>
+                        <q-card-section class="row items-center">
+                            <q-avatar icon="report_problem" size="7em" text-color="negative" />
+                            <span class="q-ml-sm text-negative">
+                                Czy usunąć kategorię:
+                                <br />
+                                <strong>{{ this.name }}</strong>?
+                            </span>
+                        </q-card-section>
 
-                    <q-card-section class='row items-center'>
-                        <q-avatar icon='report_problem' size="7em" text-color='negative' />
-                        <span class='q-ml-sm text-negative'>
-                            Czy usunąć kategorię:
-                            <br />
-                            <strong>{{ this.name }}</strong>?
-                        </span>
-                    </q-card-section>
-
-                    <q-card-actions align='right'>
-                        <q-btn flat label='Anuluj' color='negative' v-close-popup />
-                        <q-btn flat label='Usuń' color='negative' v-on:click='deleteProductType' v-close-popup />
-                    </q-card-actions>
-
-                </q-card>
-            </q-dialog>
+                        <q-card-actions align="right">
+                            <q-btn flat label="Anuluj" color="negative" v-close-popup />
+                            <q-btn flat label="Usuń" color="negative" v-on:click="deleteProductType" v-close-popup />
+                        </q-card-actions>
+                    </q-card>
+                </q-dialog>
             </div>
-          </div>
+        </div>
     </q-item-section>
-
 </q-item>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-    name: 'ProductTypeMenuLink',
+    name: "ProductTypeMenuLink",
     props: {
         id: {
             type: Number,
@@ -75,26 +72,20 @@ export default {
         },
         icon: {
             type: String,
-            default: 'forward',
+            default: "forward",
         },
     },
     data() {
         return {
             confirmDelete: false,
             save: false,
-            newNameProductType: this.name
+            newNameProductType: this.name,
         };
     },
 
     methods: {
         updateProductType: function () {
-            // alert(
-            //   'Click Edit Product Type: ' +
-            //     this.newNameProductType +
-            //     ' id: ' +
-            //     this.id
-            // );
-            const url = 'https://wims-mj.herokuapp.com/product-types';
+            const url = "https://wims-mj.herokuapp.com/product-types";
 
             axios
                 .put(url, {
@@ -103,18 +94,18 @@ export default {
                 })
                 .then((response) => {
                     this.$q.notify({
-                        color: 'positive',
-                        position: 'top',
-                        message: 'Zaktualizowano kategorie',
-                        icon: 'check_circle',
+                        color: "positive",
+                        position: "top",
+                        message: "Zaktualizowano kategorie",
+                        icon: "check_circle",
                     });
                 })
                 .catch(() => {
                     this.$q.notify({
-                        color: 'negative',
-                        position: 'top',
-                        message: 'Błąd aktualizacji nazwy kategorii',
-                        icon: 'report_problem',
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd aktualizacji nazwy kategorii",
+                        icon: "report_problem",
                     });
                 });
             location.reload();
@@ -122,24 +113,24 @@ export default {
         },
 
         deleteProductType: function () {
-            const url = 'https://wims-mj.herokuapp.com/product-types/' + this.id;
+            const url = "https://wims-mj.herokuapp.com/product-types/" + this.id;
 
             axios
                 .delete(url)
                 .then((response) => {
                     this.$q.notify({
-                        color: 'positive',
-                        position: 'top',
-                        message: 'Usunięto kategorię',
-                        icon: 'check_circle',
+                        color: "positive",
+                        position: "top",
+                        message: "Usunięto kategorię",
+                        icon: "check_circle",
                     });
                 })
                 .catch(() => {
                     this.$q.notify({
-                        color: 'negative',
-                        position: 'top',
-                        message: 'Błąd usuwania kategorii',
-                        icon: 'report_problem',
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd usuwania kategorii",
+                        icon: "report_problem",
                     });
                 });
             location.reload();
@@ -149,11 +140,9 @@ export default {
 
         getProductsByProductType: function (id) {
             this.$router.push({
-                path: '/' + this.id,
+                path: "/" + this.id,
             });
-
         },
     },
-
 };
 </script>
