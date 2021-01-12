@@ -1,87 +1,77 @@
 <template>
-
-<q-layout view='lHh Lpr lFf'>
+<q-layout view="lHh Lpr lFf">
     <q-header elevated>
         <q-toolbar>
-            <q-btn flat dense round icon='menu' aria-label='Menu' v-on:click='leftDrawerOpen = !leftDrawerOpen' />
+            <q-btn flat dense round icon="menu" aria-label="Menu" v-on:click="leftDrawerOpen = !leftDrawerOpen" />
             <q-toolbar-title>
-                <q-btn to='products' flat color='white' label='Produkty' no-caps />
-                <q-btn to='/' flat color='white' label='Logowanie' no-caps />
+                <q-btn to="products" flat color="white" label="Produkty" no-caps />
+                <q-btn to="/" flat color="white" label="Logowanie" no-caps />
             </q-toolbar-title>
             <div>Wims v{{ $q.version }}</div>
         </q-toolbar>
     </q-header>
 
-    <q-drawer v-model='leftDrawerOpen' show-if-above bordered content-class='bg-blue-8'>
-        <q-list ref='onUpdateProductTypeList'>
-            <q-item-label header class='text-grey-1'>KATEGORIA:</q-item-label>
-            <ProductTypeMenuLink class='text-grey-1' v-for='productType in productTypes' :key='productType.id' v-bind='productType' />
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-blue-8">
+        <q-list ref="onUpdateProductTypeList">
+            <q-item-label header class="text-grey-1">KATEGORIA:</q-item-label>
+            <ProductTypeMenuLink class="text-grey-1" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
         </q-list>
         <NewProductType />
     </q-drawer>
 
     <q-page-container>
-
         <q-page padding>
             <router-view />
         </q-page>
-
     </q-page-container>
 </q-layout>
 </template>
 
 <script>
-
-import ProductTypeMenuLink from 'components/ProductTypeMenuLink.vue';
-import NewProductType from 'components/NewProductType.vue';
-import axios from 'axios';
+import ProductTypeMenuLink from "components/ProductTypeMenuLink.vue";
+import NewProductType from "components/NewProductType.vue";
+import axios from "axios";
 
 export default {
-    name: 'MainLayout',
+    name: "MainLayout",
     components: {
         ProductTypeMenuLink,
-        NewProductType
+        NewProductType,
     },
 
     mounted: function () {
         this.getProductTypes();
-        // this.$root.$on('updateProductType', () => {
-        //     // this.getProductTypes();
-        //     location.reload();
-
-        // });
     },
 
     data() {
         return {
             leftDrawerOpen: false,
-            productTypes: []
+            productTypes: [],
         };
     },
 
     methods: {
         getProductTypes: function () {
-            const url = 'https://wims-mj.herokuapp.com/product-types';
+            const url = "https://wims-mj.herokuapp.com/product-types";
 
             axios
                 .get(url, {
-                    dataType: 'json',
-                    headers: {}
+                    dataType: "json",
+                    headers: {},
                 })
-                .then(response => {
+                .then((response) => {
                     this.productTypes = response.data;
                     // console.log('response: ' + JSON.stringify(response.data));
                 })
                 .catch(() => {
                     this.$q.notify({
-                        color: 'negative',
-                        position: 'top',
-                        message: 'Błąd pobierania kategorii',
-                        icon: 'report_problem'
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd pobierania kategorii",
+                        icon: "report_problem",
                     });
                 });
-        }
-
-    }
+        },
+    },
 };
 </script>
