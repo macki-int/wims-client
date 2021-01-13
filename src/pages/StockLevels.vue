@@ -79,10 +79,10 @@
                                     </template>
                                     <q-separator color="primary" class="q-ml-sm" size="2px" />
 
-                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model="formWidth" label="Szerokość" ref="width" />
-                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model="formLength" label="Długość" />
-                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" v-model="formQuantity" label="Ilość" />
-                                    <q-input full-width no-outline readonly type="number" v-model="formArea" label="Powierzchnia" />
+                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
+                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formLength" label="Długość" />
+                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
+                                    <q-input full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
                                     <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
                                     <div>
                                         <q-btn flat :disabled="disabled" label="Nowy asortyment" type="reset" color="primary" />
