@@ -1,7 +1,7 @@
 <template>
 <q-page class="flex flex-left">
     <div class="q-pa-md">
-        <q-card class="my-card" style="min-width: 700px">
+        <q-card class="my-card" style="min-width: 650px">
             <q-card>
                 <q-table dense flat :data="products" :columns="columns" row-key="name" :pagination.sync="pagination" v-bind:request="getProducts">
                     <q-tr slot="body" slot-scope="props" :props="props">
@@ -67,7 +67,8 @@
                         <div class="text-primary">Edycja produktu:</div>
                     </q-card-section>
                     <q-card-section class="q-pt-none">
-                        <q-select dense v-model="productType" :options="filteredProductTypes" label="Kategoria produktu" @filter="filterProductTypes" :display-value="productType.name" autofocus>
+                        <q-select dense v-model="productType" :options="filteredProductTypes" label="Kategoria produktu" 
+                        v-on:filter="filterProductTypes" :display-value="productType.name" selected="productType.name" autofocus>
                             <template #option="{ opt, toggleOption }">
                                 <q-item dense clickable @click="toggleOption(opt)">
                                     <q-item-section>
@@ -253,6 +254,7 @@ export default {
 
         editProduct: function (props) {
             this.editedProduct = Object.assign({}, props.row);
+            this.productType = this.editedProduct.productType;
             this.showEditProductDialog = true;
         },
 
@@ -397,7 +399,7 @@ export default {
                 if (!val) return (this.filteredProductTypes = [...this.productTypes]);
 
                 const needle = val.toLowerCase();
-                this.filteredProductTypes = this.users.filter((v) => `${v.name}`.indexOf(needle) > -1);
+                this.filteredProductTypes = this.productTypes.filter((v) => `${v.name}`.indexOf(needle) > -1);
             });
         }
     }
