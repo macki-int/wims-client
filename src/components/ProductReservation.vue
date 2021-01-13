@@ -227,6 +227,7 @@ export default {
 
         editReservation: function (props) {
             this.editedReservation = Object.assign({}, props.row);
+            this.user = this.editedReservation.user;
             this.showEditReservationDialog = true;
         },
 
