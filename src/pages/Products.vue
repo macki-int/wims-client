@@ -15,10 +15,10 @@
                             <q-checkbox dense v-model="props.row.active" size="sm" color="grey" v-on:click.native="activateProduct(props)" />
                         </q-td>
                         <q-td key="action" :props="props">
-                            <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" class="q-mr-xs" v-on:click="detailProduct(props.row)">
+                            <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="detailProduct(props.row)">
                                 <q-tooltip content-class="bg-blue-8">Pokaż stany magazynowe produktu</q-tooltip>
                             </q-btn>
-                            <q-btn flat size="sm" dense unelevated color="primary" icon="create" class="q-mr-xs" v-on:click="editProduct(props)">
+                            <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editProduct(props)">
                                 <q-tooltip content-class="bg-blue-8">Edytuj produkt</q-tooltip>
                             </q-btn>
                             <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
