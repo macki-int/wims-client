@@ -12,7 +12,9 @@
     <q-item-section>
         <div class="row">
             <div class="col">
-                <q-btn size="sm" unelevated dense color="white" text-color="primary" icon="create" class="q-mr-xs float-right" v-on:click="save = true" />
+                <q-btn size="sm" unelevated dense color="white" text-color="primary" icon="create" class="q-mr-xs float-right" v-on:click="save = true">
+                    <q-tooltip content-class="bg-indigo">Edytuj nazwę kategorii</q-tooltip>
+                </q-btn>
                 <q-dialog v-model="save" persistent>
                     <q-card style="min-width: 350px">
                         <q-card-section>
@@ -32,7 +34,9 @@
             </div>
 
             <div class="col">
-                <q-btn size="sm" unelevated dense color="white" text-color="negative" icon="clear" class="q-mr-xs float-center" v-on:click="confirmDelete = true" />
+                <q-btn size="sm" unelevated dense color="white" text-color="negative" icon="clear" class="q-mr-xs float-center" v-on:click="confirmDelete = true">
+                    <q-tooltip content-class="bg-red">Usuń kategorię</q-tooltip>
+                </q-btn>
                 <q-dialog v-model="confirmDelete" persistent>
                     <q-card>
                         <q-card-section class="row items-center">
