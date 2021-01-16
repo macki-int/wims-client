@@ -12,7 +12,9 @@
                 {{ props.row.quantity }}
             </q-td>
             <q-td key="action" :props="props">
-                <q-btn size="xs" unelevated dense color="primary" icon="create" class="q-mr-xs" v-on:click="editReservation(props)" />
+                <q-btn flat size="sm" dense unelevated color="primary" icon="create"  v-on:click="editReservation(props)">
+                    <q-tooltip content-class="bg-blue-8">Edytuj rezerwację</q-tooltip>
+                </q-btn>
                 <q-dialog v-model="showEditReservationDialog">
                     <q-card style="min-width: 350px">
                         <q-card-section>
@@ -55,7 +57,9 @@
                     </q-card>
                 </q-dialog>
 
-                <q-btn size="xs" unelevated dense color="negative" icon="clear" v-on:click="confirmDelete(props)" />
+                <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
+                    <q-tooltip content-class="bg-red">Usuń rezerwację</q-tooltip>
+                </q-btn>
             </q-td>
         </q-tr>
     </q-table>
