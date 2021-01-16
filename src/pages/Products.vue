@@ -15,11 +15,15 @@
                             <q-checkbox dense v-model="props.row.active" size="sm" color="grey" v-on:click.native="activateProduct(props)" />
                         </q-td>
                         <q-td key="action" :props="props">
-                            <q-btn size="sm" dense unelevated color="positive" icon="more_horiz" class="q-mr-xs" v-on:click="detailProduct(props.row)" />
-
-                            <q-btn size="sm" dense unelevated color="primary" icon="create" class="q-mr-xs" v-on:click="editProduct(props)" />
-
-                            <q-btn size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)" />
+                            <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" class="q-mr-xs" v-on:click="detailProduct(props.row)">
+                                <q-tooltip content-class="bg-blue-8">Pokaż stany magazynowe produktu</q-tooltip>
+                            </q-btn>
+                            <q-btn flat size="sm" dense unelevated color="primary" icon="create" class="q-mr-xs" v-on:click="editProduct(props)">
+                                <q-tooltip content-class="bg-blue-8">Edytuj produkt</q-tooltip>
+                            </q-btn>
+                            <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
+                                <q-tooltip content-class="bg-red">Usuń produkt</q-tooltip>
+                            </q-btn>
                         </q-td>
                     </q-tr>
                 </q-table>
@@ -32,28 +36,28 @@
                         <div class="text-primary">Szczegóły produktu: {{detailedProduct.name}} </div>
                     </q-card-section>
                     <q-card-section>
-                            <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" v-bind:request="getInventoriesByProductId">
-                                <q-tr slot="body" slot-scope="props" :props="props">
-                                    <q-td key="productWidth" :props="props">
-                                        {{ props.row.productWidth }}
-                                    </q-td>
-                                    <q-td key="productLength" :props="props">
-                                        {{ props.row.productLength }}
-                                    </q-td>
-                                    <q-td key="quantity" :props="props">
-                                        {{ props.row.quantity }}
-                                    </q-td>
-                                    <q-td key="area" :props="props">
-                                        {{ props.row.productWidth * props.row.productLength * props.row.quantity }}
-                                    </q-td>
-                                    <q-td key="description" :props="props">
-                                        {{ props.row.description }}
-                                    </q-td>
-                                    <q-td key="updateDate" :props="props">
-                                        {{ props.row.updateDate }}
-                                    </q-td>
-                                </q-tr>
-                            </q-table>
+                        <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" v-bind:request="getInventoriesByProductId">
+                            <q-tr slot="body" slot-scope="props" :props="props">
+                                <q-td key="productWidth" :props="props">
+                                    {{ props.row.productWidth }}
+                                </q-td>
+                                <q-td key="productLength" :props="props">
+                                    {{ props.row.productLength }}
+                                </q-td>
+                                <q-td key="quantity" :props="props">
+                                    {{ props.row.quantity }}
+                                </q-td>
+                                <q-td key="area" :props="props">
+                                    {{ props.row.productWidth * props.row.productLength * props.row.quantity }}
+                                </q-td>
+                                <q-td key="description" :props="props">
+                                    {{ props.row.description }}
+                                </q-td>
+                                <q-td key="updateDate" :props="props">
+                                    {{ props.row.updateDate }}
+                                </q-td>
+                            </q-tr>
+                        </q-table>
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
                         <q-btn flat label="OK" v-close-popup />
@@ -67,8 +71,7 @@
                         <div class="text-primary">Edycja produktu:</div>
                     </q-card-section>
                     <q-card-section class="q-pt-none">
-                        <q-select dense v-model="productType" :options="filteredProductTypes" label="Kategoria produktu" 
-                        v-on:filter="filterProductTypes" :display-value="productType.name" selected="productType.name" autofocus>
+                        <q-select dense v-model="productType" :options="filteredProductTypes" label="Kategoria produktu" v-on:filter="filterProductTypes" :display-value="productType.name" selected="productType.name" autofocus>
                             <template #option="{ opt, toggleOption }">
                                 <q-item dense clickable @click="toggleOption(opt)">
                                     <q-item-section>
@@ -191,7 +194,7 @@ export default {
                     align: "right",
                     sortable: true,
                 },
-                             {
+                {
                     name: "description",
                     label: "Uwagi",
                     field: "description",
