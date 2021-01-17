@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col">
                 <q-btn size="sm" unelevated dense color="white" text-color="primary" icon="create" class="q-mr-xs float-right" v-on:click="save = true">
-                    <q-tooltip content-class="bg-indigo">Edytuj nazwę kategorii</q-tooltip>
+                    <q-tooltip content-class="bg-blue-9">Edytuj nazwę kategorii</q-tooltip>
                 </q-btn>
                 <q-dialog v-model="save" persistent>
                     <q-card style="min-width: 350px">
