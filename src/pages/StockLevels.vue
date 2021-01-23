@@ -3,7 +3,7 @@
     <div class="q-pa-md">
         <div class="row">
             <div class="col-6-md q-pr-md">
-                <q-card class="my-card" style="width: 900px">
+                <q-card class="my-card" style="min-width: 800px">
                     <div style="min-height: 800px">
                         <q-card-section>
                             <div class="text-h6">
