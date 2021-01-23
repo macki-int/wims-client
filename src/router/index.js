@@ -7,6 +7,8 @@ window.EventBus = new Vue();
 
 Vue.use(VueRouter)
 
+Vue.prototype.$API_URL = "http://localhost:8080/";
+
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation;
