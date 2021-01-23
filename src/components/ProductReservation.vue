@@ -201,6 +201,7 @@ export default {
 
         addReservation: function () {
             const url = this.$API_URL + "reservations";
+            
             return axios
                 .post(url, {
                     quantity: this.newReservationQuantity,
