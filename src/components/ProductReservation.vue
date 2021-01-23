@@ -3,7 +3,7 @@
     <q-table dense flat :data="reservations" :columns="columns" row-key="name" v-bind:request="getReservationsByInventoryId">
         <q-tr slot="body" slot-scope="props" :props="props">
             <q-td key="user" :props="props">
-                {{ props.row.user.nick }}
+                {{ props.row.user.username }}
             </q-td>
             <q-td key="stopDate" :props="props">
                 {{ props.row.stopDate }}
@@ -12,7 +12,7 @@
                 {{ props.row.quantity }}
             </q-td>
             <q-td key="action" :props="props">
-                <q-btn flat size="sm" dense unelevated color="primary" icon="create"  v-on:click="editReservation(props)">
+                <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editReservation(props)">
                     <q-tooltip content-class="bg-blue-8">Edytuj rezerwację</q-tooltip>
                 </q-btn>
                 <q-dialog v-model="showEditReservationDialog">
@@ -21,12 +21,12 @@
                             <div class="text-primary">Edycja rezerwacji:</div>
                         </q-card-section>
                         <q-card-section class="q-pt-none">
-                            <q-select dense v-model="user" :options="filteredUsers" label="Użytkownik" @filter="filterUsers" :display-value="user.nick" autofocus>
+                            <q-select dense v-model="user" :options="filteredUsers" label="Użytkownik" @filter="filterUsers" :display-value="user.username" autofocus>
                                 <template #option="{ opt, toggleOption }">
                                     <q-item dense clickable @click="toggleOption(opt)">
                                         <q-item-section>
                                             <q-item-label>
-                                                {{ `${opt.nick}` }}
+                                                {{ `${opt.username}` }}
                                             </q-item-label>
                                         </q-item-section>
                                     </q-item>
@@ -71,12 +71,12 @@
                 <div class="text-primary">Dodawanie rezerwacji:</div>
             </q-card-section>
             <q-card-section class="q-pt-none">
-                <q-select dense v-model="user" :options="filteredUsers" label="Użytkownik" @filter="filterUsers" :display-value="user.nick" autofocus>
+                <q-select dense v-model="user" :options="filteredUsers" label="Użytkownik" @filter="filterUsers" :display-value="user.username" autofocus>
                     <template #option="{ opt, toggleOption }">
                         <q-item dense clickable @click="toggleOption(opt)">
                             <q-item-section>
                                 <q-item-label>
-                                    {{ `${opt.nick}` }}
+                                    {{ `${opt.username}` }}
                                 </q-item-label>
                             </q-item-section>
                         </q-item>
@@ -123,6 +123,10 @@ export default {
         this.getUsers();
     },
 
+    destroyed: function () {
+        EventBus.$off("click");
+    },
+
     data() {
         return {
             showAddReservationDialog: false,
@@ -144,7 +148,7 @@ export default {
             columns: [{
                     name: "user",
                     label: "Osoba",
-                    field: (row) => row.user.nick,
+                    field: (row) => row.user.username,
                     align: "left",
                     sortable: true,
                 },
@@ -174,13 +178,13 @@ export default {
 
     methods: {
         getReservationsByInventoryId: function () {
-            const url =
-                "https://wims-mj.herokuapp.com/reservations/inventories/" + this.inventory.id;
+            const url = this.$API_URL + "reservations/inventories/" + this.inventory.id;
 
             axios
                 .get(url, {
+                    contentType: "application/json",
                     dataType: "json",
-                    headers: {},
+                    headers: { Authorization: localStorage.getItem("token") },
                 })
                 .then((response) => {
                     this.reservations = response.data;
@@ -196,7 +200,7 @@ export default {
         },
 
         addReservation: function () {
-            const url = "https://wims-mj.herokuapp.com/reservations";
+            const url = this.$API_URL + "reservations";
             return axios
                 .post(url, {
                     quantity: this.newReservationQuantity,
@@ -209,13 +213,17 @@ export default {
                     user: {
                         id: this.user.id,
                     },
+                }, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
                 })
                 .then((response) => {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
                         message: "Dodano nową rezerwację",
-                        icon: "check_circle",
+                        icon: "check_circle_outline",
                     });
                     this.getReservationsByInventoryId();
                 })
@@ -236,7 +244,7 @@ export default {
         },
 
         updateReservation: function (editedReservation) {
-            const url = "https://wims-mj.herokuapp.com/reservations";
+            const url = this.$API_URL + "reservations";
 
             axios
                 .put(url, {
@@ -251,13 +259,17 @@ export default {
                     user: {
                         id: this.user.id,
                     },
+                }, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
                 })
                 .then((response) => {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
                         message: "Zaktualizowano rezerwację",
-                        icon: "check_circle",
+                        icon: "check_circle_outline",
                     });
                     this.getReservationsByInventoryId();
                 })
@@ -275,7 +287,7 @@ export default {
             this.$q
                 .dialog({
                     title: "<span class=text-negative>Usuwanie rezerwacji</span>",
-                    message: "<span class=text-negative>Czy usunąć rezerwację użytkownika: <strong>" + props.row.user.nick +
+                    message: "<span class=text-negative>Czy usunąć rezerwację użytkownika: <strong>" + props.row.user.username +
                         "</strong> <br/> dla ilości: <strong>" +
                         props.row.quantity +
                         "</strong>, ważną do dnia: <strong>" +
@@ -294,16 +306,18 @@ export default {
         },
 
         deleteReservation: function (id) {
-            const url = "https://wims-mj.herokuapp.com/reservations/" + id;
+            const url = this.$API_URL + "reservations/" + id;
 
             axios
-                .delete(url)
+                .delete(url, {
+                    headers: { "Authorization": localStorage.getItem("token") }
+                })
                 .then((response) => {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
                         message: "Usunięto rezerwację",
-                        icon: "check_circle",
+                        icon: "check_circle_outline",
                     });
                     this.getReservationsByInventoryId();
                 })
@@ -318,12 +332,13 @@ export default {
         },
 
         getUsers: function () {
-            const url = "https://wims-mj.herokuapp.com/users";
+            const url = this.$API_URL + "users";
 
             axios
                 .get(url, {
+                    contentType: "application/json",
                     dataType: "json",
-                    headers: {},
+                    headers: { "Authorization": localStorage.getItem("token") }
                 })
                 .then((response) => {
                     this.users = response.data;
@@ -343,7 +358,7 @@ export default {
                 if (!val) return (this.filteredUsers = [...this.users]);
 
                 const needle = val.toLowerCase();
-                this.filteredUsers = this.users.filter((v) => `${v.nick}`.indexOf(needle) > -1);
+                this.filteredUsers = this.users.filter((v) => `${v.username}`.indexOf(needle) > -1);
             });
         },
 
