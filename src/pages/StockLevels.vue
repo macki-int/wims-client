@@ -160,7 +160,7 @@ export default {
             formProductName: "",
             formWidth: "5.00",
             formLength: "100.00",
-            formQuantity: "0.00",
+            formQuantity: "1.00",
             formArea: "",
             formActiveValue: true,
             formDescription: "",
