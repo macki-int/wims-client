@@ -15,7 +15,7 @@
                             {{ props.row.lastName }}
                         </q-td>
                         <q-td key="role" :props="props">
-                            {{ props.row.role.enumRole}}
+                            {{ props.row.role }}
                         </q-td>
                         <q-td key="action" :props="props">
                             <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="detailUser(props.row)">
@@ -92,7 +92,7 @@ export default {
                 {
                     name: "role",
                     label: "Uprawnienia",
-                    field: (row) => row.role.roleEnum,
+                    field: "role",
                     align: "right",
                     sortable: true,
                 },
@@ -118,7 +118,6 @@ export default {
                 })
                 .then((response) => {
                     this.users = response.data;
-                    console.log(this.users);
                 })
                 .catch(() => {
                     this.$q.notify({
@@ -144,6 +143,7 @@ export default {
                     username: this.editedUser.username,
                     firstName: this.editedUser.firstName,
                     lastName: this.editedUser.lastName,
+                    // role: this.editedUser.role,
                     // active: this.editedUser.active,
 
                 }, {
