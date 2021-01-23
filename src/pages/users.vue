@@ -31,6 +31,28 @@
                     </q-tr>
                 </q-table>
             </q-card>
+            <q-btn flat label="Nowy Użytkownik" color="primary" v-on:click="showAddUserDialog = true" />
+            <q-dialog v-model="showAddUserDialog" persistent>
+                <q-card style="min-width: 350px">
+                    <q-card-section>
+                        <div class="text-primary">Dodawanie użytkownika:</div>
+                    </q-card-section>
+                    <q-card-section class="q-pt-none">
+
+                        <q-input dense v-model.trim="newUsername" label="Nick" type="text" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj nazwę użytkownika']" />
+                        <q-input dense v-model.trim="newFirsName" label="Imoię" type="text" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj imię użytkownika']" />
+                        <q-input dense v-model.trim="newLastName" label="Nazwisko" type="text" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj nazwisko użytkownika']" />
+                        <q-input dense v-model="newPassword" label="Hasło" type="password" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj hasło']" />
+                        <q-select dense v-model="newRole" :options="optionsRole" label="Uprawnienia">
+
+                    </q-card-section>
+
+                    <q-card-actions align="right" class="text-primary">
+                        <q-btn flat label="Anuluj" v-close-popup />
+                        <q-btn flat label="Zapisz" v-on:click="addUser" v-close-popup />
+                    </q-card-actions>
+                </q-card>
+            </q-dialog>
 
             <q-dialog v-model="showEditUserDialog">
                 <q-card-actions align="right" class="text-primary">
@@ -58,9 +80,16 @@ export default {
         return {
             showEditUserDialog: false,
             showDetailUserDialog: false,
+            showAddUserDialog: false,
 
             editedUser: [],
             users: [],
+
+            newUsername: "",
+            newFirsName: "",
+            newLastName: "",
+            newPassword: "",
+            newRole: "ROLE_USER",
 
             reservations: [],
 
@@ -103,6 +132,11 @@ export default {
                 },
             ],
 
+            optionsRole: [
+                'ROLE_USER',
+                'ROLE_ADMIN'
+            ]
+
         }
     },
 
@@ -127,6 +161,42 @@ export default {
                         icon: "report_problem",
                     });
                 });
+        },
+
+        addUser: function () {
+            const url = this.$API_URL + "users";
+
+            return axios
+                .post(url, {
+                    username: this.newUsername,
+                    firsName: this.newFirsName,
+                    lastName: this.newLastName,
+                    password: this.newPassword,
+                    role: this.newRole,
+                    
+                }, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
+                })
+                .then((response) => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Dodano nowego użytkownika",
+                        icon: "check_circle_outline",
+                    });
+                    this.getUsers();
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd dodawania nowego użytkownika",
+                        icon: "report_problem",
+                    });
+                });
+
         },
 
         editUser: function (props) {
