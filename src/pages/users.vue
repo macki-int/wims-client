@@ -30,23 +30,22 @@
                         </q-td>
                     </q-tr>
                 </q-table>
-            <q-card-section>
-                <q-btn flat label="Nowy Użytkownik" color="primary" v-on:click="showAddUserDialog = true" />
-            </q-card-section>
+                <q-card-section>
+                    <q-btn flat label="Nowy Użytkownik" color="primary" v-on:click="showAddUserDialog = true" />
+                </q-card-section>
             </q-card>
+
             <q-dialog v-model="showAddUserDialog" persistent>
                 <q-card style="min-width: 350px">
                     <q-card-section>
                         <div class="text-primary">Dodawanie użytkownika:</div>
                     </q-card-section>
                     <q-card-section class="q-pt-none">
-
-                        <q-input dense v-model.trim="newUsername" label="Nick" type="text" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj nazwę użytkownika']" />
-                        <q-input dense v-model.trim="newFirsName" label="Imię" type="text" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj imię użytkownika']" />
-                        <q-input dense v-model.trim="newLastName" label="Nazwisko" type="text" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj nazwisko użytkownika']" />
-                        <q-input dense v-model="newPassword" label="Hasło" type="password" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj hasło']" />
+                        <q-input dense v-model.trim="newUsername" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" />
+                        <q-input dense v-model.trim="newFirsName" label="Imię" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj imię użytkownika']" />
+                        <q-input dense v-model.trim="newLastName" label="Nazwisko" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwisko użytkownika']" />
+                        <q-input dense v-model="newPassword" label="Hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj hasło']" />
                         <q-select dense v-model="newRole" :options="optionsRole" label="Uprawnienia" />
-
                     </q-card-section>
 
                     <q-card-actions align="right" class="text-primary">
@@ -55,13 +54,19 @@
                     </q-card-actions>
                 </q-card>
             </q-dialog>
-
-            <q-dialog v-model="showEditUserDialog">
+<template>
+            <q-dialog v-model="showEditUserDialog" persistent>
+                <q-card style="min-width: 350px">
+                    <q-card-section>
+                        <div class="text-primary">Edycja danych użytkownika:</div>
+                    </q-card-section>
                 <q-card-actions align="right" class="text-primary">
                     <q-btn flat label="Anuluj" v-close-popup />
                     <q-btn flat label="Zapisz" v-on:click="updateUser(editedUser)" v-close-popup />
                 </q-card-actions>
+                </q-card>
             </q-dialog>
+</template>
         </q-card>
     </div>
 
@@ -111,20 +116,20 @@ export default {
                     name: "firstName",
                     label: "Imię",
                     field: "firstName",
-                    align: "right",
+                    align: "left",
                     sortable: true,
                 }, {
                     name: "lastName",
                     label: "Nazwisko",
                     field: "firstName",
-                    align: "right",
+                    align: "left",
                     sortable: true,
                 },
                 {
                     name: "role",
                     label: "Uprawnienia",
                     field: "role",
-                    align: "right",
+                    align: "left",
                     sortable: true,
                 },
                 {
@@ -138,7 +143,6 @@ export default {
                 'ROLE_USER',
                 'ROLE_ADMIN'
             ]
-
         }
     },
 
@@ -171,7 +175,7 @@ export default {
             return axios
                 .post(url, {
                     username: this.newUsername,
-                    firsName: this.newFirsName,
+                    firstName: this.newFirstName,
                     lastName: this.newLastName,
                     password: this.newPassword,
                     role: this.newRole,
@@ -204,6 +208,7 @@ export default {
         editUser: function (props) {
             this.editedUser = Object.assign({}, props.row);
             this.showEditProductDialog = true;
+            console.log(this.editedUser);
         },
 
         updateUser: function (editedUser) {
