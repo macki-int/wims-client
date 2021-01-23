@@ -178,7 +178,7 @@ export default {
 
         getReservationsByUserId: function () {
             const url =
-                this.$API_URL + "inventories/users/" + this.detailedUser.id;
+                this.$API_URL + "reservations/users/" + this.detailedUser.id;
 
             axios
                 .get(url, {
