@@ -18,7 +18,7 @@
                             {{ props.row.role }}
                         </q-td>
                         <q-td key="action" :props="props">
-                            <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="detailUser(props.row)">
+                            <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="showDetailUser(props.row)">
                                 <q-tooltip content-class="bg-blue-8">Pokaż rezerwacje produktów przypisane do użytkownika</q-tooltip>
                             </q-btn>
                             <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editUser(props)">
@@ -35,6 +35,39 @@
                 </q-card-section>
             </q-card>
         </q-card>
+        <template>
+            <q-dialog v-model="showDetailUserDialog">
+                <q-card style="min-width: 700px">
+                    <q-card-section>
+                        <div class="text-primary">Zestawienie rezerwacji dla: {{ detailUser.username }} </div>
+                    </q-card-section>
+                    <q-card-section>
+                        <q-table dense flat :data="reservations" :columns="columnsDetails" row-key="name" v-bind:request="getReservationsByUserId">
+                            <q-tr slot="body" slot-scope="props" :props="props">
+                                <q-td key="quantity" :props="props">
+                                    {{ props.row.quantity }}
+                                </q-td>
+                                <q-td key="startDate" :props="props">
+                                    {{ props.row.startDate }}
+                                </q-td>
+                                <q-td key="stopDate" :props="props">
+                                    {{ props.row.stopDate }}
+                                </q-td>
+                                <q-td key="description" :props="props">
+                                    {{ props.row.description }}
+                                </q-td>
+                                <q-td key="updateDate" :props="props">
+                                    {{ props.row.updateDate }}
+                                </q-td>
+                            </q-tr>
+                        </q-table>
+                    </q-card-section>
+                    <q-card-actions align="right" class="text-primary">
+                        <q-btn flat label="OK" v-close-popup />
+                    </q-card-actions>
+                </q-card>
+            </q-dialog>
+        </template>
         <template>
             <q-dialog v-model="showEditUserDialog" persistent>
                 <q-card style="min-width: 350px">
@@ -99,6 +132,8 @@ export default {
             editedUser: [],
             users: [],
 
+            detailUser: [],
+
             newUsername: "",
             newFirstName: "",
             newLastName: "",
@@ -149,6 +184,36 @@ export default {
             optionsRole: [
                 'ROLE_USER',
                 'ROLE_ADMIN'
+            ],
+
+            columnsDetails: [{
+                    name: "quantity",
+                    label: "Ilość",
+                    field: "quantity",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "startDate",
+                    label: "Start rezerwacji",
+                    field: "startDate",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "stopDate",
+                    label: "Koniec rezerwacji",
+                    field: "stopDate",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "description",
+                    label: "Uwagi",
+                    field: "description",
+                    align: "left",
+                    sortable: true,
+                }
             ]
         }
     },
@@ -252,15 +317,15 @@ export default {
                 });
         },
 
-        detailUser: function (props) {
-            this.detailedUser = Object.assign({}, props);
+        showDetailUser: function (props) {
+            this.detailUser = Object.assign({}, props);
             this.getReservationsByUserId();
             this.showDetailUserDialog = true;
         },
 
         getReservationsByUserId: function () {
             const url =
-                this.$API_URL + "reservations/users/" + this.detailedUser.id;
+                this.$API_URL + "reservations/users/" + this.detailUser.id;
 
             axios
                 .get(url, {
