@@ -34,7 +34,28 @@
                     <q-btn flat label="Nowy Użytkownik" color="primary" v-on:click="showAddUserDialog = true" />
                 </q-card-section>
             </q-card>
-
+        </q-card>
+        <template>
+            <q-dialog v-model="showEditUserDialog" persistent>
+                <q-card style="min-width: 350px">
+                    <q-card-section>
+                        <div class="text-primary">Edycja danych użytkownika:</div>
+                    </q-card-section>
+                    <q-card-section class="q-pt-none">
+                        <q-input dense v-model.trim="editedUser.username" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" />
+                        <q-input dense v-model.trim="editedUser.firstName" label="Imię" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj imię użytkownika']" />
+                        <q-input dense v-model.trim="editedUser.lastName" label="Nazwisko" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwisko użytkownika']" />
+                        <!-- <q-input dense v-model="newPassword" label="Hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj hasło']" /> -->
+                        <q-select dense v-model="editedUser.role" :options="optionsRole" label="Uprawnienia" />
+                    </q-card-section>
+                    <q-card-actions align="right" class="text-primary">
+                        <q-btn flat label="Anuluj" v-close-popup />
+                        <q-btn flat label="Zapisz" v-on:click="updateUser(editedUser)" v-close-popup />
+                    </q-card-actions>
+                </q-card>
+            </q-dialog>
+        </template>
+        <template>
             <q-dialog v-model="showAddUserDialog" persistent>
                 <q-card style="min-width: 350px">
                     <q-card-section>
@@ -42,32 +63,18 @@
                     </q-card-section>
                     <q-card-section class="q-pt-none">
                         <q-input dense v-model.trim="newUsername" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" />
-                        <q-input dense v-model.trim="newFirsName" label="Imię" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj imię użytkownika']" />
+                        <q-input dense v-model.trim="newFirstName" label="Imię" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj imię użytkownika']" />
                         <q-input dense v-model.trim="newLastName" label="Nazwisko" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwisko użytkownika']" />
                         <q-input dense v-model="newPassword" label="Hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj hasło']" />
                         <q-select dense v-model="newRole" :options="optionsRole" label="Uprawnienia" />
                     </q-card-section>
-
                     <q-card-actions align="right" class="text-primary">
                         <q-btn flat label="Anuluj" v-close-popup />
                         <q-btn flat label="Zapisz" v-on:click="addUser" v-close-popup />
                     </q-card-actions>
                 </q-card>
             </q-dialog>
-<template>
-            <q-dialog v-model="showEditUserDialog" persistent>
-                <q-card style="min-width: 350px">
-                    <q-card-section>
-                        <div class="text-primary">Edycja danych użytkownika:</div>
-                    </q-card-section>
-                <q-card-actions align="right" class="text-primary">
-                    <q-btn flat label="Anuluj" v-close-popup />
-                    <q-btn flat label="Zapisz" v-on:click="updateUser(editedUser)" v-close-popup />
-                </q-card-actions>
-                </q-card>
-            </q-dialog>
-</template>
-        </q-card>
+        </template>
     </div>
 
 </q-page>
@@ -93,7 +100,7 @@ export default {
             users: [],
 
             newUsername: "",
-            newFirsName: "",
+            newFirstName: "",
             newLastName: "",
             newPassword: "",
             newRole: "ROLE_USER",
@@ -202,13 +209,11 @@ export default {
                         icon: "report_problem",
                     });
                 });
-
         },
 
         editUser: function (props) {
             this.editedUser = Object.assign({}, props.row);
-            this.showEditProductDialog = true;
-            console.log(this.editedUser);
+            this.showEditUserDialog = true;
         },
 
         updateUser: function (editedUser) {
@@ -220,9 +225,9 @@ export default {
                     username: this.editedUser.username,
                     firstName: this.editedUser.firstName,
                     lastName: this.editedUser.lastName,
-                    // role: this.editedUser.role,
-                    // active: this.editedUser.active,
-
+                    password: this.editedUser.password,
+                    role: this.editedUser.role,
+                    active: this.editedUser.active,
                 }, {
                     headers: { Authorization: localStorage.getItem("token") }
                 }, {
