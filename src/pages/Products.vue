@@ -298,7 +298,6 @@ export default {
             this.detailedProduct = Object.assign({}, props);
             // EventBus.$emit("click", this.detailedProduct);
             this.getInventoriesByProductId();
-            console.log(this.inventories);
             this.showDetailProductDialog = true;
         },
 
@@ -410,6 +409,7 @@ export default {
                     });
                 });
         },
+        
         filterProductTypes(val, update, abort) {
             update(() => {
                 if (!val) return (this.filteredProductTypes = [...this.productTypes]);
