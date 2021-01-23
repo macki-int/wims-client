@@ -9,10 +9,10 @@
                             {{ props.row.username }}
                         </q-td>
                         <q-td key="firstName" :props="props">
-                            {{ props.row.user.firstName }}
+                            {{ props.row.firstName }}
                         </q-td>
                         <q-td key="lastName" :props="props">
-                            {{ props.row.user.lastName }}
+                            {{ props.row.lastName }}
                         </q-td>
                         <q-td key="role" :props="props">
                             {{ props.row.role.enumRole}}
@@ -31,7 +31,7 @@
                     </q-tr>
                 </q-table>
             </q-card>
-            
+
             <q-dialog v-model="showEditUserDialog">
                 <q-card-actions align="right" class="text-primary">
                     <q-btn flat label="Anuluj" v-close-popup />
@@ -118,6 +118,7 @@ export default {
                 })
                 .then((response) => {
                     this.users = response.data;
+                    console.log(this.users);
                 })
                 .catch(() => {
                     this.$q.notify({
