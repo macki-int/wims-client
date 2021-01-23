@@ -15,7 +15,7 @@
                             <q-checkbox dense v-model="props.row.active" size="sm" color="grey" v-on:click.native="activateProduct(props)" />
                         </q-td>
                         <q-td key="action" :props="props">
-                            <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="detailProduct(props.row)">
+                            <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="showDetailProduct(props.row)">
                                 <q-tooltip content-class="bg-blue-8">Pokaż stany magazynowe produktu</q-tooltip>
                             </q-btn>
                             <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editProduct(props)">
@@ -33,7 +33,7 @@
             <q-dialog v-model="showDetailProductDialog">
                 <q-card style="min-width: 700px">
                     <q-card-section>
-                        <div class="text-primary">Szczegóły produktu: {{detailedProduct.name}} </div>
+                        <div class="text-primary">Szczegóły produktu: {{detailProduct.name}} </div>
                     </q-card-section>
                     <q-card-section>
                         <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" v-bind:request="getInventoriesByProductId">
@@ -128,7 +128,7 @@ export default {
 
             inventories: [],
 
-            detailedProduct: [],
+            detailProduct: [],
 
             pagination: {
                 sortBy: "type",
@@ -294,16 +294,16 @@ export default {
                 });
         },
 
-        detailProduct: function (props) {
-            this.detailedProduct = Object.assign({}, props);
-            // EventBus.$emit("click", this.detailedProduct);
+        showDetailProduct: function (props) {
+            this.detailProduct = Object.assign({}, props);
+            // EventBus.$emit("click", this.detailProduct);
             this.getInventoriesByProductId();
             this.showDetailProductDialog = true;
         },
 
         getInventoriesByProductId: function () {
             const url =
-                this.$API_URL + "inventories/products/" + this.detailedProduct.id;
+                this.$API_URL + "inventories/products/" + this.detailProduct.id;
 
             axios
                 .get(url, {
