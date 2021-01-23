@@ -57,7 +57,7 @@
                                 <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
                                     <template>
                                         <div>
-                                            <q-input full-width no-outline type="text" v-model="formProductName" readonly />
+                                            <q-input full-width no-outline type="text" v-model="formProductName" style="font-size: 2em" readonly />
                                             <q-btn flat label="Nowy produkt" color="primary" v-on:click="dialogNewProduct = true" />
                                             <q-dialog v-model="dialogNewProduct" persistent>
                                                 <q-card style="min-width: 350px">
@@ -94,12 +94,12 @@
                                                 <q-card-section class="q-pt-none">
                                                     <q-input dense v-model="formWidth" label="Szerokość" type="number" :decimals="2" :rules="[(val) => val > 0 && val.length > 0]" autofocus />
                                                     <q-input dense v-model="formLength" label="Długość" type="number" :decimals="2" :rules="[(val) => val > 0 && val.length > 0]" />
-                                                    <q-input dense v-model="formQuantity" label="Ilość" type="number" :decimals="2" :rules="[(val) => val > 0 && val.length > 0]" />
+                                                    <q-input dense v-model="formQuantity" label="Ilość" type="number" :rules="[(val) => val > 0 && val.length > 0]" />
                                                     <q-input dense v-model="formDescription" label="Uwagi" type="textarea" autogrow />
                                                 </q-card-section>
                                                 <q-card-actions align="right" class="text-primary">
                                                     <q-btn flat label="Anuluj" v-close-popup />
-                                                    <q-btn flat label="Zapisz" v-on:click="addInventory" v-close-popup />
+                                                    <q-btn flat label="Zapisz" v-on:click.prevent="addInventory" v-close-popup />
                                                 </q-card-actions>
                                             </q-card>
                                         </q-dialog>
@@ -160,7 +160,7 @@ export default {
             formProductName: "",
             formWidth: "5.00",
             formLength: "100.00",
-            formQuantity: "1.00",
+            formQuantity: "1",
             formArea: "",
             formActiveValue: true,
             formDescription: "",
