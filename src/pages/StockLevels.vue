@@ -176,12 +176,13 @@ export default {
 
     methods: {
         getProductType: function () {
-            const url = "https://wims-mj.herokuapp.com/product-types/" + this.$route.params.id;
+            const url = this.$API_URL + "product-types/" + this.$route.params.id;
 
             axios
                 .get(url, {
+                    contentType: "application/json",
                     dataType: "json",
-                    headers: {},
+                    headers: { "Authorization": localStorage.getItem("token") }
                 })
                 .then((response) => {
                     this.productType = response.data;
@@ -199,17 +200,17 @@ export default {
         },
 
         getProductsAndQuantityByProductTypeId: function () {
-            const url =
-                "https://wims-mj.herokuapp.com/products/product-types/" + this.$route.params.id;
+            const url = this.$API_URL + "products/product-types/" + this.$route.params.id;
 
             axios
                 .get(url, {
-                    dataType: "json",
                     params: {
                         withZeroValue: this.showZeroValue,
                         withInactiveValue: this.showActiveProduct,
                     },
-                    headers: {},
+                    contentType: "application/json",
+                    dataType: "json",
+                    headers: { "Authorization": localStorage.getItem("token") }
                 })
                 .then((response) => {
                     this.products = response.data;
@@ -227,13 +228,14 @@ export default {
 
         getMaxUpdateDateByProductType: function () {
             const url =
-                "https://wims-mj.herokuapp.com/products/product-types/max-update-date/" +
+                this.$API_URL + "products/product-types/max-update-date/" +
                 this.$route.params.id;
 
             axios
                 .get(url, {
+                    contentType: "application/json",
                     dataType: "json",
-                    headers: {},
+                    headers: { "Authorization": localStorage.getItem("token") }
                 })
                 .then((response) => {
                     this.maxUpdateDate = response.data;
@@ -249,11 +251,15 @@ export default {
         },
 
         addProduct: function () {
-            const url = "https://wims-mj.herokuapp.com/products";
+            const url = this.$API_URL + "products";
             return axios
                 .post(url, {
                     name: this.newProduct,
                     productType: this.productType,
+                }, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
                 })
 
                 .then((response) => {
@@ -261,7 +267,7 @@ export default {
                         color: "positive",
                         position: "top",
                         message: "Dodano nowy produkt",
-                        icon: "check_circle",
+                        icon: "check_circle_outline",
                     });
                     this.formProductId = response.data.id;
                     this.formProductName = response.data.name;
@@ -282,13 +288,17 @@ export default {
         },
 
         updateProduct: function () {
-            const url = "https://wims-mj.herokuapp.com/products";
+            const url = this.$API_URL + "products";
             axios
                 .put(url, {
                     id: this.formProductId,
                     active: this.formActiveValue,
                     name: this.formProductName,
                     productType: this.productType,
+                }, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
                 })
 
                 .then((response) => {
@@ -296,7 +306,7 @@ export default {
                         color: "positive",
                         position: "top",
                         message: "Zaktualizowano nazwę produktu",
-                        icon: "check_circle",
+                        icon: "check_circle_outline",
                     });
                 })
 
@@ -311,7 +321,7 @@ export default {
         },
 
         addInventory: function () {
-            const url = "https://wims-mj.herokuapp.com/inventories";
+            const url = this.$API_URL + "inventories";
 
             axios
                 .post(url, {
@@ -323,13 +333,17 @@ export default {
                         id: this.formProductId,
                     },
                     description: this.formDescription,
+                }, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
                 })
                 .then((response) => {
                     this.$q.notify({
                             color: "positive",
                             position: "top",
                             message: "Dodano nowy stan magazynu",
-                            icon: "check_circle",
+                            icon: "check_circle_outline",
                         }),
                         (this.disabled = true);
 
@@ -348,7 +362,7 @@ export default {
         },
 
         updateInventory: function () {
-            const url = "https://wims-mj.herokuapp.com/inventories";
+            const url = this.$API_URL + "inventories";
 
             axios
                 .put(url, {
@@ -361,19 +375,22 @@ export default {
                         id: this.formProductId,
                     },
                     description: this.formDescription,
+                },  {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
                 })
                 .then((response) => {
                     this.$q.notify({
                             color: "positive",
                             position: "top",
                             message: "Zaktualizowano stan magazynu",
-                            icon: "check_circle",
+                            icon: "check_circle_outline",
                         }),
                         (this.disabled = true);
                     this.getProductsAndQuantityByProductTypeId();
                     this.getMaxUpdateDateByProductType();
                 })
-
                 .catch(() => {
                     this.$q.notify({
                         color: "negative",

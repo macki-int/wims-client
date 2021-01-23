@@ -6,7 +6,7 @@
         </q-card-section>
         <q-card-section>
             <template>
-                <q-table dense flat :data="inventories" :columns="columns" row-key="name" v-bind:request="getInventoriesByProductId">
+                <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" v-bind:request="getInventoriesByProductId">
                     <q-tr slot="body" slot-scope="props" :props="props">
                         <q-td key="productWidth" :props="props">
                             {{ props.row.productWidth }}
@@ -39,6 +39,8 @@
 <script>
 import axios from "axios";
 
+const API_URL = "http://localhost:8080/";
+
 export default {
     name: "ProductDetail",
 
@@ -51,8 +53,6 @@ export default {
             showDetailProductDialog = true;
         });
         console.log(this.product);
-        // this.getInventoriesByProductId();
-
     },
 
     destroyed() {
@@ -107,13 +107,12 @@ export default {
 
     methods: {
         getInventoriesByProductId: function () {
-            const url =
-                "https://wims-mj.herokuapp.com/inventories/products/" + this.product.id;
+            const url = API_URL + "inventories/products/" + this.product.id;
 
             axios
                 .get(url, {
                     dataType: "json",
-                    headers: {},
+                    headers: { "Authorization": localStorage.getItem("token") }
                 })
                 .then((response) => {
                     this.inventories = response.data;

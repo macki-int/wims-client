@@ -4,19 +4,23 @@
         <q-toolbar>
             <q-btn flat dense round icon="menu" aria-label="Menu" v-on:click="leftDrawerOpen = !leftDrawerOpen" />
             <q-toolbar-title>
-                <q-btn to="products" flat color="white" label="Produkty" no-caps />
-                <q-btn to="login" flat color="white" label="Logowanie" no-caps />
+                <q-btn v-if="auth=='logged'" to="products" flat color="white" label="Produkty" no-caps />
+                <q-btn v-if="auth==''" to="login" flat color="white" label="Logowanie" no-caps />
+                <q-btn v-if="auth=='logged'" v-on:click="logout" flat color="white" label="Wylogowywanie" no-caps />
             </q-toolbar-title>
-            <div>Wims v{{ $q.version }}</div>
+            <!-- <div>Wims v{{ $q.version }}</div> -->
+            <q-btn v-if="auth=='logged'" flat label="Admin" no-caps />
         </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-blue-8">
+    <q-drawer v-if="auth=='logged'" v-model="leftDrawerOpen" show-if-above bordered content-class="bg-blue-8">
         <q-list ref="onUpdateProductTypeList">
             <q-item-label header class="text-grey-1">KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class="text-grey-1" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
         </q-list>
-        <NewProductType />
+        <div>
+            <NewProductType />
+        </div>
     </q-drawer>
 
     <q-page-container>
@@ -34,30 +38,45 @@ import axios from "axios";
 
 export default {
     name: "MainLayout",
+    
     components: {
         ProductTypeMenuLink,
         NewProductType,
     },
 
     mounted: function () {
-        this.getProductTypes();
+        EventBus.$on("logged", status => {
+            this.auth = status
+            this.getProductTypes();
+        })
+
+        if (localStorage.getItem("token")) {
+            this.auth = "logged";
+            this.getProductTypes();
+        }
+    },
+
+    destroyed: function () {
+        EventBus.$off("logged");
     },
 
     data() {
         return {
             leftDrawerOpen: false,
             productTypes: [],
+            auth: ""
         };
     },
 
     methods: {
         getProductTypes: function () {
-            const url = "https://wims-mj.herokuapp.com/product-types";
+            const url = this.$API_URL + "product-types";
 
             axios
                 .get(url, {
+                    contentType : "application/json",
                     dataType: "json",
-                    headers: {},
+                    headers: { "Authorization": localStorage.getItem("token") }
                 })
                 .then((response) => {
                     this.productTypes = response.data;
@@ -72,6 +91,19 @@ export default {
                     });
                 });
         },
+
+        logout: function () {
+            this.auth = "";
+            localStorage.removeItem("token");
+            // location.reload();
+            this.$q.notify({
+                color: "positive",
+                position: "top",
+                message: "Wylogowano",
+                icon: "check_circle_outline",
+            });
+            this.$router.push("/");
+        }
     },
 };
 </script>

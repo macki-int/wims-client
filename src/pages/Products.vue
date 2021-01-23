@@ -101,7 +101,6 @@
 
 <script>
 import axios from "axios";
-// import ProductDetail from "components/ProductDetail.vue";
 
 export default {
     name: "Products",
@@ -214,12 +213,12 @@ export default {
 
     methods: {
         getProductTypes: function () {
-            const url = "https://wims-mj.herokuapp.com/product-types";
+            const url = this.$API_URL + "product-types";
 
             axios
                 .get(url, {
                     dataType: "json",
-                    headers: {},
+                    headers: { "Authorization": localStorage.getItem("token") }
                 })
                 .then((response) => {
                     this.productTypes = response.data;
@@ -235,12 +234,13 @@ export default {
         },
 
         getProducts: function () {
-            const url = "https://wims-mj.herokuapp.com/products";
+            const url = this.$API_URL + "products";
 
             axios
                 .get(url, {
+                    contentType: "application/json",
                     dataType: "json",
-                    headers: {},
+                    headers: { "Authorization": localStorage.getItem("token") }
                 })
                 .then((response) => {
                     this.products = response.data;
@@ -262,7 +262,7 @@ export default {
         },
 
         updateProduct: function (editedProduct) {
-            const url = "https://wims-mj.herokuapp.com/products";
+            const url = this.$API_URL + "products";
 
             axios
                 .put(url, {
@@ -270,13 +270,17 @@ export default {
                     name: this.editedProduct.name,
                     active: this.editedProduct.active,
                     productType: this.productType
+                }, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
                 })
                 .then((response) => {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
                         message: "Zaktualizowano dane produktu",
-                        icon: "check_circle",
+                        icon: "check_circle_outline",
                     });
                     this.getProducts();
                 })
@@ -300,12 +304,13 @@ export default {
 
         getInventoriesByProductId: function () {
             const url =
-                "https://wims-mj.herokuapp.com/inventories/products/" + this.detailedProduct.id;
+                this.$API_URL + "inventories/products/" + this.detailedProduct.id;
 
             axios
                 .get(url, {
+                    contentType: "application/json",
                     dataType: "json",
-                    headers: {},
+                    headers: { "Authorization": localStorage.getItem("token") }
                 })
                 .then((response) => {
                     this.inventories = response.data;
@@ -326,20 +331,24 @@ export default {
 
             if (props.row.active) {
                 this.message = "Aktywowano";
-                this.url = "https://wims-mj.herokuapp.com/products/activate/" + props.row.id;
+                this.url = this.$API_URL + "products/activate/" + props.row.id;
             } else {
                 this.message = "Dezaktywowano";
-                this.url = "https://wims-mj.herokuapp.com/products/deactivate/" + props.row.id;
+                this.url = this.$API_URL + "products/deactivate/" + props.row.id;
             }
 
             axios
-                .patch(this.url)
+                .patch(this.url, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
+                })
                 .then((response) => {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
                         message: this.message + " produkt: " + props.row.name,
-                        icon: "check_circle",
+                        icon: "check_circle_outline",
                     });
                 })
                 .catch(() => {
@@ -375,16 +384,20 @@ export default {
         },
 
         deleteProduct: function (id) {
-            const url = "https://wims-mj.herokuapp.com/products/" + id;
+            const url = this.$API_URL + "products/" + id;
 
             axios
-                .delete(url)
+                .delete(url, {
+                     headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
+                })
                 .then((response) => {
                     this.$q.notify({
                             color: "positive",
                             position: "top",
                             message: "Usunięto produkt",
-                            icon: "check_circle",
+                            icon: "check_circle_outline",
                         }),
                         this.getProducts();
                 })

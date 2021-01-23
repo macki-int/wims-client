@@ -89,19 +89,21 @@ export default {
 
     methods: {
         updateProductType: function () {
-            const url = "https://wims-mj.herokuapp.com/product-types";
+            const url = this.$API_URL + "product-types";
 
             axios
                 .put(url, {
                     id: this.id,
                     name: this.newNameProductType,
+                }, {
+                    headers: { "Authorization": localStorage.getItem("token") }
                 })
                 .then((response) => {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
                         message: "Zaktualizowano kategorie",
-                        icon: "check_circle",
+                        icon: "check_circle_outline",
                     });
                 })
                 .catch(() => {
@@ -113,20 +115,21 @@ export default {
                     });
                 });
             location.reload();
-            // this.$root.$emit('updateProductType')
         },
 
         deleteProductType: function () {
-            const url = "https://wims-mj.herokuapp.com/product-types/" + this.id;
+            const url = this.$API_URL + "product-types/" + this.id;
 
             axios
-                .delete(url)
+                .delete(url, {
+                    headers: { "Authorization": localStorage.getItem("token") }
+                })
                 .then((response) => {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
                         message: "Usunięto kategorię",
-                        icon: "check_circle",
+                        icon: "check_circle_outline",
                     });
                 })
                 .catch(() => {
@@ -138,8 +141,6 @@ export default {
                     });
                 });
             location.reload();
-            // this.$root.$emit('updateProductType')
-            //EventBus.$emit('productTypesUpdated');
         },
 
         getProductsByProductType: function (id) {

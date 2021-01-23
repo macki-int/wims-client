@@ -5,11 +5,11 @@
             <q-form v-on:submit.prevent="login" class="q-gutter-md">
                 <q-card-section>
                     <img src="~assets/wims-logo-full.svg" style="height: 50px;" />
-                    <div class="text-h6 text-primary">Logowanie:</div>
+                    <div class="text-h6 text-primary">LOGOWANIE</div>
                 </q-card-section>
                 <q-card-section>
-                    <q-input required v-model="user" no-outline type="text" clearable label="Nazwa użytkownika" />
-                    <q-input required v-model="password" no-outline type="password" clearable label="Hasło" />
+                    <q-input required v-model="username" no-outline type="text"  label="Nazwa użytkownika" />
+                    <q-input required v-model="password" no-outline type="password"  label="Hasło" />
                 </q-card-section>
                 <q-card-actions align="left" class="text-primary">
                     <q-btn flat type="submit" label="Zaloguj" color="primary" />
@@ -22,21 +22,54 @@
 </template>
 
 <script>
+import axios from "axios";
+
+
 export default {
     name: "Login",
+
     data() {
         return {
-            user: "",
+            username: "",
             password: ""
+            
         }
     },
+
     methods: {
         login: function () {
-            const user = this.user
-            const password = this.password
-            this.$store.dispatch('login', { user, password })
-                .then(() => this.$router.push('/'))
-                .catch(err => console.log(err))
+            const user = this.username;
+            const password = this.password;
+            const url = this.$API_URL + "users/login";
+
+            return axios
+                .post(url, {
+                    userName: user,
+                    password: password
+                })
+                .then((response) => {
+                    const token = response.headers.authorization;
+                    localStorage.setItem("token", token);
+
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Zalogowano",
+                        icon: "check_circle_outline",
+                    });
+                    EventBus.$emit("logged", 'logged');
+                    this.$router.push("/");
+                })
+                .catch(() => {
+                    localStorage.removeItem("token");
+
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd Logowania",
+                        icon: "report_problem",
+                    });
+                });
         }
     }
 }
