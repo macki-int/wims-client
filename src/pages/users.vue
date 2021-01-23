@@ -237,16 +237,16 @@ export default {
                     this.$q.notify({
                         color: "positive",
                         position: "top",
-                        message: "Zaktualizowano dane produktu",
+                        message: "Zaktualizowano dane użytkownika",
                         icon: "check_circle_outline",
                     });
-                    this.getProducts();
+                    this.getUsers();
                 })
                 .catch(() => {
                     this.$q.notify({
                         color: "negative",
                         position: "top",
-                        message: "Błąd aktualizacji produktu",
+                        message: "Błąd aktualizacji danych użytkownika",
                         icon: "report_problem",
                     });
                 });
