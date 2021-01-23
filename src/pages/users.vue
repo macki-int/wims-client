@@ -30,8 +30,10 @@
                         </q-td>
                     </q-tr>
                 </q-table>
+            <q-card-section>
+                <q-btn flat label="Nowy Użytkownik" color="primary" v-on:click="showAddUserDialog = true" />
+            </q-card-section>
             </q-card>
-            <q-btn flat label="Nowy Użytkownik" color="primary" v-on:click="showAddUserDialog = true" />
             <q-dialog v-model="showAddUserDialog" persistent>
                 <q-card style="min-width: 350px">
                     <q-card-section>
@@ -40,10 +42,10 @@
                     <q-card-section class="q-pt-none">
 
                         <q-input dense v-model.trim="newUsername" label="Nick" type="text" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj nazwę użytkownika']" />
-                        <q-input dense v-model.trim="newFirsName" label="Imoię" type="text" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj imię użytkownika']" />
+                        <q-input dense v-model.trim="newFirsName" label="Imię" type="text" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj imię użytkownika']" />
                         <q-input dense v-model.trim="newLastName" label="Nazwisko" type="text" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj nazwisko użytkownika']" />
                         <q-input dense v-model="newPassword" label="Hasło" type="password" :rules="[(val) => val >= 0 && val.length > 0 || 'Podaj hasło']" />
-                        <q-select dense v-model="newRole" :options="optionsRole" label="Uprawnienia">
+                        <q-select dense v-model="newRole" :options="optionsRole" label="Uprawnienia" />
 
                     </q-card-section>
 
@@ -173,7 +175,7 @@ export default {
                     lastName: this.newLastName,
                     password: this.newPassword,
                     role: this.newRole,
-                    
+
                 }, {
                     headers: { Authorization: localStorage.getItem("token") }
                 }, {
