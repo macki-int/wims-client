@@ -57,7 +57,7 @@
                                 <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
                                     <template>
                                         <div>
-                                            <q-input full-width no-outline type="text" v-model="formProductName" label="Nazwa" readonly />
+                                            <q-input full-width no-outline type="text" v-model="formProductName" readonly />
                                             <q-btn flat label="Nowy produkt" color="primary" v-on:click="dialogNewProduct = true" />
                                             <q-dialog v-model="dialogNewProduct" persistent>
                                                 <q-card style="min-width: 350px">
