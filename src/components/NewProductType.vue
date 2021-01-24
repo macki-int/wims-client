@@ -54,13 +54,23 @@ export default {
                         icon: "check_circle_outline",
                     });
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd dodawania nowej kategorii",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd dodawania nowej kategorii",
+                            icon: "report_problem",
+                        });
+                    };
                 });
             // if (event) {
             //   alert(event.target.tagName)
