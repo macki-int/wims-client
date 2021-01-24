@@ -189,13 +189,23 @@ export default {
                     // alert(event.target.tagName);
                     // console.log('response: ' + JSON.stringify(response.data));
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania kategorii",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania kategorii",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -216,13 +226,23 @@ export default {
                     this.products = response.data;
                 })
 
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania stanów magazynowych",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania stanów magazynowych",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -240,19 +260,30 @@ export default {
                 .then((response) => {
                     this.maxUpdateDate = response.data;
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania daty odstatniej aktualizacji stanów magazynowych",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania daty odstatniej aktualizacji stanów magazynowych",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
         addProduct: function () {
             const url = this.$API_URL + "products";
-            return axios
+
+            axios
                 .post(url, {
                     name: this.newProduct,
                     productType: this.productType,
@@ -261,7 +292,6 @@ export default {
                 }, {
                     contentType: "application/json"
                 })
-
                 .then((response) => {
                     this.$q.notify({
                         color: "positive",
@@ -272,23 +302,32 @@ export default {
                     this.formProductId = response.data.id;
                     this.formProductName = response.data.name;
                     this.dialogNewInventory = true;
-
                     // console.log('post product:' + response.data.id);
                     // return response.data;
                 })
-
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd dodawania noweg produktu",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd dodawania noweg produktu",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
         updateProduct: function () {
             const url = this.$API_URL + "products";
+
             axios
                 .put(url, {
                     id: this.formProductId,
@@ -300,7 +339,6 @@ export default {
                 }, {
                     contentType: "application/json"
                 })
-
                 .then((response) => {
                     this.$q.notify({
                         color: "positive",
@@ -309,14 +347,23 @@ export default {
                         icon: "check_circle_outline",
                     });
                 })
-
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd aktualizacji nazwy produktu",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd aktualizacji nazwy produktu",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -350,14 +397,23 @@ export default {
                     this.getProductsAndQuantityByProductTypeId();
                     this.getMaxUpdateDateByProductType();
                 })
-
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd dodawania nowego stanu magazynu",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd dodawania nowego stanu magazynu",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -375,7 +431,7 @@ export default {
                         id: this.formProductId,
                     },
                     description: this.formDescription,
-                },  {
+                }, {
                     headers: { Authorization: localStorage.getItem("token") }
                 }, {
                     contentType: "application/json"
@@ -391,13 +447,23 @@ export default {
                     this.getProductsAndQuantityByProductTypeId();
                     this.getMaxUpdateDateByProductType();
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Bład aktualizacji stanu magazynu",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Bład aktualizacji stanu magazynu",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
