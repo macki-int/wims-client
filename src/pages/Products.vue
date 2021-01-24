@@ -85,7 +85,6 @@
                             </template>
                         </q-select>
                         <q-input dense v-model="editedProduct.name" label="Nazwa produktu" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']" />
-                        <!-- <q-input dense v-model="editedProduct.active" label="Nazwa produktu" /> -->
                         <q-checkbox class="q-pt-md" dense v-model="editedProduct.active" size="sm" label="Aktywny" />
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
