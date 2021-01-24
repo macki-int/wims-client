@@ -219,13 +219,23 @@ export default {
                 .then((response) => {
                     this.productTypes = response.data;
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania kategorii",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania kategorii",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -241,7 +251,7 @@ export default {
                 .then((response) => {
                     this.products = response.data;
                 })
-                .catch(() => {
+                .catch((error) => {
                     if (error.response.status === 403) {
                         this.$q.notify({
                             color: "negative",
@@ -290,19 +300,28 @@ export default {
                     });
                     this.getProducts();
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd aktualizacji produktu",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd aktualizacji produktu",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
         showDetailProduct: function (props) {
             this.detailProduct = Object.assign({}, props);
-            // EventBus.$emit("click", this.detailProduct);
             this.getInventoriesByProductId();
             this.showDetailProductDialog = true;
         },
@@ -320,13 +339,23 @@ export default {
                 .then((response) => {
                     this.inventories = response.data;
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania informacji o stanach magazynowych",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania informacji o stanach magazynowych",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -356,14 +385,24 @@ export default {
                         icon: "check_circle_outline",
                     });
                 })
-                .catch(() => {
-                    this.$q.notify({
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
                             color: "negative",
                             position: "top",
-                            message: "Błąd aktywacji/dezaktywacji produktu!",
+                            message: "Nie jesteś zalogowany",
                             icon: "report_problem",
-                        }),
-                        this.getProducts();
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                                color: "negative",
+                                position: "top",
+                                message: "Błąd aktywacji/dezaktywacji produktu!",
+                                icon: "report_problem",
+                            }),
+                            this.getProducts();
+                    }
                 });
         },
 
@@ -406,13 +445,23 @@ export default {
                         }),
                         this.getProducts();
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd usuwania produktu!",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd usuwania produktu!",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
