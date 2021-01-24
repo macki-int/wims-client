@@ -37,15 +37,27 @@
         </q-card>
         <template>
             <q-dialog v-model="showDetailUserDialog">
-                <q-card style="min-width: 700px">
+                <q-card style="min-width: 800px">
                     <q-card-section>
-                        <div class="text-primary">Zestawienie rezerwacji dla: {{ detailUser.username }} </div>
+                        <div class="text-primary">Zestawienie rezerwacji dla: <strong>{{ detailUser.username }}</strong></div>
                     </q-card-section>
                     <q-card-section>
                         <q-table dense flat :data="reservations" :columns="columnsDetails" row-key="name" v-bind:request="getReservationsByUserId">
                             <q-tr slot="body" slot-scope="props" :props="props">
+                                <q-td key="productName" :props="props">
+                                {{ props.row.inventory.product.name }}
+                                </q-td>
+                                <q-td key="width" :props="props">
+                                    {{ props.row.inventory.productWidth }}
+                                </q-td>
+                                <q-td key="length" :props="props">
+                                    {{ props.row.inventory.productLength }}
+                                </q-td>
                                 <q-td key="quantity" :props="props">
                                     {{ props.row.quantity }}
+                                </q-td>
+                                <q-td key="area" :props="props">
+                                    {{ props.row.inventory.productWidth * props.row.inventory.productLength * props.row.quantity }}
                                 </q-td>
                                 <q-td key="startDate" :props="props">
                                     {{ props.row.startDate }}
@@ -154,13 +166,15 @@ export default {
                     field: "username",
                     align: "left",
                     sortable: true,
-                }, {
+                },
+                {
                     name: "firstName",
                     label: "Imię",
                     field: "firstName",
                     align: "left",
                     sortable: true,
-                }, {
+                },
+                {
                     name: "lastName",
                     label: "Nazwisko",
                     field: "firstName",
@@ -187,9 +201,38 @@ export default {
             ],
 
             columnsDetails: [{
+                    name: "productName",
+                    label: "Wyrób",
+                    field: (row) => row.inventory.product,
+                    field: "",
+                    align: "left",
+                    sortable: true,
+                },
+                {
+                    name: "width",
+                    label: "Szerokość",
+                    field: "width",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "length",
+                    label: "Długość",
+                    field: "length",
+                    align: "right",
+                    sortable: true,
+                },
+                {
                     name: "quantity",
                     label: "Ilość",
                     field: "quantity",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "area",
+                    label: "Powierzchnia",
+                    field: "",
                     align: "right",
                     sortable: true,
                 },
@@ -365,6 +408,7 @@ export default {
                 })
                 .then((response) => {
                     this.reservations = response.data;
+                    console.log(this.reservations);
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
