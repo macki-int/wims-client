@@ -38,7 +38,7 @@ import axios from "axios";
 
 export default {
     name: "MainLayout",
-    
+
     components: {
         ProductTypeMenuLink,
         NewProductType,
@@ -74,7 +74,7 @@ export default {
 
             axios
                 .get(url, {
-                    contentType : "application/json",
+                    contentType: "application/json",
                     dataType: "json",
                     headers: { "Authorization": localStorage.getItem("token") }
                 })
@@ -82,13 +82,23 @@ export default {
                     this.productTypes = response.data;
                     // console.log('response: ' + JSON.stringify(response.data));
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania kategorii",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania kategorii",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
