@@ -189,19 +189,29 @@ export default {
                 .then((response) => {
                     this.reservations = response.data;
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania informacji o rezerwacjach",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania informacji o rezerwacjach",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
         addReservation: function () {
             const url = this.$API_URL + "reservations";
-            
+
             return axios
                 .post(url, {
                     quantity: this.newReservationQuantity,
@@ -228,13 +238,23 @@ export default {
                     });
                     this.getReservationsByInventoryId();
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd dodawania nowej rezerwacji",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd dodawania nowej rezerwacji",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -274,13 +294,23 @@ export default {
                     });
                     this.getReservationsByInventoryId();
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd aktualizacji rezerwacji",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd aktualizacji rezerwacji",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -322,13 +352,23 @@ export default {
                     });
                     this.getReservationsByInventoryId();
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd usuwania rezerwacji!",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd usuwania rezerwacji!",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -344,13 +384,23 @@ export default {
                 .then((response) => {
                     this.users = response.data;
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania listy użytkowników",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania listy użytkowników",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
