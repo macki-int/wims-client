@@ -242,12 +242,22 @@ export default {
                     this.products = response.data;
                 })
                 .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania listy produktów",
-                        icon: "report_problem",
-                    });
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania listy produktów",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 

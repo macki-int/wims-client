@@ -65,6 +65,7 @@ import axios from "axios";
 
 export default {
     name: "ProductTypeMenuLink",
+    
     props: {
         id: {
             type: Number,
@@ -79,6 +80,7 @@ export default {
             default: "forward",
         },
     },
+
     data() {
         return {
             confirmDelete: false,
