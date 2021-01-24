@@ -231,13 +231,23 @@ export default {
                 .then((response) => {
                     this.users = response.data;
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania listy użytkowników",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania listy użytkowników",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -266,13 +276,23 @@ export default {
                     });
                     this.getUsers();
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd dodawania nowego użytkownika",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd dodawania nowego użytkownika",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -307,13 +327,23 @@ export default {
                     });
                     this.getUsers();
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd aktualizacji danych użytkownika",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd aktualizacji danych użytkownika",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -336,13 +366,23 @@ export default {
                 .then((response) => {
                     this.reservations = response.data;
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd pobierania informacji o rezerwacjach użytkownika",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania informacji o rezerwacjach użytkownika",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
@@ -385,13 +425,23 @@ export default {
                         }),
                         this.getUsers();
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd usuwania użytkownika!",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd usuwania użytkownika!",
+                            icon: "report_problem",
+                        });
+                    };
                 });
         },
 
