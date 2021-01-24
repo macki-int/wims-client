@@ -65,7 +65,7 @@ import axios from "axios";
 
 export default {
     name: "ProductTypeMenuLink",
-    
+
     props: {
         id: {
             type: Number,
@@ -108,13 +108,23 @@ export default {
                         icon: "check_circle_outline",
                     });
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd aktualizacji nazwy kategorii",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd aktualizacji nazwy kategorii",
+                            icon: "report_problem",
+                        });
+                    };
                 });
             location.reload();
         },
@@ -134,13 +144,23 @@ export default {
                         icon: "check_circle_outline",
                     });
                 })
-                .catch(() => {
-                    this.$q.notify({
-                        color: "negative",
-                        position: "top",
-                        message: "Błąd usuwania kategorii",
-                        icon: "report_problem",
-                    });
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd usuwania kategorii",
+                            icon: "report_problem",
+                        });
+                    };
                 });
             location.reload();
         },
