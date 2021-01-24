@@ -1,5 +1,5 @@
 <template>
-<q-page class="flex flex-left">
+<q-page class="flex flex-center">
     <q-card class="my-card" style="width: 500px; height: 400px">
         <q-card-section>
             <q-form v-on:submit.prevent="login" class="q-gutter-md">
@@ -8,8 +8,8 @@
                     <div class="text-h6 text-primary">LOGOWANIE</div>
                 </q-card-section>
                 <q-card-section>
-                    <q-input required v-model="username" no-outline type="text"  label="Nazwa użytkownika (nick)" />
-                    <q-input required v-model="password" no-outline type="password"  label="Hasło" />
+                    <q-input required v-model="username" no-outline type="text" label="Nazwa użytkownika (nick)" />
+                    <q-input required v-model="password" no-outline type="password" label="Hasło" />
                 </q-card-section>
                 <q-card-actions align="left" class="text-primary">
                     <q-btn flat type="submit" label="Zaloguj" color="primary" />
@@ -17,13 +17,11 @@
             </q-form>
         </q-card-section>
     </q-card>
-
 </q-page>
 </template>
 
 <script>
 import axios from "axios";
-
 
 export default {
     name: "Login",
@@ -32,7 +30,6 @@ export default {
         return {
             username: "",
             password: ""
-            
         }
     },
 
