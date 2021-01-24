@@ -5,6 +5,7 @@
             <q-card>
                 <q-table dense flat :data="products" :columns="columns" row-key="name" :pagination.sync="pagination" v-bind:request="getProducts">
                     <q-tr slot="body" slot-scope="props" :props="props">
+
                         <q-td key="product" :props="props">
                             {{ props.row.name }}
                         </q-td>
@@ -104,10 +105,6 @@ import axios from "axios";
 
 export default {
     name: "Products",
-
-    components: {
-        // ProductDetail
-    },
 
     mounted() {
         this.getProductTypes();
@@ -387,7 +384,7 @@ export default {
 
             axios
                 .delete(url, {
-                     headers: { Authorization: localStorage.getItem("token") }
+                    headers: { Authorization: localStorage.getItem("token") }
                 }, {
                     contentType: "application/json"
                 })
@@ -409,7 +406,7 @@ export default {
                     });
                 });
         },
-        
+
         filterProductTypes(val, update, abort) {
             update(() => {
                 if (!val) return (this.filteredProductTypes = [...this.productTypes]);
