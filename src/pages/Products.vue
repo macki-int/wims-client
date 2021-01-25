@@ -35,7 +35,7 @@
                         <div class="text-primary">Szczegóły produktu: <strong>{{detailProduct.name}}</strong> </div>
                     </q-card-section>
                     <q-card-section>
-                        <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="index" v-bind:request="getInventoriesByProductId">
+                        <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" v-bind:request="getInventoriesByProductId">
                             <q-tr slot="body" slot-scope="props" :props="props">
                                 <q-td key="productWidth" :props="props">
                                     {{ props.row.productWidth }}
