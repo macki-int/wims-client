@@ -408,7 +408,6 @@ export default {
                 })
                 .then((response) => {
                     this.reservations = response.data;
-                    console.log(this.reservations);
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
