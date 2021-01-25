@@ -6,7 +6,7 @@
             <q-toolbar-title>
                 <q-btn v-if="auth=='logged'" to="products" flat color="white" label="Produkty" no-caps />
                 <q-btn v-if="auth==''" to="login" flat color="white" label="Logowanie" no-caps />
-                <q-btn v-if="auth=='logged'" v-on:click="logout" flat color="white" label="Wylogowywanie" no-caps />
+                <q-btn v-if="auth=='logged'" v-on:click="logout" flat color="white" label="Wyloguj" no-caps />
             </q-toolbar-title>
             <!-- <div>Wims v{{ $q.version }}</div> -->
             <q-btn v-if="auth=='logged'" to="users" flat label="Admin" no-caps />
