@@ -5,7 +5,6 @@
             <q-card>
                 <q-table dense flat :data="products" :columns="columns" row-key="name" :pagination.sync="pagination" v-bind:request="getProducts">
                     <q-tr slot="body" slot-scope="props" :props="props">
-
                         <q-td key="product" :props="props">
                             {{ props.row.name }}
                         </q-td>
@@ -28,16 +27,15 @@
                         </q-td>
                     </q-tr>
                 </q-table>
-
             </q-card>
 
             <q-dialog v-model="showDetailProductDialog">
                 <q-card style="min-width: 700px">
                     <q-card-section>
-                        <div class="text-primary">Szczegóły produktu: {{detailProduct.name}} </div>
+                        <div class="text-primary">Szczegóły produktu: <strong>{{detailProduct.name}}</strong> </div>
                     </q-card-section>
                     <q-card-section>
-                        <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" v-bind:request="getInventoriesByProductId">
+                        <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="index" v-bind:request="getInventoriesByProductId">
                             <q-tr slot="body" slot-scope="props" :props="props">
                                 <q-td key="productWidth" :props="props">
                                     {{ props.row.productWidth }}
@@ -69,7 +67,7 @@
             <q-dialog v-model="showEditProductDialog">
                 <q-card style="min-width: 350px">
                     <q-card-section>
-                        <div class="text-primary">Edycja produktu:</div>
+                        <div class="text-primary">Edycja produktu</div>
                     </q-card-section>
                     <q-card-section class="q-pt-none">
                         <q-select dense v-model="productType" :options="filteredProductTypes" label="Kategoria produktu" v-on:filter="filterProductTypes" :display-value="productType.name" selected="productType.name" autofocus>
@@ -132,7 +130,8 @@ export default {
                 rowsPerPage: 25,
             },
 
-            columns: [{
+            columns: [
+                {
                     name: "product",
                     label: "Nazwa",
                     field: "name",
