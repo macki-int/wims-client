@@ -119,7 +119,6 @@ export default {
 
             editedProduct: [],
             products: [],
-
             inventories: [],
 
             detailProduct: [],
@@ -130,8 +129,7 @@ export default {
                 rowsPerPage: 25,
             },
 
-            columns: [
-                {
+            columns: [{
                     name: "product",
                     label: "Nazwa",
                     field: "name",
