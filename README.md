@@ -1,6 +1,6 @@
 # Wims (wims-client)
 
-## **Warehouse system**
+## **warehouse inventory management system**
 Zarządzanie stanami magazynowymi wyrobów konfekcjownowanych w rulonach.
 
 Funkcjonalność:
