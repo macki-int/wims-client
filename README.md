@@ -1,34 +1,30 @@
 # Wims (wims-client)
 
-Warehouse system
+## **Warehouse system**
+Zarządzanie stanami magazynowymi wyrobów konfekcjownowanych w rulonach.
 
-## Install the dependencies
-```bash
-npm install
-```
+Funkcjonalność:
+- logowanie/wylogowywanie z systemu
+- tworzenie kategorii wyrobów
+- dodawanie/usuwanie wyrobów
+- przypisanie wyrobu do kategorii
+- aktywacja/dezaktywacja wyrobu
+- dodawanie stanów magazynowych
+- dodawanie/usuwanie rezerwacji wyrobów na określony czas
+- dodawanie/usuwanie użytkownków oraz nadawanie im uprawnień
+ 
 
+
+
+---
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
 quasar dev
 ```
-
-### Lint the files
-```bash
-npm run lint
-```
-
 ### Build the app for production
 ```bash
 quasar build
 ```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
-
-
 ### Deploying with Surge
-# npm install -g surge
 ```bash
-quasar build
-
 surge dist/spa
