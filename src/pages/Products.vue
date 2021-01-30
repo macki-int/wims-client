@@ -3,29 +3,42 @@
     <div class="q-pa-md">
         <q-card class="my-card" style="min-width: 650px">
             <q-card>
-                <q-table dense flat :data="products" :columns="columns" row-key="name" :pagination.sync="pagination" v-bind:request="getProducts">
-                    <q-tr slot="body" slot-scope="props" :props="props">
-                        <q-td key="product" :props="props">
-                            {{ props.row.name }}
-                        </q-td>
-                        <q-td key="type" :props="props">
-                            {{ props.row.productType.name }}
-                        </q-td>
-                        <q-td key="active" :props="props">
-                            <q-checkbox dense v-model="props.row.active" size="sm" color="grey" v-on:click.native="activateProduct(props)" />
-                        </q-td>
-                        <q-td key="action" :props="props">
-                            <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="showDetailProduct(props.row)">
-                                <q-tooltip content-class="bg-blue-8">Pokaż stany magazynowe produktu</q-tooltip>
-                            </q-btn>
-                            <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editProduct(props)">
-                                <q-tooltip content-class="bg-blue-8">Edytuj produkt</q-tooltip>
-                            </q-btn>
-                            <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
-                                <q-tooltip content-class="bg-red">Usuń produkt</q-tooltip>
-                            </q-btn>
-                        </q-td>
-                    </q-tr>
+                <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getProducts">
+                    <!-- <template slot="top-left" slot-scope="props" > -->
+                    <!-- <q-search hide-underline color="secondary" v-model="filter" class="col-6" /> -->
+                    <template slot="body" slot-scope="props">
+                        <q-tr :props="props">
+                            <q-td key="product" :props="props">
+                                {{ props.row.name }}
+                            </q-td>
+                            <q-td key="type" :props="props">
+                                {{ props.row.productType.name }}
+                            </q-td>
+                            <q-td key="active" :props="props">
+                                <q-checkbox dense v-model="props.row.active" size="sm" color="grey" v-on:click.native="activateProduct(props)" />
+                            </q-td>
+                            <q-td key="action" :props="props">
+                                <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="showDetailProduct(props.row)">
+                                    <q-tooltip content-class="bg-blue-8">Pokaż stany magazynowe produktu</q-tooltip>
+                                </q-btn>
+                                <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editProduct(props)">
+                                    <q-tooltip content-class="bg-blue-8">Edytuj produkt</q-tooltip>
+                                </q-btn>
+                                <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
+                                    <q-tooltip content-class="bg-red">Usuń produkt</q-tooltip>
+                                </q-btn>
+                            </q-td>
+                        </q-tr>
+                    </template>
+                    <template slot="top-right">
+                        <q-search color="primary">
+                            <q-input dense v-model="filter">
+                                <template v-slot:append>
+                                    <q-icon name="search" />
+                                </template>
+                            </q-input>
+                        </q-search>
+                    </template>
                 </q-table>
             </q-card>
 
@@ -113,6 +126,8 @@ export default {
             showEditProductDialog: false,
             showDetailProductDialog: false,
 
+            filter: "",
+
             productType: "",
             productTypes: [],
             filteredProductTypes: [],
@@ -122,6 +137,8 @@ export default {
             inventories: [],
 
             detailProduct: [],
+
+            search: "",
 
             pagination: {
                 sortBy: "type",
