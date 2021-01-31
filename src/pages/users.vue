@@ -3,7 +3,21 @@
     <div class="q-pa-md">
         <q-card class="my-card" style="min-width: 650px">
             <q-card>
-                <q-table dense flat :data="users" :columns="columns" row-key="name" :pagination.sync="pagination" v-bind:request="getUsers">
+                <q-table dense flat :data="users" :columns="columns" row-key="name"  :filter="filter" :pagination.sync="pagination" v-bind:request="getUsers">
+                    <template slot="top-left">
+                        <div class="q-pa-sm text-h6 text-primary">
+                            Lista użytkowników
+                        </div>
+                    </template>
+                    <template slot="top-right">
+                        <q-search color="primary">
+                            <q-input dense v-model="filter">
+                                <template v-slot:append>
+                                    <q-icon name="search" />
+                                </template>
+                            </q-input>
+                        </q-search>
+                    </template>
                     <q-tr slot="body" slot-scope="props" :props="props">
                         <q-td key="username" :props="props">
                             {{ props.row.username }}
@@ -145,6 +159,8 @@ export default {
             users: [],
 
             detailUser: [],
+
+            filter: "",
 
             newUsername: "",
             newFirstName: "",
