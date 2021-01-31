@@ -10,13 +10,11 @@
                         </div>
                     </template>
                     <template slot="top-right">
-                        <q-search>
                             <q-input dense v-model="filter">
                                 <template v-slot:append>
                                     <q-icon name="search" />
                                 </template>
                             </q-input>
-                        </q-search>
                     </template>
                     <q-tr slot="body" slot-scope="props" :props="props">
                         <q-td key="username" :props="props">
@@ -140,7 +138,7 @@
             <q-dialog v-model="showResetUserPasswordDialog" persistent>
                 <q-card style="min-width: 350px">
                     <q-card-section>
-                        <div class="text-primary">Resetowanie hasła użytkownika:</div>
+                        <div class="text-primary">Resetowanie hasła użytkownika: <strong>{{ editedUser.username }}</strong></div>
                     </q-card-section>
                     <q-card-section class="q-pt-none">
                         <q-input dense v-model="newUserPassword" label="Nowe hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj hasło']" />
@@ -475,10 +473,10 @@ export default {
 
         updateUserPassword: function (editedUser) {
             const url = this.$API_URL + "users/password/" + editedUser.id;
-console.log(url)
+            
             axios
                 .patch(url, {
-                    password: this.editedUser.password
+                    password: this.newUserPassword
                 }, {
                     headers: { Authorization: localStorage.getItem("token") }
                 }, {
