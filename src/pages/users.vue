@@ -10,7 +10,7 @@
                         </div>
                     </template>
                     <template slot="top-right">
-                        <q-search color="primary">
+                        <q-search>
                             <q-input dense v-model="filter">
                                 <template v-slot:append>
                                     <q-icon name="search" />
@@ -474,8 +474,8 @@ export default {
         },
 
         updateUserPassword: function (editedUser) {
-            const url = this.$API_URL + "users/password/" + editedUser.row.id;
-
+            const url = this.$API_URL + "users/password/" + editedUser.id;
+console.log(url)
             axios
                 .patch(url, {
                     password: this.editedUser.password
