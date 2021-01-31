@@ -4,8 +4,20 @@
         <q-card class="my-card" style="min-width: 650px">
             <q-card>
                 <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getProducts">
-                    <!-- <template slot="top-left" slot-scope="props" > -->
-                    <!-- <q-search hide-underline color="secondary" v-model="filter" class="col-6" /> -->
+                    <template slot="top-left">
+                        <div class="q-pa-sm text-h6 text-primary">
+                            Lista produktów
+                        </div>
+                    </template>
+                    <template slot="top-right">
+                        <q-search color="primary">
+                            <q-input dense v-model="filter">
+                                <template v-slot:append>
+                                    <q-icon name="search" />
+                                </template>
+                            </q-input>
+                        </q-search>
+                    </template>
                     <template slot="body" slot-scope="props">
                         <q-tr :props="props">
                             <q-td key="product" :props="props">
@@ -29,15 +41,6 @@
                                 </q-btn>
                             </q-td>
                         </q-tr>
-                    </template>
-                    <template slot="top-right">
-                        <q-search color="primary">
-                            <q-input dense v-model="filter">
-                                <template v-slot:append>
-                                    <q-icon name="search" />
-                                </template>
-                            </q-input>
-                        </q-search>
                     </template>
                 </q-table>
             </q-card>
