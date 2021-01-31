@@ -10,13 +10,11 @@
                         </div>
                     </template>
                     <template slot="top-right">
-                        <q-search>
                             <q-input dense v-model="filter">
                                 <template v-slot:append>
                                     <q-icon name="search" />
                                 </template>
                             </q-input>
-                        </q-search>
                     </template>
                     <template slot="body" slot-scope="props">
                         <q-tr :props="props">
