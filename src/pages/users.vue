@@ -3,7 +3,7 @@
     <div class="q-pa-md">
         <q-card class="my-card" style="min-width: 650px">
             <q-card>
-                <q-table dense flat :data="users" :columns="columns" row-key="name"  :filter="filter" :pagination.sync="pagination" v-bind:request="getUsers">
+                <q-table dense flat :data="users" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getUsers">
                     <template slot="top-left">
                         <div class="q-pa-sm text-h6 text-primary">
                             Lista użytkowników
@@ -38,6 +38,9 @@
                             <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editUser(props)">
                                 <q-tooltip content-class="bg-blue-8">Edytuj użytkownika</q-tooltip>
                             </q-btn>
+                            <q-btn flat size="sm" dense unelevated color="primary" icon="miscellaneous_services" v-on:click="resetPassword(props)">
+                                <q-tooltip content-class="bg-blue-8">Resetuj hasło</q-tooltip>
+                            </q-btn>
                             <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
                                 <q-tooltip content-class="bg-red">Usuń użytkownika</q-tooltip>
                             </q-btn>
@@ -59,7 +62,7 @@
                         <q-table dense flat :data="reservations" :columns="columnsDetails" row-key="name" v-bind:request="getReservationsByUserId">
                             <q-tr slot="body" slot-scope="props" :props="props">
                                 <q-td key="productName" :props="props">
-                                {{ props.row.inventory.product.name }}
+                                    {{ props.row.inventory.product.name }}
                                 </q-td>
                                 <q-td key="width" :props="props">
                                     {{ props.row.inventory.productWidth }}
@@ -104,7 +107,6 @@
                         <q-input dense v-model.trim="editedUser.username" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" />
                         <q-input dense v-model.trim="editedUser.firstName" label="Imię" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj imię użytkownika']" />
                         <q-input dense v-model.trim="editedUser.lastName" label="Nazwisko" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwisko użytkownika']" />
-                        <!-- <q-input dense v-model="newPassword" label="Hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj hasło']" /> -->
                         <q-select dense v-model="editedUser.role" :options="optionsRole" label="Uprawnienia" />
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
@@ -134,6 +136,23 @@
                 </q-card>
             </q-dialog>
         </template>
+        <template>
+            <q-dialog v-model="showResetUserPasswordDialog" persistent>
+                <q-card style="min-width: 350px">
+                    <q-card-section>
+                        <div class="text-primary">Resetowanie hasła użytkownika:</div>
+                    </q-card-section>
+                    <q-card-section class="q-pt-none">
+                        <q-input dense v-model="newUserPassword" label="Nowe hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj hasło']" />
+                        <q-input dense v-model="newUserPassword2" label="Powtórz hasło" type="password" :rules="[(val) => (newUserPassword === newUserPassword2) || 'Hasła nie są identyczne']" />
+                    </q-card-section>
+                    <q-card-actions align="right" class="text-primary">
+                        <q-btn flat label="Anuluj" v-close-popup />
+                        <q-btn flat label="Zapisz" v-on:click="updateUserPassword(editedUser)" v-close-popup />
+                    </q-card-actions>
+                </q-card>
+            </q-dialog>
+        </template>
     </div>
 
 </q-page>
@@ -152,6 +171,7 @@ export default {
     data() {
         return {
             showEditUserDialog: false,
+            showResetUserPasswordDialog: false,
             showDetailUserDialog: false,
             showAddUserDialog: false,
 
@@ -167,6 +187,9 @@ export default {
             newLastName: "",
             newPassword: "",
             newRole: "ROLE_USER",
+
+            newUserPassword: "",
+            newUserPassword2: "",
 
             reservations: [],
 
@@ -439,6 +462,51 @@ export default {
                             color: "negative",
                             position: "top",
                             message: "Błąd pobierania informacji o rezerwacjach użytkownika",
+                            icon: "report_problem",
+                        });
+                    };
+                });
+        },
+
+        resetPassword: function (props) {
+            this.editedUser = Object.assign({}, props.row);
+            this.showResetUserPasswordDialog = true;
+        },
+
+        updateUserPassword: function (editedUser) {
+            const url = this.$API_URL + "users/password/" + editedUser.row.id;
+
+            axios
+                .patch(url, {
+                    password: this.editedUser.password
+                }, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
+                })
+                .then((response) => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Hasło zostało zmienione",
+                        icon: "check_circle_outline",
+                    });
+                    this.getUsers();
+                })
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd resetowania hasła użytkownika",
                             icon: "report_problem",
                         });
                     };
