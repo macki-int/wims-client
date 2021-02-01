@@ -36,7 +36,7 @@
                             <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editUser(props)">
                                 <q-tooltip content-class="bg-blue-8">Edytuj użytkownika</q-tooltip>
                             </q-btn>
-                            <q-btn flat size="sm" dense unelevated color="primary" icon="miscellaneous_services" v-on:click="resetPassword(props)">
+                            <q-btn flat size="sm" dense unelevated color="primary" icon="settings" v-on:click="resetPassword(props)">
                                 <q-tooltip content-class="bg-blue-8">Resetuj hasło</q-tooltip>
                             </q-btn>
                             <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
@@ -473,7 +473,7 @@ export default {
 
         updateUserPassword: function (editedUser) {
             const url = this.$API_URL + "users/password/" + editedUser.id;
-            
+
             axios
                 .patch(url, {
                     password: this.newUserPassword
