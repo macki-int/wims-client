@@ -9,7 +9,7 @@ Vue.use(VueRouter)
 
 // Vue.prototype.$API_URL = "http://localhost:8080/";
 Vue.prototype.$API_URL = "https://wims-mj.herokuapp.com/"
-// Vue.prototype.$API_URL = "https://wims.herokuapp.com/"
+// Vue.prototype.$API_URL = "https://v1-wims.herokuapp.com/"
 
 /*
  * If not building with SSR mode, you can
