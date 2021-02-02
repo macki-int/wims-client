@@ -13,7 +13,7 @@
         </q-toolbar>
     </q-header>
 
-    <q-drawer v-if="auth=='logged'" v-model="leftDrawerOpen" show-if-above bordered content-class="bg-blue-8">
+    <q-drawer v-if="auth=='logged'" v-model="leftDrawerOpen" :width="260" show-if-above bordered content-class="bg-blue-8">
         <q-list ref="onUpdateProductTypeList">
             <q-item-label header class="text-grey-1">KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class="text-grey-1" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
