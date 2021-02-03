@@ -3,8 +3,7 @@
     <div class="q-pa-md">
         <div class="row">
             <div class="col-6-md q-pr-md">
-                <q-card class="my-card" style="min-width: 800px">
-                    <div style="min-height: 800px">
+                <q-card class="my-card" style="min-width: 750px; min-height: 800px">
                         <q-card-section>
                             <div class="text-h6">
                                 {{ productType.name }}
@@ -42,13 +41,11 @@
                                 </tr>
                             </tbody>
                         </q-markup-table>
-                    </div>
                 </q-card>
             </div>
 
-            <div class="col-3-md" style="width: 400px">
-                <q-card class="my-card">
-                    <div style="min-height: 800px">
+            <div class="col-3-md">
+                <q-card class="my-card" style="min-width: 400px; min-height: 800px">
                         <q-card-section>
                             <div class="q-pa-md" style="max-width: 470px">
                                 <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
@@ -99,14 +96,12 @@
                                         </q-dialog>
                                         <q-btn flat :disabled="disabled" label="Zapisz" type="submit" color="primary" />
                                     </div>
-                                    <!-- <q-badge v-if="newInventoryIndicator" outline color="primary" align="middle" label="Dodajesz nowy asortyment" />
-                                    <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" /> -->
+                                    <!-- <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" /> -->
                                     <q-separator color="primary" class="q-ml-sm" size="2px" />
                                     <ProductReservation ref="refReservation" />
                                 </q-form>
                             </div>
                         </q-card-section>
-                    </div>
                 </q-card>
             </div>
         </div>
