@@ -33,7 +33,7 @@
                                     <td class="text-right">{{ product.productLength }}</td>
                                     <td class="text-right">{{ product.quantity }}</td>
                                     <td class="text-right">
-                                        {{ product.productWidth * product.productLength * product.quantity                      }}
+                                        {{ product.productWidth * product.productLength * product.quantity }}
                                     </td>
                                     <td class="text-right">
                                         <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="product.product.active" name="check" />
