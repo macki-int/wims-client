@@ -4,104 +4,104 @@
         <div class="row">
             <div class="col-6-md q-pr-md">
                 <q-card class="my-card" style="min-width: 750px; min-height: 800px">
-                        <q-card-section>
-                            <div class="text-h6">
-                                {{ productType.name }}
-                                <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-xl" size="xs" color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
-                                <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-md" size="xs" color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne produkty"></q-checkbox>
-                                <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
-                            </div>
-                        </q-card-section>
-                        <q-markup-table dense class="no-shadow">
-                            <thead>
-                                <tr>
-                                    <th class="text-left" hidden>Id</th>
-                                    <th class="text-left">Nazwa</th>
-                                    <th class="text-right">Szerokość</th>
-                                    <th class="text-right">Długość</th>
-                                    <th class="text-right">Ilość</th>
-                                    <th class="text-right">Powierzchnia</th>
-                                    <th class="text-right">Aktywny</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="cursor-pointer" v-for="(product, id) in products" :key="id" v-on:click="onRowClick(product)">
-                                    <td class="text-left" hidden>{{ product.product.id }}</td>
-                                    <td class="text-left">{{ product.product.name }}</td>
-                                    <td class="text-right">{{ product.productWidth }}</td>
-                                    <td class="text-right">{{ product.productLength }}</td>
-                                    <td class="text-right">{{ product.quantity }}</td>
-                                    <td class="text-right">
-                                        {{ product.productWidth * product.productLength * product.quantity }}
-                                    </td>
-                                    <td class="text-right">
-                                        <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="product.product.active" name="check" />
-                                        <!-- <q-checkbox size='xs' disable color='grey' v-model='product.product.active'></q-checkbox> -->
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </q-markup-table>
+                    <q-card-section>
+                        <div class="text-h6">
+                            {{ productType.name }}
+                            <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-xl" size="xs" color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
+                            <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-md" size="xs" color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne produkty"></q-checkbox>
+                            <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
+                        </div>
+                    </q-card-section>
+                    <q-markup-table dense class="no-shadow">
+                        <thead>
+                            <tr>
+                                <th class="text-left" hidden>Id</th>
+                                <th class="text-left">Nazwa</th>
+                                <th class="text-right">Szerokość</th>
+                                <th class="text-right">Długość</th>
+                                <th class="text-right">Ilość</th>
+                                <th class="text-right">Powierzchnia</th>
+                                <th class="text-right">Aktywny</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="cursor-pointer" v-for="(product, id) in products" :key="id" v-on:click="onRowClick(product)">
+                                <td class="text-left" hidden>{{ product.product.id }}</td>
+                                <td class="text-left">{{ product.product.name }}</td>
+                                <td class="text-right">{{ setNumericFormat(product.productWidth) }}</td>
+                                <td class="text-right">{{ setNumericFormat(product.productLength) }}</td>
+                                <td class="text-right">{{ setNumericFormat(product.quantity) }}</td>
+                                <td class="text-right">
+                                    {{ setNumericFormat(product.productWidth * product.productLength * product.quantity) }}
+                                </td>
+                                <td class="text-right">
+                                    <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="product.product.active" name="check" />
+                                    <!-- <q-checkbox size='xs' disable color='grey' v-model='product.product.active'></q-checkbox> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </q-markup-table>
                 </q-card>
             </div>
 
             <div class="col-3-md">
                 <q-card class="my-card" style="min-width: 400px; min-height: 800px">
-                        <q-card-section>
-                            <div class="q-pa-md" style="max-width: 470px">
-                                <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
-                                    <template>
-                                        <div>
-                                            <q-input full-width no-outline type="text" v-model="formProductName" style="font-size: 2em" readonly />
-                                            <q-btn flat label="Nowy produkt" color="primary" v-on:click="dialogNewProduct = true" />
-                                            <q-dialog v-model="dialogNewProduct" persistent>
-                                                <q-card style="min-width: 350px">
-                                                    <q-card-section>
-                                                        <div class="text-primary">Nazwa nowego produktu:</div>
-                                                    </q-card-section>
-                                                    <q-card-section class="q-pt-none">
-                                                        <q-input dense v-model.trim="newProduct" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']" v-on:keyup.enter="dialogNewProduct = false" autofocus />
-                                                    </q-card-section>
-                                                    <q-card-actions align="right" class="text-primary">
-                                                        <q-btn flat label="Anuluj" v-close-popup />
-                                                        <q-btn flat label="Zapisz" v-on:click="addProduct" v-close-popup />
-                                                    </q-card-actions>
-                                                </q-card>
-                                            </q-dialog>
-                                        </div>
-                                    </template>
-                                    <q-separator color="primary" class="q-ml-sm" size="2px" />
-                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
-                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formLength" label="Długość" />
-                                    <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
-                                    <q-input full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
-                                    <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
+                    <q-card-section>
+                        <div class="q-pa-md" style="max-width: 470px">
+                            <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
+                                <template>
                                     <div>
-                                        <q-btn flat :disabled="disabled" label="Nowy asortyment" type="reset" color="primary" />
-                                        <q-dialog v-model="dialogNewInventory" persistent>
+                                        <q-input full-width no-outline type="text" v-model="formProductName" style="font-size: 2em" readonly />
+                                        <q-btn flat label="Nowy produkt" color="primary" v-on:click="dialogNewProduct = true" />
+                                        <q-dialog v-model="dialogNewProduct" persistent>
                                             <q-card style="min-width: 350px">
                                                 <q-card-section>
-                                                    <div class="text-primary">Dodawanie nowego asortymentu:</div>
+                                                    <div class="text-primary">Nazwa nowego produktu:</div>
                                                 </q-card-section>
                                                 <q-card-section class="q-pt-none">
-                                                    <q-input dense v-model="formWidth" label="Szerokość" type="number" :decimals="2" :rules="[(val) => val > 0 && val.length > 0]" autofocus />
-                                                    <q-input dense v-model="formLength" label="Długość" type="number" :decimals="2" :rules="[(val) => val > 0 && val.length > 0]" />
-                                                    <q-input dense v-model="formQuantity" label="Ilość" type="number" :rules="[(val) => val > 0 && val.length > 0]" />
-                                                    <q-input dense v-model="formDescription" label="Uwagi" type="textarea" autogrow />
+                                                    <q-input dense v-model.trim="newProduct" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']" v-on:keyup.enter="dialogNewProduct = false" autofocus />
                                                 </q-card-section>
                                                 <q-card-actions align="right" class="text-primary">
                                                     <q-btn flat label="Anuluj" v-close-popup />
-                                                    <q-btn flat label="Zapisz" v-on:click.prevent="addInventory" v-close-popup />
+                                                    <q-btn flat label="Zapisz" v-on:click="addProduct" v-close-popup />
                                                 </q-card-actions>
                                             </q-card>
                                         </q-dialog>
-                                        <q-btn flat :disabled="disabled" label="Zapisz" type="submit" color="primary" />
                                     </div>
-                                    <!-- <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" /> -->
-                                    <q-separator color="primary" class="q-ml-sm" size="2px" />
-                                    <ProductReservation ref="refReservation" />
-                                </q-form>
-                            </div>
-                        </q-card-section>
+                                </template>
+                                <q-separator color="primary" class="q-ml-sm" size="2px" />
+                                <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
+                                <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formLength" label="Długość" />
+                                <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
+                                <q-input full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
+                                <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
+                                <div>
+                                    <q-btn flat :disabled="disabled" label="Nowy asortyment" type="reset" color="primary" />
+                                    <q-dialog v-model="dialogNewInventory" persistent>
+                                        <q-card style="min-width: 350px">
+                                            <q-card-section>
+                                                <div class="text-primary">Dodawanie nowego asortymentu:</div>
+                                            </q-card-section>
+                                            <q-card-section class="q-pt-none">
+                                                <q-input dense v-model="formWidth" label="Szerokość" type="number" :decimals="2" :rules="[(val) => val > 0 && val.length > 0]" autofocus />
+                                                <q-input dense v-model="formLength" label="Długość" type="number" :decimals="2" :rules="[(val) => val > 0 && val.length > 0]" />
+                                                <q-input dense v-model="formQuantity" label="Ilość" type="number" :rules="[(val) => val > 0 && val.length > 0]" />
+                                                <q-input dense v-model="formDescription" label="Uwagi" type="textarea" autogrow />
+                                            </q-card-section>
+                                            <q-card-actions align="right" class="text-primary">
+                                                <q-btn flat label="Anuluj" v-close-popup />
+                                                <q-btn flat label="Zapisz" v-on:click.prevent="addInventory" v-close-popup />
+                                            </q-card-actions>
+                                        </q-card>
+                                    </q-dialog>
+                                    <q-btn flat :disabled="disabled" label="Zapisz" type="submit" color="primary" />
+                                </div>
+                                <!-- <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" /> -->
+                                <q-separator color="primary" class="q-ml-sm" size="2px" />
+                                <ProductReservation ref="refReservation" />
+                            </q-form>
+                        </div>
+                    </q-card-section>
                 </q-card>
             </div>
         </div>
@@ -490,7 +490,10 @@ export default {
 
         recalculateArea: function () {
             this.formArea = this.formWidth * this.formLength * this.formQuantity;
-            this.formArea = new Intl.NumberFormat('de-DE').format(this.formArea);
+        },
+
+        setNumericFormat: function (num) {
+            return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
     },
 };
