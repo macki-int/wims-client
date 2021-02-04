@@ -490,6 +490,7 @@ export default {
 
         recalculateArea: function () {
             this.formArea = this.formWidth * this.formLength * this.formQuantity;
+            this.formArea = new Intl.NumberFormat('de-DE').format(this.formArea);
         }
     },
 };
