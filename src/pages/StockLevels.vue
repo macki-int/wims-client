@@ -30,7 +30,7 @@
                                 <td class="text-left">{{ product.product.name }}</td>
                                 <td class="text-right">{{ setNumericFormat(product.productWidth) }}</td>
                                 <td class="text-right">{{ setNumericFormat(product.productLength) }}</td>
-                                <td class="text-right">{{ setNumericFormat(product.quantity) }}</td>
+                                <td class="text-right">{{ product.quantity }}</td>
                                 <td class="text-right">
                                     {{ setNumericFormat(product.productWidth * product.productLength * product.quantity) }}
                                 </td>
