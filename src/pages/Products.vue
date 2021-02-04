@@ -52,16 +52,16 @@
                         <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" v-bind:request="getInventoriesByProductId">
                             <q-tr slot="body" slot-scope="props" :props="props">
                                 <q-td key="productWidth" :props="props">
-                                    {{ props.row.productWidth }}
+                                    {{ setNumericFormat(props.row.productWidth) }}
                                 </q-td>
                                 <q-td key="productLength" :props="props">
-                                    {{ props.row.productLength }}
+                                    {{ setNumericFormat(props.row.productLength) }}
                                 </q-td>
                                 <q-td key="quantity" :props="props">
-                                    {{ props.row.quantity }}
+                                    {{ setNumericFormat(props.row.quantity) }}
                                 </q-td>
                                 <q-td key="area" :props="props">
-                                    {{ props.row.productWidth * props.row.productLength * props.row.quantity }}
+                                    {{ setNumericFormat(props.row.productWidth * props.row.productLength * props.row.quantity) }}
                                 </q-td>
                                 <q-td key="description" :props="props">
                                     {{ props.row.description }}
@@ -487,6 +487,10 @@ export default {
                 const needle = val.toLowerCase();
                 this.filteredProductTypes = this.productTypes.filter((v) => `${v.name}`.indexOf(needle) > -1);
             });
+        },
+        
+        setNumericFormat: function (num) {
+            return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
     }
 }
