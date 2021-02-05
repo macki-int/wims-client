@@ -58,7 +58,7 @@
                                     {{ setNumericFormat(props.row.productLength) }}
                                 </q-td>
                                 <q-td key="quantity" :props="props">
-                                    {{ setNumericFormat(props.row.quantity) }}
+                                    {{ props.row.quantity }}
                                 </q-td>
                                 <q-td key="area" :props="props">
                                     {{ setNumericFormat(props.row.productWidth * props.row.productLength * props.row.quantity) }}
