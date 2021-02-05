@@ -63,16 +63,16 @@
                                     {{ props.row.inventory.product.name }}
                                 </q-td>
                                 <q-td key="width" :props="props">
-                                    {{ props.row.inventory.productWidth }}
+                                    {{ setNumericFormat(props.row.inventory.productWidth) }}
                                 </q-td>
                                 <q-td key="length" :props="props">
-                                    {{ props.row.inventory.productLength }}
+                                    {{ setNumericFormat(props.row.inventory.productLength) }}
                                 </q-td>
                                 <q-td key="quantity" :props="props">
                                     {{ props.row.quantity }}
                                 </q-td>
                                 <q-td key="area" :props="props">
-                                    {{ props.row.inventory.productWidth * props.row.inventory.productLength * props.row.quantity }}
+                                    {{ setNumericFormat(props.row.inventory.productWidth * props.row.inventory.productLength * props.row.quantity) }}
                                 </q-td>
                                 <q-td key="startDate" :props="props">
                                     {{ props.row.startDate }}
@@ -569,6 +569,10 @@ export default {
                     };
                 });
         },
+
+        setNumericFormat: function (num) {
+            return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
 
     }
 }
