@@ -48,16 +48,21 @@ export default {
         EventBus.$on("logged", status => {
             this.auth = status
             this.getProductTypes();
-        })
+        });
 
         if (localStorage.getItem("token")) {
             this.auth = "logged";
             this.getProductTypes();
-        }
+        };
+
+        this.$root.$on("logout", (item, response) => {
+            this.logout();
+        });
     },
 
     destroyed: function () {
         EventBus.$off("logged");
+        EventBus.$off("logout");
     },
 
     data() {
@@ -90,8 +95,19 @@ export default {
                             message: "Nie jesteś zalogowany",
                             icon: "report_problem",
                         });
-                        this.$router.push("/login")
-                    } else {
+                        // this.$router.push("/login")
+                        this.logout();
+                    } else if (error.response.status === 500){
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Strona nie istnieje",
+                            icon: "report_problem",
+                        });
+                        // this.$router.push("/login")
+                        this.logout();
+                    }
+                        else {
                         this.$q.notify({
                             color: "negative",
                             position: "top",

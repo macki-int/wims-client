@@ -1,7 +1,7 @@
 <template>
 <q-item clickable>
     <q-item-section v-if="icon" avatar v-on:click="getProductsByProductType(name)">
-        <q-icon color="blue-3" size="14px"  :name="icon" />
+        <q-icon color="blue-3" size="14px" :name="icon" />
     </q-item-section>
 
     <q-item-section v-on:click="getProductsByProductType(id)">
@@ -9,7 +9,7 @@
         <q-item-label hidden caption>{{ id }}</q-item-label>
     </q-item-section>
 
-    <q-item-section >
+    <q-item-section>
         <div class="row">
             <div class="col">
                 <q-btn size="sm" unelevated dense color="white" text-color="primary" icon="create" class="q-mr-xs float-right" v-on:click="save = true">
@@ -153,7 +153,7 @@ export default {
                             icon: "report_problem",
                         });
                         this.$router.push("/login")
-                    } else {
+                    }  else {
                         this.$q.notify({
                             color: "negative",
                             position: "top",

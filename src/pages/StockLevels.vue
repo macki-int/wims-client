@@ -186,6 +186,14 @@ export default {
                             icon: "report_problem",
                         });
                         this.$router.push("/login")
+                    } else if (error.response.status === 500) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Strona nie istnieje",
+                            icon: "report_problem",
+                        });
+                        this.$root.$emit("logout", item, response)
                     } else {
                         this.$q.notify({
                             color: "negative",
@@ -222,7 +230,17 @@ export default {
                             message: "Nie jesteś zalogowany",
                             icon: "report_problem",
                         });
-                        this.$router.push("/login")
+                        // this.$router.push("/login")
+                        this.$root.$emit("logout", item, response)
+                    } else if (error.response.status === 500) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Strona nie istnieje",
+                            icon: "report_problem",
+                        });
+                        // this.$router.push("/login")
+                        this.$root.$emit("logout", item, response)
                     } else {
                         this.$q.notify({
                             color: "negative",
