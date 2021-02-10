@@ -221,7 +221,7 @@ export default {
                 {
                     name: "role",
                     label: "Uprawnienia",
-                    field: "role",
+                    field: (row) => (row.role=="ROLE_ADMIN") ? "ADMIN"  : "USER",
                     align: "left",
                     sortable: true,
                 },
