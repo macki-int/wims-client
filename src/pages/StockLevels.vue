@@ -12,7 +12,14 @@
                             <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </div>
                     </q-card-section>
-                    <q-table dense flat :data="products" :columns="columns" row-key="name"  :pagination.sync="pagination" v-bind:request="getProductsAndQuantityByProductTypeId" >
+                    <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getProductsAndQuantityByProductTypeId">
+                        <template slot="top-right">
+                            <q-input dense v-model="filter">
+                                <template v-slot:append>
+                                    <q-icon name="search" />
+                                </template>
+                            </q-input>
+                        </template>
                         <q-tr slot="body" slot-scope="props" :props="props">
                             <q-td key="product" :props="props">
                                 {{ props.row.product.name }}
@@ -230,7 +237,7 @@ export default {
                 {
                     name: "active",
                     label: "Aktywny",
-                    field: (row)=> row.product.active,
+                    field: (row) => row.product.active,
                     align: "right",
                     sortable: true,
                 }
