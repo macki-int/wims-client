@@ -12,7 +12,28 @@
                             <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </div>
                     </q-card-section>
-                    <q-markup-table dense class="no-shadow">
+                    <q-table dense flat :data="products" :columns="columns" row-key="name"  :pagination.sync="pagination" v-bind:request="getProductsAndQuantityByProductTypeId" >
+                        <q-tr slot="body" slot-scope="props" :props="props">
+                            <q-td key="product" :props="props">
+                                {{ props.row.product.name }}
+                            </q-td>
+                            <q-td key="productWidth" :props="props">
+                                {{ setNumericFormat(props.row.productWidth) }}
+                            </q-td>
+                            <q-td key="productLength" :props="props">
+                                {{ setNumericFormat(props.row.productLength) }}
+                            </q-td>
+                            <q-td key="quantity" :props="props">
+                                {{ props.row.quantity }}
+                            </q-td>
+                            <q-td key="area" :props="props">
+                                {{ setNumericFormat(props.row.productWidth * props.row.productLength * props.row.quantity) }}
+                            </q-td>
+                            <q-td key="active" :props="props">
+                                <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="props.row.product.active" name="check" />
+                            </q-td>
+                        </q-tr>
+                        <!-- <q-markup-table dense class="no-shadow">
                         <thead>
                             <tr>
                                 <th class="text-left" hidden>Id</th>
@@ -35,12 +56,15 @@
                                     {{ setNumericFormat(product.productWidth * product.productLength * product.quantity) }}
                                 </td>
                                 <td class="text-right">
-                                    <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="product.product.active" name="check" />
-                                    <!-- <q-checkbox size='xs' disable color='grey' v-model='product.product.active'></q-checkbox> -->
-                                </td>
+                                    <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="product.product.active" name="check" /> -->
+
+                        <!-- <q-checkbox size='xs' disable color='grey' v-model='product.product.active'></q-checkbox> -->
+
+                        <!-- </td>
                             </tr>
                         </tbody>
-                    </q-markup-table>
+                    </q-markup-table> -->
+                    </q-table>
                 </q-card>
             </div>
 
@@ -137,6 +161,14 @@ export default {
 
     data() {
         return {
+            pagination: {
+                sortBy: "type",
+                descending: false,
+                rowsPerPage: 10
+            },
+
+            filter: "",
+
             counter: 0,
             productType: [],
             maxUpdateDate: [],
@@ -158,7 +190,51 @@ export default {
 
             disabled: true,
             dialogNewProduct: false,
-            dialogNewInventory: false
+            dialogNewInventory: false,
+
+            columns: [{
+                    name: "product",
+                    label: "Nazwa",
+                    field: (row) => row.product.name,
+                    align: "left",
+                    sortable: true,
+                },
+                {
+                    name: "productWidth",
+                    label: "Szerokość",
+                    field: "productWidth",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "productLength",
+                    label: "Długość",
+                    field: "productLength",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "quantity",
+                    label: "Ilość",
+                    field: "quantity",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "area",
+                    label: "Powierzchnia",
+                    field: "",
+                    align: "right",
+                    sortable: true,
+                },
+                {
+                    name: "active",
+                    label: "Aktywny",
+                    field: (row)=> row.product.active,
+                    align: "right",
+                    sortable: true,
+                }
+            ]
         };
     },
 
@@ -220,6 +296,8 @@ export default {
                 })
                 .then((response) => {
                     this.products = response.data;
+                    // console.log(this.products);
+                    console.log(this.products[0].product.name);
                 })
 
                 .catch((error) => {
