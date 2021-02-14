@@ -12,7 +12,7 @@
                             <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </div>
                     </q-card-section>
-                    <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getProductsAndQuantityByProductTypeId">
+                    <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getProductsAndQuantityByProductTypeId" >
                         <template slot="top-right">
                             <q-input dense v-model="filter">
                                 <template v-slot:append>
@@ -20,7 +20,7 @@
                                 </template>
                             </q-input>
                         </template>
-                        <q-tr slot="body" slot-scope="props" :props="props">
+                        <q-tr slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row)" >
                             <q-td key="product" :props="props">
                                 {{ props.row.product.name }}
                             </q-td>
@@ -40,37 +40,6 @@
                                 <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="props.row.product.active" name="check" />
                             </q-td>
                         </q-tr>
-                        <!-- <q-markup-table dense class="no-shadow">
-                        <thead>
-                            <tr>
-                                <th class="text-left" hidden>Id</th>
-                                <th class="text-left">Nazwa</th>
-                                <th class="text-right">Szerokość</th>
-                                <th class="text-right">Długość</th>
-                                <th class="text-right">Ilość</th>
-                                <th class="text-right">Powierzchnia</th>
-                                <th class="text-right">Aktywny</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="cursor-pointer" v-for="(product, id) in products" :key="id" v-on:click="onRowClick(product)">
-                                <td class="text-left" hidden>{{ product.product.id }}</td>
-                                <td class="text-left">{{ product.product.name }}</td>
-                                <td class="text-right">{{ setNumericFormat(product.productWidth) }}</td>
-                                <td class="text-right">{{ setNumericFormat(product.productLength) }}</td>
-                                <td class="text-right">{{ product.quantity }}</td>
-                                <td class="text-right">
-                                    {{ setNumericFormat(product.productWidth * product.productLength * product.quantity) }}
-                                </td>
-                                <td class="text-right">
-                                    <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="product.product.active" name="check" /> -->
-
-                        <!-- <q-checkbox size='xs' disable color='grey' v-model='product.product.active'></q-checkbox> -->
-
-                        <!-- </td>
-                            </tr>
-                        </tbody>
-                    </q-markup-table> -->
                     </q-table>
                 </q-card>
             </div>
@@ -173,7 +142,7 @@ export default {
                 descending: false,
                 rowsPerPage: 10
             },
-
+            selected: [],
             filter: "",
 
             counter: 0,
@@ -303,8 +272,6 @@ export default {
                 })
                 .then((response) => {
                     this.products = response.data;
-                    // console.log(this.products);
-                    console.log(this.products[0].product.name);
                 })
 
                 .catch((error) => {
@@ -559,6 +526,7 @@ export default {
         },
 
         onRowClick: function (product) {
+            console.log(product)
             this.formProductId = product.product.id;
             this.formProductName = product.product.name;
             this.formInventoryId = product.id;
