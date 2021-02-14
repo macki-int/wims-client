@@ -45,16 +45,16 @@
             </div>
 
             <div class="col-3-md">
-                <q-card class="my-card" style="min-width: 25vh; min-height: 100%">
+                <q-card class="my-card" style="min-width: 20vw; min-height: 90vh">
                     <q-card-section>
-                        <div class="q-pa-md" style="max-width: 33vh">
+                        <div class="q-pa-md" style="max-width: 30vw">
                             <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
                                 <template>
                                     <div>
                                         <q-input full-width no-outline type="text" v-model="formProductName" style="font-size: 2em" readonly />
                                         <q-btn flat label="Nowy produkt" color="primary" v-on:click="dialogNewProduct = true" />
                                         <q-dialog v-model="dialogNewProduct" persistent>
-                                            <q-card style="min-width: 350px">
+                                            <q-card style="min-width: 15vw">
                                                 <q-card-section>
                                                     <div class="text-primary">Nazwa nowego produktu:</div>
                                                 </q-card-section>
@@ -78,7 +78,7 @@
                                 <div>
                                     <q-btn flat :disabled="disabled" label="Nowy asortyment" type="reset" color="primary" />
                                     <q-dialog v-model="dialogNewInventory" persistent>
-                                        <q-card style="min-width: 350px">
+                                        <q-card style="min-width: 15vw">
                                             <q-card-section>
                                                 <div class="text-primary">Dodawanie nowego asortymentu:</div>
                                             </q-card-section>
