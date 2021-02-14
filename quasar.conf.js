@@ -124,7 +124,7 @@ module.exports = function( /* ctx */ ) {
         manifest: {
           name: `Wims App`,
           short_name: `Wims App`,
-          description: `Stock management app`,
+          description: `Werehouse Stock Management System app`,
           display: "standalone",
           orientation: "portrait",
           background_color: "#ffffff",
