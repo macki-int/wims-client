@@ -3,7 +3,7 @@
     <div class="q-pa-md">
         <div class="row">
             <div class="col-6-md q-pr-md">
-                <q-card class="my-card" style="min-width: 70vh; min-height: 100%">
+                <q-card class="my-card" style="min-width: 40vw; min-height: 90vh">
                     <q-card-section>
                         <div class="text-h6">
                             {{ productType.name }}
