@@ -78,7 +78,7 @@
                 </q-card>
             </q-dialog>
 
-            <q-dialog v-model="showEditProductDialog">
+            <q-dialog v-model="showEditProductDialog" persistent>
                 <q-card style="min-width: 30vh">
                     <q-card-section>
                         <div class="text-primary">Edycja produktu</div>
