@@ -1,7 +1,7 @@
 <template>
 <q-page class="flex flex-left">
     <div class="q-pa-md">
-        <q-card class="my-card" style="min-width: 70vh; min-height: 100%">
+        <q-card class="my-card" style="min-width: 40vw; min-height: 90vh">
             <q-card>
                 <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getProducts">
                     <template slot="top-left">
