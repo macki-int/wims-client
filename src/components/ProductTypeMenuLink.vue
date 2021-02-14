@@ -1,4 +1,5 @@
 <template>
+
 <q-item clickable>
     <q-item-section v-if="icon" avatar v-on:click="getProductsByProductType(name)">
         <q-icon color="blue-3" size="14px" :name="icon" />

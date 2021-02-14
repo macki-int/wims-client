@@ -22,7 +22,7 @@
             <NewProductType />
         </div>
     </q-drawer>
-
+   
     <q-page-container>
         <q-page padding>
             <router-view />
