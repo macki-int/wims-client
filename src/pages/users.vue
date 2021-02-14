@@ -96,7 +96,7 @@
             </q-dialog>
         </template>
         <template>
-            <q-dialog v-model="showEditUserDialog" >
+            <q-dialog v-model="showEditUserDialog" persistent>
                 <q-card style="min-width: 30vh">
                     <q-card-section>
                         <div class="text-primary">Edycja danych użytkownika:</div>
@@ -115,7 +115,7 @@
             </q-dialog>
         </template>
         <template>
-            <q-dialog v-model="showAddUserDialog" persistent >
+            <q-dialog v-model="showAddUserDialog" persistent>
                 <q-card style="min-width: 30vh">
                     <q-card-section>
                         <div class="text-primary">Dodawanie użytkownika:</div>
