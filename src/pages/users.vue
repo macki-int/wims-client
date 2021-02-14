@@ -1,7 +1,7 @@
 <template>
 <q-page class="flex flex-left">
     <div class="q-pa-md">
-        <q-card class="my-card" style="min-width: 650px">
+        <q-card class="my-card" style="min-width: 70vh; min-height: 100%">
             <q-card>
                 <q-table dense flat :data="users" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getUsers">
                     <template slot="top-left">
@@ -52,7 +52,7 @@
         </q-card>
         <template>
             <q-dialog v-model="showDetailUserDialog">
-                <q-card style="min-width: 800px">
+                <q-card style="min-width: 80vh">
                     <q-card-section>
                         <div class="text-primary">Zestawienie rezerwacji dla: <strong>{{ detailUser.username }}</strong></div>
                     </q-card-section>
@@ -97,7 +97,7 @@
         </template>
         <template>
             <q-dialog v-model="showEditUserDialog" persistent>
-                <q-card style="min-width: 350px">
+                <q-card style="min-width: 30vh">
                     <q-card-section>
                         <div class="text-primary">Edycja danych użytkownika:</div>
                     </q-card-section>
@@ -116,7 +116,7 @@
         </template>
         <template>
             <q-dialog v-model="showAddUserDialog" persistent>
-                <q-card style="min-width: 350px">
+                <q-card style="min-width: 30vh">
                     <q-card-section>
                         <div class="text-primary">Dodawanie użytkownika:</div>
                     </q-card-section>
@@ -136,7 +136,7 @@
         </template>
         <template>
             <q-dialog v-model="showResetUserPasswordDialog" persistent>
-                <q-card style="min-width: 350px">
+                <q-card style="min-width: 30vh">
                     <q-card-section>
                         <div class="text-primary">Resetowanie hasła użytkownika: <strong>{{ editedUser.username }}</strong></div>
                     </q-card-section>
