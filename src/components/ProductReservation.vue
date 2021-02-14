@@ -16,7 +16,7 @@
                     <q-tooltip content-class="bg-blue-8">Edytuj rezerwację</q-tooltip>
                 </q-btn>
                 <q-dialog v-model="showEditReservationDialog" persistent>
-                    <q-card style="min-width: 30vh">
+                    <q-card style="min-width: 15vw">
                         <q-card-section>
                             <div class="text-primary">Edycja rezerwacji:</div>
                         </q-card-section>
@@ -66,7 +66,7 @@
 
     <q-btn flat :disabled="disabledNewReservation" label="Nowa Rezerwacja" color="primary" v-on:click="showAddReservationDialog = true" />
     <q-dialog v-model="showAddReservationDialog" persistent>
-        <q-card style="min-width: 30vh">
+        <q-card style="min-width: 15vw">
             <q-card-section>
                 <div class="text-primary">Dodawanie rezerwacji:</div>
             </q-card-section>
