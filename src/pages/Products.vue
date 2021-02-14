@@ -44,7 +44,7 @@
             </q-card>
 
             <q-dialog v-model="showDetailProductDialog">
-                <q-card style="min-width: 70vh">
+                <q-card style="min-width: 40vw">
                     <q-card-section>
                         <div class="text-primary">Szczegóły produktu: <strong>{{detailProduct.name}}</strong> </div>
                     </q-card-section>
@@ -79,7 +79,7 @@
             </q-dialog>
 
             <q-dialog v-model="showEditProductDialog" persistent>
-                <q-card style="min-width: 30vh">
+                <q-card style="min-width: 15vw">
                     <q-card-section>
                         <div class="text-primary">Edycja produktu</div>
                     </q-card-section>
