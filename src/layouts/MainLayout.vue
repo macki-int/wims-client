@@ -124,7 +124,7 @@ export default {
             this.$q
                 .dialog({
                     title: "<span class=text-primary><strong>WIMS</strong> v0.01(beta)",
-                    message: "<span class=text-primary>Where Inventory Management System"
+                    message: "<span class=text-primary>Warehouse Inventory Management System"
                     +"<br/>"
                     +"<strong>MJ</strong></span>",               
                     html: true,
