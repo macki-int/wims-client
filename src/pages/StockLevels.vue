@@ -140,7 +140,7 @@ export default {
             pagination: {
                 sortBy: "type",
                 descending: false,
-                rowsPerPage: 10
+                rowsPerPage: 25
             },
             selected: [],
             filter: "",
