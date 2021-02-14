@@ -13,7 +13,7 @@
         </q-toolbar>
     </q-header>
 
-    <q-drawer v-if="auth=='logged'" v-model="leftDrawerOpen" :width="260" show-if-above bordered content-class="bg-blue-8">
+    <q-drawer v-if="auth=='logged'" v-model="leftDrawerOpen" :width="280" show-if-above bordered content-class="bg-blue-8">
         <q-list ref="onUpdateProductTypeList">
             <q-item-label header class="text-grey-1">KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class="text-grey-1" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
@@ -21,8 +21,11 @@
         <div>
             <NewProductType />
         </div>
+        <div class="q-ml-md column justify-end" style="height: 65vh">
+            <q-icon color="blue-3" size="30px" name="mood" v-on:click="showInfoDialog" />
+        </div>
     </q-drawer>
-   
+
     <q-page-container>
         <q-page padding>
             <router-view />
@@ -97,7 +100,7 @@ export default {
                         });
                         // this.$router.push("/login")
                         this.logout();
-                    } else if (error.response.status === 500){
+                    } else if (error.response.status === 500) {
                         this.$q.notify({
                             color: "negative",
                             position: "top",
@@ -106,8 +109,7 @@ export default {
                         });
                         // this.$router.push("/login")
                         this.logout();
-                    }
-                        else {
+                    } else {
                         this.$q.notify({
                             color: "negative",
                             position: "top",
@@ -116,6 +118,17 @@ export default {
                         });
                     };
                 });
+        },
+
+        showInfoDialog: function () {
+            this.$q
+                .dialog({
+                    title: "<span class=text-primary><strong>WIMS</strong> v0.01(beta)",
+                    message: "<span class=text-primary>Where Inventory Management System"
+                    +"<br/>"
+                    +"<strong>MJ</strong></span>",               
+                    html: true,
+                })
         },
 
         logout: function () {
