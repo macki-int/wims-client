@@ -15,7 +15,7 @@
                 <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editReservation(props)">
                     <q-tooltip content-class="bg-blue-8">Edytuj rezerwację</q-tooltip>
                 </q-btn>
-                <q-dialog v-model="showEditReservationDialog">
+                <q-dialog v-model="showEditReservationDialog" persistent>
                     <q-card style="min-width: 350px">
                         <q-card-section>
                             <div class="text-primary">Edycja rezerwacji:</div>
