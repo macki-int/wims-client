@@ -1,7 +1,7 @@
 <template>
 <q-page class="flex flex-left">
     <div class="q-pa-md">
-        <q-card class="my-card" style="min-width: 650px">
+        <q-card class="my-card" style="min-width: 70vh; min-height: 100%">
             <q-card>
                 <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getProducts">
                     <template slot="top-left">
@@ -44,7 +44,7 @@
             </q-card>
 
             <q-dialog v-model="showDetailProductDialog">
-                <q-card style="min-width: 700px">
+                <q-card style="min-width: 70vh">
                     <q-card-section>
                         <div class="text-primary">Szczegóły produktu: <strong>{{detailProduct.name}}</strong> </div>
                     </q-card-section>
@@ -79,7 +79,7 @@
             </q-dialog>
 
             <q-dialog v-model="showEditProductDialog">
-                <q-card style="min-width: 350px">
+                <q-card style="min-width: 30vh">
                     <q-card-section>
                         <div class="text-primary">Edycja produktu</div>
                     </q-card-section>
