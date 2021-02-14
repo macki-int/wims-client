@@ -52,7 +52,7 @@
         </q-card>
         <template>
             <q-dialog v-model="showDetailUserDialog">
-                <q-card style="min-width: 80vh">
+                <q-card style="min-width: 50vw">
                     <q-card-section>
                         <div class="text-primary">Zestawienie rezerwacji dla: <strong>{{ detailUser.username }}</strong></div>
                     </q-card-section>
@@ -97,7 +97,7 @@
         </template>
         <template>
             <q-dialog v-model="showEditUserDialog" persistent>
-                <q-card style="min-width: 30vh">
+                <q-card style="min-width: 15vw">
                     <q-card-section>
                         <div class="text-primary">Edycja danych użytkownika:</div>
                     </q-card-section>
@@ -116,7 +116,7 @@
         </template>
         <template>
             <q-dialog v-model="showAddUserDialog" persistent>
-                <q-card style="min-width: 30vh">
+                <q-card style="min-width: 15vw">
                     <q-card-section>
                         <div class="text-primary">Dodawanie użytkownika:</div>
                     </q-card-section>
@@ -136,7 +136,7 @@
         </template>
         <template>
             <q-dialog v-model="showResetUserPasswordDialog" persistent>
-                <q-card style="min-width: 30vh">
+                <q-card style="min-width: 15vw">
                     <q-card-section>
                         <div class="text-primary">Resetowanie hasła użytkownika: <strong>{{ editedUser.username }}</strong></div>
                     </q-card-section>
