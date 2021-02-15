@@ -10,13 +10,24 @@
                         </div>
                     </template>
                     <template slot="top-right">
-                            <q-input dense v-model="filter">
-                                <template v-slot:append>
-                                    <q-icon name="search" />
-                                </template>
-                            </q-input>
+                        <q-input dense v-model="filter">
+                            <template v-slot:append>
+                                <q-icon name="search" />
+                            </template>
+                        </q-input>
                     </template>
                     <q-tr slot="body" slot-scope="props" :props="props">
+                        <q-td key="role" :props="props">
+                            <div v-if="props.row.role=='ROLE_ADMIN'">
+                                <q-icon class="q-pr-md text-weight-bolder" color="negative" size="24px" name="person" />
+                                <q-tooltip content-class="bg-negative">Administrator</q-tooltip>
+                            </div>
+                            <div v-else>
+                                <q-icon class="q-pr-md text-weight-bolder" color="primary" size="24px" name="person" />
+                                <q-tooltip content-class="bg-primary">Użytkownik</q-tooltip>
+                            </div>
+                            <!-- {{ props.row.role }} -->
+                        </q-td>
                         <q-td key="username" :props="props">
                             {{ props.row.username }}
                         </q-td>
@@ -25,17 +36,6 @@
                         </q-td>
                         <q-td key="lastName" :props="props">
                             {{ props.row.lastName }}
-                        </q-td>
-                        <q-td key="role" :props="props">
-                          <div v-if="props.row.role=='ROLE_ADMIN'">
-                                <q-icon class="q-pr-md text-weight-bolder" color="negative" size="24px" name="person" />
-                                <q-tooltip content-class="bg-negative">Administrator</q-tooltip>
-                            </div>
-                            <div v-else>
-                              <q-icon class="q-pr-md text-weight-bolder" color="primary" size="24px" name="person" />
-                                <q-tooltip content-class="bg-primary">Użytkownik</q-tooltip>
-                            </div>
-                            <!-- {{ props.row.role }} -->
                         </q-td>
                         <q-td key="action" :props="props">
                             <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="showDetailUser(props.row)">
@@ -206,6 +206,13 @@ export default {
             },
 
             columns: [{
+                    name: "role",
+                    label: "Rola",
+                    field: "role",
+                    align: "left",
+                    sortable: true,
+                },
+                {
                     name: "username",
                     label: "Nick",
                     field: "username",
@@ -224,13 +231,6 @@ export default {
                     label: "Nazwisko",
                     field: "firstName",
                     align: "left",
-                    sortable: true,
-                },
-                {
-                    name: "role",
-                    label: "Uprawnienia",
-                    field: "role",
-                    align: "center",
                     sortable: true,
                 },
                 {
