@@ -37,7 +37,7 @@
                                 {{ setNumericFormat(props.row.productWidth * props.row.productLength * props.row.quantity) }}
                             </q-td>
                             <q-td key="active" :props="props">
-                                <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="props.row.product.active" name="check" />
+                                <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="props.row.product.active" size="16px" name="radio_button_checked" />
                             </q-td>
                         </q-tr>
                     </q-table>
