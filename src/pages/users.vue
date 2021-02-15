@@ -27,7 +27,15 @@
                             {{ props.row.lastName }}
                         </q-td>
                         <q-td key="role" :props="props">
-                            {{ props.row.role }}
+                          <div v-if="props.row.role=='ROLE_ADMIN'">
+                                <q-icon class="q-pr-md text-weight-bolder" color="negative" size="24px" name="person" />
+                                <q-tooltip content-class="bg-negative">Administrator</q-tooltip>
+                            </div>
+                            <div v-else>
+                              <q-icon class="q-pr-md text-weight-bolder" color="primary" size="24px" name="person" />
+                                <q-tooltip content-class="bg-primary">Użytkownik</q-tooltip>
+                            </div>
+                            <!-- {{ props.row.role }} -->
                         </q-td>
                         <q-td key="action" :props="props">
                             <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="showDetailUser(props.row)">
@@ -221,8 +229,8 @@ export default {
                 {
                     name: "role",
                     label: "Uprawnienia",
-                    field: (row) => (row.role=="ROLE_ADMIN") ? "ADMIN"  : "USER",
-                    align: "left",
+                    field: "role",
+                    align: "center",
                     sortable: true,
                 },
                 {
