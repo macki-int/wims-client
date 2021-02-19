@@ -7,9 +7,20 @@
                 <q-btn v-if="auth=='logged'" to="products" flat color="white" label="Produkty" no-caps />
                 <q-btn v-if="auth==''" to="login" flat color="white" label="Logowanie" no-caps />
                 <q-btn v-if="auth=='logged'" v-on:click="logout" flat color="white" label="Wyloguj" no-caps />
-            </q-toolbar-title>
             <!-- <div>Wims v{{ $q.version }}</div> -->
-            <q-btn v-if="auth=='logged'" to="users" flat label="Ustawienia" no-caps />
+            </q-toolbar-title>
+            <q-btn v-if="auth=='logged'" flat label="Ustawienia" no-caps />
+            <q-menu >
+                <q-list style="min-width: 100px" >
+                    <q-item clickable v-close-popup>
+                        <q-item-section>Zmiana hasła</q-item-section>
+                    </q-item>
+                     <q-separator />
+                    <q-item clickable to="users" v-close-popup>
+                        <q-item-section>Użytkownicy</q-item-section>
+                    </q-item>
+                </q-list>
+            </q-menu>
         </q-toolbar>
     </q-header>
 
@@ -124,9 +135,9 @@ export default {
             this.$q
                 .dialog({
                     title: "<span class=text-primary><strong>WIMS</strong> v0.01(beta)",
-                    message: "<span class=text-primary>Warehouse Inventory Management System"
-                    +"<br/>"
-                    +"<strong>MJ</strong></span>",               
+                    message: "<span class=text-primary>Warehouse Inventory Management System" +
+                        "<br/>" +
+                        "<strong>MJ</strong></span>",
                     html: true,
                 })
         },
