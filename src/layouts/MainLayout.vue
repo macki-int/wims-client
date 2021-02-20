@@ -7,20 +7,22 @@
                 <q-btn v-if="auth=='logged'" to="products" flat color="white" label="Produkty" no-caps />
                 <q-btn v-if="auth==''" to="login" flat color="white" label="Logowanie" no-caps />
                 <q-btn v-if="auth=='logged'" v-on:click="logout" flat color="white" label="Wyloguj" no-caps />
-            <!-- <div>Wims v{{ $q.version }}</div> -->
+                <!-- <div>Wims v{{ $q.version }}</div> -->
             </q-toolbar-title>
+            <div>
             <q-btn v-if="auth=='logged'" flat label="Ustawienia" no-caps />
-            <q-menu >
-                <q-list style="min-width: 100px" >
-                    <q-item clickable v-close-popup>
-                        <q-item-section>Zmiana hasła</q-item-section>
-                    </q-item>
-                     <q-separator />
-                    <q-item clickable to="users" v-close-popup>
-                        <q-item-section>Użytkownicy</q-item-section>
-                    </q-item>
-                </q-list>
-            </q-menu>
+                <q-menu content-class="text-primary" inverted anchor="bottom left" self="top left">
+                    <q-list style="min-width: 100px">
+                        <q-item clickable v-close-popup>
+                            <q-item-section>Zmiana hasła</q-item-section>
+                        </q-item>
+                        <q-separator />
+                        <q-item clickable to="users" v-close-popup>
+                            <q-item-section>Admin</q-item-section>
+                        </q-item>
+                    </q-list>
+                </q-menu>
+            </div>
         </q-toolbar>
     </q-header>
 
