@@ -10,10 +10,10 @@
                 <!-- <div>Wims v{{ $q.version }}</div> -->
             </q-toolbar-title>
             <div>
-            <q-btn v-if="auth=='logged'" flat label="Ustawienia" no-caps />
+                <q-btn v-if="auth=='logged'" flat label="Ustawienia" no-caps />
                 <q-menu content-class="text-primary" inverted anchor="bottom left" self="top left">
                     <q-list style="min-width: 100px">
-                        <q-item clickable v-close-popup>
+                        <q-item clickable v-on:click="showChangeUserPasswordDialog = true" v-close-popup>
                             <q-item-section>Zmiana hasła</q-item-section>
                         </q-item>
                         <q-separator />
@@ -25,7 +25,24 @@
             </div>
         </q-toolbar>
     </q-header>
-
+    <template>
+        <q-dialog v-model="showChangeUserPasswordDialog" persistent>
+            <q-card style="min-width: 15vw">
+                <q-card-section>
+                    <div class="text-primary">Zmiana hasła</div>
+                </q-card-section>
+                <q-card-section class="q-pt-none">
+                    <q-input dense v-model="oldUserPassword" label="Aktualne hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj aktualne hasło']" />
+                    <q-input dense v-model="newUserPassword" label="Nowe hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj nowe hasło']" />
+                    <q-input dense v-model="newUserPassword2" label="Powtórz hasło" type="password" :rules="[(val) => (newUserPassword === newUserPassword2) || 'Hasła nie są identyczne']" />
+                </q-card-section>
+                <q-card-actions align="right" class="text-primary">
+                    <q-btn flat label="Anuluj" v-close-popup />
+                    <q-btn flat label="Zapisz" v-on:click="updateUserPassword()" v-close-popup />
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
+    </template>
     <q-drawer v-if="auth=='logged'" v-model="leftDrawerOpen" :width="280" show-if-above bordered content-class="bg-blue-8">
         <q-list ref="onUpdateProductTypeList">
             <q-item-label header class="text-white">KATEGORIA:</q-item-label>
@@ -84,6 +101,12 @@ export default {
     data() {
         return {
             leftDrawerOpen: false,
+
+            showChangeUserPasswordDialog: false,
+            oldUserPassword: "",
+            newUserPassword: "",
+            newUserPassword2: "",
+
             productTypes: [],
             auth: ""
         };
@@ -142,6 +165,10 @@ export default {
                         "<strong>MJ</strong></span>",
                     html: true,
                 })
+        },
+
+        updateUserPassword: function () {
+            alert("update password");
         },
 
         logout: function () {
