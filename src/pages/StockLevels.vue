@@ -526,7 +526,6 @@ export default {
         },
 
         onRowClick: function (product) {
-            console.log(product)
             this.formProductId = product.product.id;
             this.formProductName = product.product.name;
             this.formInventoryId = product.id;

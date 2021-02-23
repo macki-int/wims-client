@@ -156,6 +156,10 @@ export default {
                 });
         },
 
+        updateUserPassword: function () {
+            alert("update password");
+        },
+
         showInfoDialog: function () {
             this.$q
                 .dialog({
@@ -165,10 +169,6 @@ export default {
                         "<strong>MJ</strong></span>",
                     html: true,
                 })
-        },
-
-        updateUserPassword: function () {
-            alert("update password");
         },
 
         logout: function () {
