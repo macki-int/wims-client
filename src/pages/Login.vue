@@ -47,6 +47,7 @@ export default {
                 .then((response) => {
                     const token = response.headers.authorization;
                     localStorage.setItem("token", token);
+                    localStorage.setItem("userName", user);
 
                     this.$q.notify({
                         color: "positive",
