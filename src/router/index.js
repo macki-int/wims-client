@@ -7,8 +7,9 @@ window.EventBus = new Vue();
 
 Vue.use(VueRouter)
 
+Vue.prototype.$API_URL ="maksiu.asuscomm.com:4040/";
 // Vue.prototype.$API_URL = "http://localhost:8080/";
-Vue.prototype.$API_URL = "https://wims-mj.herokuapp.com/"
+// Vue.prototype.$API_URL = "https://wims-mj.herokuapp.com/"
 // Vue.prototype.$API_URL = "https://v1-wims.herokuapp.com/"
 
 /*
