@@ -157,16 +157,56 @@ export default {
         },
 
         updateUserPassword: function () {
-            alert("update password");
+            const url = this.$API_URL + "users/password";
+
+            axios
+                .patch(url, {
+                    newPassword: this.newUserPassword,
+                    oldPassword: this.oldUserPassword
+                }, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
+                })
+                .then((response) => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Hasło zostało zmienione",
+                        icon: "check_circle_outline",
+                    });
+                    this.getUsers();
+                })
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd zmiany hasła",
+                            icon: "report_problem",
+                        });
+                    };
+                });
         },
 
         showInfoDialog: function () {
             this.$q
                 .dialog({
-                    title: "<span class=text-primary><strong>WIMS</strong> v0.01(beta)",
+                    title: "<span class=text-primary><strong>WIMS</strong> v0.02(beta)",
                     message: "<span class=text-primary>Warehouse Inventory Management System" +
                         "<br/>" +
-                        "<strong>MJ</strong></span>",
+                        "<strong>MJ</strong>" +
+                        "<br/>" +
+                        "<br/>" +
+                        "<div class=text-caption> Zalogowany: <strong>" + localStorage.getItem("userName") + "</strong></div></span>",
                     html: true,
                 })
         },
