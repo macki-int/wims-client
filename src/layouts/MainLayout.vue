@@ -201,9 +201,9 @@ export default {
             this.$q
                 .dialog({
                     title: "<span class=text-primary><strong>WIMS</strong> v0.02(beta)",
-                    message: "<span class=text-primary>Warehouse Inventory Management System" +
+                    message: "<span class=text-primary><strong>Warehouse Inventory Management System<strong>" +
                         "<br/>" +
-                        "<strong>MJ</strong>" +
+                        "TROLL-Systems Marek Janicki (C)" +
                         "<br/>" +
                         "<br/>" +
                         "<div class=text-caption> Zalogowany: <strong>" + localStorage.getItem("userName") + "</strong></div></span>",
