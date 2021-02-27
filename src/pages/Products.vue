@@ -239,7 +239,7 @@ export default {
                         this.$q.notify({
                             color: "negative",
                             position: "top",
-                            message: "Nie jesteś zalogowany",
+                            message: "Nie masz uprawnień lub zostałeś wylogowany",
                             icon: "report_problem",
                         });
                         this.$router.push("/login")
@@ -271,7 +271,7 @@ export default {
                         this.$q.notify({
                             color: "negative",
                             position: "top",
-                            message: "Nie jesteś zalogowany",
+                            message: "Nie masz uprawnień lub zostałeś wylogowany",
                             icon: "report_problem",
                         });
                         this.$router.push("/login")
@@ -320,7 +320,7 @@ export default {
                         this.$q.notify({
                             color: "negative",
                             position: "top",
-                            message: "Nie jesteś zalogowany",
+                            message: "Nie masz uprawnień lub zostałeś wylogowany",
                             icon: "report_problem",
                         });
                         this.$router.push("/login")
@@ -359,7 +359,7 @@ export default {
                         this.$q.notify({
                             color: "negative",
                             position: "top",
-                            message: "Nie jesteś zalogowany",
+                            message: "Nie masz uprawnień lub zostałeś wylogowany",
                             icon: "report_problem",
                         });
                         this.$router.push("/login")
@@ -405,7 +405,7 @@ export default {
                         this.$q.notify({
                             color: "negative",
                             position: "top",
-                            message: "Nie jesteś zalogowany",
+                            message: "Nie masz uprawnień lub zostałeś wylogowany",
                             icon: "report_problem",
                         });
                         this.$router.push("/login")
@@ -465,7 +465,7 @@ export default {
                         this.$q.notify({
                             color: "negative",
                             position: "top",
-                            message: "Nie jesteś zalogowany",
+                            message: "Nie masz uprawnień lub zostałeś wylogowany",
                             icon: "report_problem",
                         });
                         this.$router.push("/login")
