@@ -59,6 +59,7 @@
         <div class="q-ml-md column justify-end" style="height: 65vh">
             <q-icon color="blue-3" size="30px" name="mood" v-on:click="showInfoDialog" />
         </div>
+        <!-- TODO: add q-dialog info -->
     </q-drawer>
 
     <q-page-container>
@@ -213,7 +214,7 @@ export default {
                         "TROLL-Systems Marek Janicki (C)" +
                         "<br/>" +
                         "<br/>" +
-                        "<div class=text-caption> Zalogowany: <strong>" + this.loggedUser + "</strong></div></span>",
+                        "<div class=text-caption> Zalogowany: <strong>" + localStorage.getItem("userName") + "</strong></div></span>",
                     html: true,
                 })
         },
