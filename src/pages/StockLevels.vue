@@ -173,42 +173,41 @@ export default {
                     label: "Nazwa",
                     field: (row) => row.product.name,
                     align: "left",
-                    sortable: true,
+                    sortable: true
                 },
                 {
                     name: "productWidth",
                     label: "Szerokość",
                     field: "productWidth",
                     align: "right",
-                    sortable: true,
+                    sortable: true
                 },
                 {
                     name: "productLength",
                     label: "Długość",
                     field: "productLength",
                     align: "right",
-                    sortable: true,
+                    sortable: true
                 },
                 {
                     name: "quantity",
                     label: "Ilość",
                     field: "quantity",
                     align: "right",
-                    sortable: true,
+                    sortable: true
                 },
                 {
                     name: "area",
                     label: "Powierzchnia",
                     field: "",
-                    align: "right",
-                    sortable: true,
+                    align: "right"
                 },
                 {
                     name: "active",
                     label: "Aktywny",
                     field: (row) => row.product.active,
                     align: "right",
-                    sortable: true,
+                    sortable: true
                 }
             ]
         };
