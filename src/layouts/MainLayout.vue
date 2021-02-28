@@ -1,5 +1,5 @@
 <template>
-<q-layout view="lHh Lpr lFf" container style="height: 970px" >
+<q-layout view="lHh Lpr lFf" container style="height: 970px">
     <q-header elevated>
         <q-toolbar>
             <q-btn flat dense round icon="menu" aria-label="Menu" v-on:click="leftDrawerOpen = !leftDrawerOpen" />
@@ -25,6 +25,11 @@
             </div>
         </q-toolbar>
     </q-header>
+    <q-footer>
+        <div class="q-ml-md text-caption">
+            Zalogowany: <strong>{{ logedUser }}</strong>
+        </div>
+    </q-footer>
     <template>
         <q-dialog v-model="showChangeUserPasswordDialog" persistent>
             <q-card style="min-width: 15vw">
@@ -57,7 +62,7 @@
     </q-drawer>
 
     <q-page-container>
-        <q-page padding>
+        <q-page>
             <router-view />
         </q-page>
     </q-page-container>
@@ -101,6 +106,7 @@ export default {
     data() {
         return {
             leftDrawerOpen: false,
+            logedUser: localStorage.getItem("userName"),
 
             showChangeUserPasswordDialog: false,
             oldUserPassword: "",
@@ -206,7 +212,7 @@ export default {
                         "TROLL-Systems Marek Janicki (C)" +
                         "<br/>" +
                         "<br/>" +
-                        "<div class=text-caption> Zalogowany: <strong>" + localStorage.getItem("userName") + "</strong></div></span>",
+                        "<div class=text-caption> Zalogowany: <strong>" + this.logedUser + "</strong></div></span>",
                     html: true,
                 })
         },
