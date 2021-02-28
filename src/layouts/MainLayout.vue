@@ -27,7 +27,7 @@
     </q-header>
     <q-footer>
         <div class="q-ml-md text-caption">
-            Zalogowany: <strong>{{ logedUser }}</strong>
+            Zalogowany: <strong>{{ loggedUser }}</strong>
         </div>
     </q-footer>
     <template>
@@ -85,6 +85,7 @@ export default {
     mounted: function () {
         EventBus.$on("logged", status => {
             this.auth = status
+            this.loggedUser = localStorage.getItem("userName");
             this.getProductTypes();
         });
 
@@ -106,7 +107,7 @@ export default {
     data() {
         return {
             leftDrawerOpen: false,
-            logedUser: localStorage.getItem("userName"),
+            loggedUser: "",
 
             showChangeUserPasswordDialog: false,
             oldUserPassword: "",
@@ -212,7 +213,7 @@ export default {
                         "TROLL-Systems Marek Janicki (C)" +
                         "<br/>" +
                         "<br/>" +
-                        "<div class=text-caption> Zalogowany: <strong>" + this.logedUser + "</strong></div></span>",
+                        "<div class=text-caption> Zalogowany: <strong>" + this.loggedUser + "</strong></div></span>",
                     html: true,
                 })
         },
@@ -220,6 +221,8 @@ export default {
         logout: function () {
             this.auth = "";
             localStorage.removeItem("token");
+            localStorage.removeItem("userName");
+            this.loggedUser = "";
             // location.reload();
             this.$q.notify({
                 color: "positive",
