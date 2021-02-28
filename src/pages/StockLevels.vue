@@ -3,7 +3,7 @@
     <div class="q-pa-md">
         <div class="row">
             <div class="col-6-md q-pr-md">
-                <q-card class="my-card" style="min-width: 40vw; min-height: 90vh">
+                <q-card class="my-card" style="min-width: 40vw; min-height: 75vh">
                     <q-card-section>
                         <div class="text-h6">
                             {{ productType.name }}
@@ -45,7 +45,7 @@
             </div>
 
             <div class="col-3-md">
-                <q-card class="my-card" style="min-width: 20vw; min-height: 90vh">
+                <q-card class="my-card" style="min-width: 20vw; min-height: 75vh">
                     <q-card-section>
                         <div class="q-pa-md" style="max-width: 30vw">
                             <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
@@ -140,7 +140,7 @@ export default {
             pagination: {
                 sortBy: "type",
                 descending: false,
-                rowsPerPage: 25
+                rowsPerPage: 20
             },
             selected: [],
             filter: "",
