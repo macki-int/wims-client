@@ -60,6 +60,7 @@ export default {
                 })
                 .catch(() => {
                     localStorage.removeItem("token");
+                    localStorage.removeItem("userName");
 
                     this.$q.notify({
                         color: "negative",

@@ -1,7 +1,7 @@
 <template>
 <q-page class="flex flex-left">
     <div class="q-pa-md">
-        <q-card class="my-card" style="min-width: 40vw; min-height: 90vh">
+        <q-card class="my-card" style="min-width: 40vw; min-height: 75vh">
             <q-card>
                 <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getProducts">
                     <template slot="top-left">
@@ -144,7 +144,7 @@ export default {
             pagination: {
                 sortBy: "type",
                 descending: false,
-                rowsPerPage: 25,
+                rowsPerPage: 20,
             },
 
             columns: [{
@@ -488,7 +488,7 @@ export default {
                 this.filteredProductTypes = this.productTypes.filter((v) => `${v.name}`.indexOf(needle) > -1);
             });
         },
-        
+
         setNumericFormat: function (num) {
             return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
