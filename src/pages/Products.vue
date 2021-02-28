@@ -144,7 +144,7 @@ export default {
             pagination: {
                 sortBy: "type",
                 descending: false,
-                rowsPerPage: 25,
+                rowsPerPage: 20,
             },
 
             columns: [{
@@ -488,7 +488,7 @@ export default {
                 this.filteredProductTypes = this.productTypes.filter((v) => `${v.name}`.indexOf(needle) > -1);
             });
         },
-        
+
         setNumericFormat: function (num) {
             return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
