@@ -92,6 +92,7 @@ export default {
 
         if (localStorage.getItem("token")) {
             this.auth = "logged";
+            this.loggedUser = localStorage.getItem("userName");
             this.getProductTypes();
         };
 
@@ -208,8 +209,8 @@ export default {
         showInfoDialog: function () {
             this.$q
                 .dialog({
-                    title: "<span class=text-primary><strong>WIMS</strong> v0.02(beta)",
-                    message: "<img src='~assets//wims-logo-full.svg'><span class=text-primary><strong>Warehouse Inventory Management System</strong>" +
+                    title: "<span class=text-primary><strong>WIMS</strong> v0.03(beta)",
+                    message: "<span class=text-primary><strong> Warehouse Inventory Management System</strong>" +
                         "<br/>" +
                         "TROLL-Systems Marek Janicki (C)" +
                         "<br/>" +
