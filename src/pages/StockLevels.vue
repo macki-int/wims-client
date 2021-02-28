@@ -12,7 +12,7 @@
                             <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </div>
                     </q-card-section>
-                    <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getProductsAndQuantityByProductTypeId" >
+                    <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter"  :selected.sync="selected" :pagination.sync="pagination" v-bind:request="getProductsAndQuantityByProductTypeId">
                         <template slot="top-right">
                             <q-input dense v-model="filter">
                                 <template v-slot:append>
@@ -20,7 +20,7 @@
                                 </template>
                             </q-input>
                         </template>
-                        <q-tr slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row)" >
+                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row)">
                             <q-td key="product" :props="props">
                                 {{ props.row.product.name }}
                             </q-td>
@@ -137,14 +137,6 @@ export default {
 
     data() {
         return {
-            pagination: {
-                sortBy: "type",
-                descending: false,
-                rowsPerPage: 20
-            },
-            selected: [],
-            filter: "",
-
             counter: 0,
             productType: [],
             maxUpdateDate: [],
@@ -168,6 +160,15 @@ export default {
             dialogNewProduct: false,
             dialogNewInventory: false,
 
+            pagination: {
+                sortBy: "type",
+                descending: false,
+                rowsPerPage: 20
+            },
+
+            filter: "",
+
+            selected: [],
             columns: [{
                     name: "product",
                     label: "Nazwa",
@@ -537,6 +538,7 @@ export default {
             this.newProduct = "";
             this.disabled = false;
             this.recalculateArea();
+            // this.toggleSingleRow(product);
 
             EventBus.$emit("click", product);
             this.$refs.refReservation.getReservationsByInventoryId();
@@ -548,6 +550,11 @@ export default {
             this.formQuantity = 0.0;
             this.formArea = 0.0;
             this.formDescription = "";
+        },
+
+        toggleSingleRow: function (row) {
+            this.selected = [];
+            this.selected.push(row.product.name);
         },
 
         onChange: function () {
