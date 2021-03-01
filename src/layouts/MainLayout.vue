@@ -1,5 +1,5 @@
 <template>
-<q-layout view="lHh Lpr lFf" container style="height: 970px">
+<q-layout view="lHh Lpr lFf" container style="height: 100vh">
     <q-header elevated>
         <q-toolbar>
             <q-btn flat dense round icon="menu" aria-label="Menu" v-on:click="leftDrawerOpen = !leftDrawerOpen" />
@@ -56,7 +56,7 @@
         <div>
             <NewProductType />
         </div>
-        <div class="q-ml-md column justify-end" style="height: 65vh">
+        <div class="q-mb-md q-ml-md fixed-bottom" >
             <q-icon color="blue-3" size="30px" name="mood" v-on:click="showInfoDialog" />
         </div>
         <!-- TODO: add q-dialog info -->
