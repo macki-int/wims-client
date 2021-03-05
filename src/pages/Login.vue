@@ -29,8 +29,10 @@ export default {
     data() {
         return {
             username: "",
-            password: ""
+            password: "",
+        loggedUser:[]
         }
+
     },
 
     methods: {
@@ -55,6 +57,8 @@ export default {
                         message: "Zalogowano",
                         icon: "check_circle_outline",
                     });
+                    getLoggedUser(this.user);
+                    
                     EventBus.$emit("logged", 'logged');
                     this.$router.push("/");
                 })
@@ -69,7 +73,31 @@ export default {
                         icon: "report_problem",
                     });
                 });
+        },
+
+        getLoggedUser: function (user) {
+            const url = this.$API_URL + "users/" + user;
+             return axios
+                .get(url, {
+                    contentType: "application/json",
+                    dataType: "json",
+                    headers: { "Authorization": localStorage.getItem("token") }
+                })
+                .then((response) => {
+                    this.loggedUser = response.data;
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd pobierania informacji o zalogowanym użytkowniku",
+                        icon: "report_problem",
+                    });
+                });
+            
+            console.log(this.loggedUser);
         }
     }
+
 }
 </script>
