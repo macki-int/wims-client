@@ -56,7 +56,7 @@
         <div>
             <NewProductType />
         </div>
-        <div class="q-mb-md q-ml-md fixed-bottom" >
+        <div class="q-mb-md q-ml-md fixed-bottom">
             <q-icon color="blue-3" size="30px" name="mood" v-on:click="showInfoDialog" />
         </div>
         <!-- TODO: add q-dialog info -->
@@ -111,7 +111,7 @@ export default {
         return {
             leftDrawerOpen: false,
             loggedUser: "",
-            loggedUserData: [],
+            loggedUserData: "",
 
             showChangeUserPasswordDialog: false,
             oldUserPassword: "",
@@ -124,10 +124,10 @@ export default {
     },
 
     methods: {
-         getLoggedUser: function () {
-            const url = this.$API_URL + "users/" + localStorage.getItem("userName");
-            console.log(url)
-             return axios
+        getLoggedUser: function () {
+            const url = this.$API_URL + "users/logged/" + localStorage.getItem("userName");
+
+            return axios
                 .get(url, {
                     contentType: "application/json",
                     dataType: "json",
@@ -135,6 +135,8 @@ export default {
                 })
                 .then((response) => {
                     this.loggedUserData = response.data;
+
+                    console.log(this.loggedUserData);
                 })
                 .catch(() => {
                     this.$q.notify({
@@ -144,8 +146,7 @@ export default {
                         icon: "report_problem",
                     });
                 });
-            
-            console.log(this.loggedUserData);
+
         },
 
         getProductTypes: function () {
