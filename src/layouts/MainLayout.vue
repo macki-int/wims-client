@@ -87,6 +87,7 @@ export default {
         EventBus.$on("logged", status => {
             this.auth = status
             this.loggedUser = localStorage.getItem("userName");
+            this.getLoggedUser();
             this.getProductTypes();
         });
 
@@ -110,6 +111,7 @@ export default {
         return {
             leftDrawerOpen: false,
             loggedUser: "",
+            loggedUserData: [],
 
             showChangeUserPasswordDialog: false,
             oldUserPassword: "",
@@ -122,6 +124,30 @@ export default {
     },
 
     methods: {
+         getLoggedUser: function () {
+            const url = this.$API_URL + "users/" + localStorage.getItem("userName");
+            console.log(url)
+             return axios
+                .get(url, {
+                    contentType: "application/json",
+                    dataType: "json",
+                    headers: { "Authorization": localStorage.getItem("token") }
+                })
+                .then((response) => {
+                    this.loggedUserData = response.data;
+                })
+                .catch(() => {
+                    this.$q.notify({
+                        color: "negative",
+                        position: "top",
+                        message: "Błąd pobierania informacji o zalogowanym użytkowniku",
+                        icon: "report_problem",
+                    });
+                });
+            
+            console.log(this.loggedUserData);
+        },
+
         getProductTypes: function () {
             const url = this.$API_URL + "product-types";
 
