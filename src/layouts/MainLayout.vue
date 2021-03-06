@@ -27,7 +27,7 @@
     </q-header>
     <q-footer>
         <div class="q-ml-md text-caption">
-            Zalogowany: <strong>{{ loggedUser }}</strong>
+            Zalogowany: <strong>{{ $loggedUser.firstName + " " + $loggedUser.lastName }}</strong>
         </div>
     </q-footer>
     <template>
@@ -87,6 +87,8 @@ export default {
         EventBus.$on("logged", status => {
             this.auth = status
             this.loggedUser = localStorage.getItem("userName");
+            //TODO przekazać po zalogowani w logged username
+            //potem pobrac usera i wstawić do localstore lub zmiennej globalnej
             this.getLoggedUser();
             this.getProductTypes();
         });
@@ -134,9 +136,10 @@ export default {
                     headers: { "Authorization": localStorage.getItem("token") }
                 })
                 .then((response) => {
-                    this.loggedUserData = response.data;
+                    // this.loggedUserData = response.data;
+                    this.$loggedUser = response.data;
 
-                    console.log(this.loggedUserData);
+                    console.log(this.$loggedUser);
                 })
                 .catch(() => {
                     this.$q.notify({
