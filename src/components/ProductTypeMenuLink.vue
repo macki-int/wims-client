@@ -13,7 +13,7 @@
     <q-item-section>
         <div class="row">
             <div class="col">
-                <q-btn size="sm" unelevated dense color="white" text-color="primary" icon="create" class="q-mr-xs float-right" v-on:click="save = true">
+                <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" size="sm" unelevated dense color="white" text-color="primary" icon="create" class="q-mr-xs float-right" v-on:click="save = true">
                     <q-tooltip content-class="bg-blue-9">Edytuj nazwę kategorii</q-tooltip>
                 </q-btn>
                 <q-dialog v-model="save" persistent>
@@ -35,7 +35,7 @@
             </div>
 
             <div class="col">
-                <q-btn size="sm" unelevated dense color="white" text-color="negative" icon="clear" class="q-mr-xs float-center" v-on:click="confirmDelete = true">
+                <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" size="sm" unelevated dense color="white" text-color="negative" icon="clear" class="q-mr-xs float-center" v-on:click="confirmDelete = true">
                     <q-tooltip content-class="bg-red">Usuń kategorię</q-tooltip>
                 </q-btn>
                 <q-dialog v-model="confirmDelete" persistent>
@@ -82,11 +82,16 @@ export default {
         },
     },
 
+    mounted() {
+        this.getLoggedUserFromLocalStore();
+    },
+
     data() {
         return {
             confirmDelete: false,
             save: false,
             newNameProductType: this.name,
+            loggedUser:""
         };
     },
 
@@ -171,6 +176,10 @@ export default {
                 path: "/" + this.id,
             });
         },
+
+         getLoggedUserFromLocalStore() {
+            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        }
     },
 };
 </script>
