@@ -10,11 +10,11 @@
                         </div>
                     </template>
                     <template slot="top-right">
-                            <q-input dense v-model="filter">
-                                <template v-slot:append>
-                                    <q-icon name="search" />
-                                </template>
-                            </q-input>
+                        <q-input dense v-model="filter">
+                            <template v-slot:append>
+                                <q-icon name="search" />
+                            </template>
+                        </q-input>
                     </template>
                     <template slot="body" slot-scope="props">
                         <q-tr :props="props">
@@ -31,10 +31,10 @@
                                 <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="showDetailProduct(props.row)">
                                     <q-tooltip content-class="bg-blue-8">Pokaż stany magazynowe produktu</q-tooltip>
                                 </q-btn>
-                                <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editProduct(props)">
+                                <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editProduct(props)">
                                     <q-tooltip content-class="bg-blue-8">Edytuj produkt</q-tooltip>
                                 </q-btn>
-                                <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
+                                <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
                                     <q-tooltip content-class="bg-red">Usuń produkt</q-tooltip>
                                 </q-btn>
                             </q-td>
@@ -118,6 +118,7 @@ export default {
     name: "Products",
 
     mounted() {
+        this.getLoggedUserFromLocalStore();
         this.getProductTypes();
         this.getProducts();
     },
@@ -128,6 +129,8 @@ export default {
             showDetailProductDialog: false,
 
             filter: "",
+
+            loggedUser: "",
 
             productType: "",
             productTypes: [],
@@ -491,6 +494,10 @@ export default {
 
         setNumericFormat: function (num) {
             return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        },
+
+        getLoggedUserFromLocalStore() {
+            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         }
     }
 }
