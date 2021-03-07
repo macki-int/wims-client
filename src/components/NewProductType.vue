@@ -1,7 +1,6 @@
 <template>
 <div class="q-pa-md q-gutter-sm">
-    <q-btn label="Nowa kategoria" color="primary" v-on:click="save = true" />
-
+    <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" label="Nowa kategoria" color="primary" v-on:click="save = true" />
     <q-dialog v-model="save" persistent>
         <q-card style="min-width: 350px">
             <q-card-section>
@@ -26,11 +25,16 @@ import axios from "axios";
 
 export default {
     name: "NewProductType",
+    
+    mounted() {
+        this.getLoggedUserFromLocalStore();
+    },
 
     data() {
         return {
             save: false,
             newProductType: "",
+            loggedUser: ""
         };
     },
 
@@ -81,6 +85,10 @@ export default {
             });
             location.reload();
         },
+
+        getLoggedUserFromLocalStore() {
+            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        }
     },
 };
 </script>
