@@ -48,21 +48,20 @@ export default {
                 .then((response) => {
                     const token = response.headers.authorization;
 
+                    localStorage.setItem("token", token);
+
                     this.$q.notify({
                         color: "positive",
                         position: "top",
                         message: "Zalogowano",
                         icon: "check_circle_outline",
                     });
-                    localStorage.setItem("token", token);
-                    localStorage.setItem("userName", user);
 
-                    EventBus.$emit("logged", 'logged');
+                    EventBus.$emit("logged", user);
                     this.$router.push("/");
                 })
                 .catch(() => {
                     localStorage.removeItem("token");
-                    localStorage.removeItem("userName");
 
                     this.$q.notify({
                         color: "negative",
