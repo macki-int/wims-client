@@ -41,20 +41,20 @@
                             <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="showDetailUser(props.row)">
                                 <q-tooltip content-class="bg-blue-8">Pokaż rezerwacje produktów przypisane do użytkownika</q-tooltip>
                             </q-btn>
-                            <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editUser(props)">
+                            <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editUser(props)">
                                 <q-tooltip content-class="bg-blue-8">Edytuj użytkownika</q-tooltip>
                             </q-btn>
-                            <q-btn flat size="sm" dense unelevated color="primary" icon="settings" v-on:click="resetPassword(props)">
+                            <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="primary" icon="settings" v-on:click="resetPassword(props)">
                                 <q-tooltip content-class="bg-blue-8">Resetuj hasło</q-tooltip>
                             </q-btn>
-                            <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
+                            <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
                                 <q-tooltip content-class="bg-red">Usuń użytkownika</q-tooltip>
                             </q-btn>
                         </q-td>
                     </q-tr>
                 </q-table>
                 <q-card-section>
-                    <q-btn flat label="Nowy Użytkownik" color="primary" v-on:click="showAddUserDialog = true" />
+                    <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat label="Nowy Użytkownik" color="primary" v-on:click="showAddUserDialog = true" />
                 </q-card-section>
             </q-card>
         </q-card>
@@ -172,6 +172,7 @@ export default {
     name: "Users",
 
     mounted() {
+        this.getLoggedUserFromLocalStore()
         this.getUsers();
     },
 
@@ -188,6 +189,7 @@ export default {
             detailUser: [],
 
             filter: "",
+            loggedUser: "",
 
             newUsername: "",
             newFirstName: "",
@@ -583,6 +585,10 @@ export default {
 
         setNumericFormat: function (num) {
             return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        },
+
+        getLoggedUserFromLocalStore() {
+            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         }
 
     }
