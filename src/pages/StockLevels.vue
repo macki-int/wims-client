@@ -12,7 +12,7 @@
                             <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </div>
                     </q-card-section>
-                    <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter"  :selected.sync="selected" :pagination.sync="pagination" v-bind:request="getProductsAndQuantityByProductTypeId">
+                    <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :selected.sync="selected" :pagination.sync="pagination" v-bind:request="getProductsAndQuantityByProductTypeId">
                         <template slot="top-right">
                             <q-input dense v-model="filter">
                                 <template v-slot:append>
@@ -52,7 +52,7 @@
                                 <template>
                                     <div>
                                         <q-input full-width no-outline type="text" v-model="formProductName" style="font-size: 2em" readonly />
-                                        <q-btn flat label="Nowy produkt" color="primary" v-on:click="dialogNewProduct = true" />
+                                        <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat label="Nowy produkt" color="primary" v-on:click="dialogNewProduct = true" />
                                         <q-dialog v-model="dialogNewProduct" persistent>
                                             <q-card style="min-width: 15vw">
                                                 <q-card-section>
@@ -76,7 +76,7 @@
                                 <q-input full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
                                 <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
                                 <div>
-                                    <q-btn flat :disabled="disabled" label="Nowy asortyment" type="reset" color="primary" />
+                                    <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Nowy asortyment" type="reset" color="primary" />
                                     <q-dialog v-model="dialogNewInventory" persistent>
                                         <q-card style="min-width: 15vw">
                                             <q-card-section>
@@ -94,7 +94,7 @@
                                             </q-card-actions>
                                         </q-card>
                                     </q-dialog>
-                                    <q-btn flat :disabled="disabled" label="Zapisz" type="submit" color="primary" />
+                                    <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Zapisz" type="submit" color="primary" />
                                 </div>
                                 <!-- <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" /> -->
                                 <q-separator color="primary" class="q-ml-sm" size="2px" />
@@ -130,6 +130,7 @@ export default {
     },
 
     mounted() {
+        this.getLoggedUserFromLocalStore();
         this.getProductType();
         this.getProductsAndQuantityByProductTypeId();
         this.getMaxUpdateDateByProductType();
@@ -167,6 +168,7 @@ export default {
             },
 
             filter: "",
+            loggedUser: "",
 
             selected: [],
             columns: [{
@@ -570,7 +572,11 @@ export default {
 
         setNumericFormat: function (num) {
             return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
+        },
+
+        getLoggedUserFromLocalStore() {
+            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        },
     },
 };
 </script>
