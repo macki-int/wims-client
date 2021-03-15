@@ -117,7 +117,7 @@ export default {
 
     mounted: function () {
         EventBus.$on("click", (product) => {
-            this.inventory = product;
+            this.inventory = product.inventory;
             this.disabledNewReservation = false;
         });
         this.getUsers();
