@@ -22,22 +22,28 @@
                         </template>
                         <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row)">
                             <q-td key="product" :props="props">
-                                {{ props.row.product.name }}
+                                {{ props.row.inventory.product.name }}
+                            </q-td>
+                            <q-td key="reservation" :props="props">
+                                <div v-if="props.row.reservationCounter>0">
+                                    <!-- {{ props.row.reservationCounter }} -->
+                                    <q-icon class="q-pr-md text-weight-bolder" color="grey" size="16px" name="schedule" />
+                                </div>
                             </q-td>
                             <q-td key="productWidth" :props="props">
-                                {{ setNumericFormat(props.row.productWidth) }}
+                                {{ setNumericFormat(props.row.inventory.productWidth) }}
                             </q-td>
                             <q-td key="productLength" :props="props">
-                                {{ setNumericFormat(props.row.productLength) }}
+                                {{ setNumericFormat(props.row.inventory.productLength) }}
                             </q-td>
                             <q-td key="quantity" :props="props">
-                                {{ props.row.quantity }}
+                                {{ props.row.inventory.quantity }}
                             </q-td>
                             <q-td key="area" :props="props">
-                                {{ setNumericFormat(props.row.productWidth * props.row.productLength * props.row.quantity) }}
+                                {{ setNumericFormat(props.row.inventory.productWidth * props.row.inventory.productLength * props.row.inventory.quantity) }}
                             </q-td>
                             <q-td key="active" :props="props">
-                                <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="props.row.product.active" size="16px" name="radio_button_checked" />
+                                <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="props.row.inventory.product.active" size="16px" name="radio_button_checked" />
                             </q-td>
                         </q-tr>
                     </q-table>
@@ -174,28 +180,38 @@ export default {
             columns: [{
                     name: "product",
                     label: "Nazwa",
-                    field: (row) => row.product.name,
+                    field: (row) => row.inventory.product.name,
                     align: "left",
+                    sortable: true
+                },
+                {
+                    name: "reservation",
+                    label: "Rez.",
+                    field: "reservationCounter",
+                    align: "center",
+                    style: "width: 10px",
+                    // headerClasses: "bg-primary text-white",
+                    headerStyle: "max-width: 10px",
                     sortable: true
                 },
                 {
                     name: "productWidth",
                     label: "Szerokość",
-                    field: "productWidth",
+                    field: (row) => row.inventory.productWidth,
                     align: "right",
                     sortable: true
                 },
                 {
                     name: "productLength",
                     label: "Długość",
-                    field: "productLength",
+                    field: (row) => row.inventory.productLength,
                     align: "right",
                     sortable: true
                 },
                 {
                     name: "quantity",
                     label: "Ilość",
-                    field: "quantity",
+                    field: (row) => row.inventory.quantity,
                     align: "right",
                     sortable: true
                 },
@@ -208,7 +224,7 @@ export default {
                 {
                     name: "active",
                     label: "Aktywny",
-                    field: (row) => row.product.active,
+                    field: (row) => row.inventory.product.active,
                     align: "right",
                     sortable: true
                 }
@@ -275,7 +291,6 @@ export default {
                 .then((response) => {
                     this.products = response.data;
                 })
-
                 .catch((error) => {
                     if (error.response.status === 403) {
                         this.$q.notify({
@@ -528,14 +543,14 @@ export default {
         },
 
         onRowClick: function (product) {
-            this.formProductId = product.product.id;
-            this.formProductName = product.product.name;
-            this.formInventoryId = product.id;
-            this.formWidth = product.productWidth;
-            this.formLength = product.productLength;
-            this.formQuantity = product.quantity;
-            this.formDescription = product.description;
-            this.formActiveValue = product.product.active;
+            this.formProductId = product.inventory.product.id;
+            this.formProductName = product.inventory.product.name;
+            this.formInventoryId = product.inventory.id;
+            this.formWidth = product.inventory.productWidth;
+            this.formLength = product.inventory.productLength;
+            this.formQuantity = product.inventory.quantity;
+            this.formDescription = product.inventory.description;
+            this.formActiveValue = product.inventory.product.active;
 
             this.newProduct = "";
             this.disabled = false;
@@ -574,7 +589,7 @@ export default {
             return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         },
 
-        getLoggedUserFromLocalStore() {
+        getLoggedUserFromLocalStore: function () {
             this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         },
     },
