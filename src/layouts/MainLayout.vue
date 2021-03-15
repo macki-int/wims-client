@@ -96,6 +96,7 @@ export default {
         EventBus.$on("logged", user => {
             this.getLoggedUser(user);
             this.auth = "logged";
+            this.getLoggedUserFromLocalStore();
             this.getProductTypes();
         });
 
@@ -255,7 +256,7 @@ export default {
         showInfoDialog: function () {
             this.$q
                 .dialog({
-                    title: "<span class=text-primary><strong>WIMS</strong> v0.04(beta)",
+                    title: "<span class=text-primary><strong>WIMS</strong> v0.05(beta)",
                     message: "<span class=text-primary><strong> Warehouse Inventory Management System</strong>" +
                         "<br>" +
                         "TROLL-Systems Marek Janicki (C)" +
