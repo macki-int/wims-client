@@ -23,12 +23,7 @@
                         <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row)">
                             <q-td key="product" :props="props">
                                 {{ props.row.inventory.product.name }}
-                            </q-td>
-                            <q-td key="reservation" :props="props">
-                                <div v-if="props.row.reservationCounter>0">
-                                    <!-- {{ props.row.reservationCounter }} -->
-                                    <q-icon class="q-pr-md text-weight-bolder" color="grey" size="16px" name="schedule" />
-                                </div>
+                                    <q-icon v-if="props.row.reservationCounter>0" class="q-pr-md text-weight-bolder" color="grey" size="16px" name="schedule" />
                             </q-td>
                             <q-td key="productWidth" :props="props">
                                 {{ setNumericFormat(props.row.inventory.productWidth) }}
@@ -182,16 +177,6 @@ export default {
                     label: "Nazwa",
                     field: (row) => row.inventory.product.name,
                     align: "left",
-                    sortable: true
-                },
-                {
-                    name: "reservation",
-                    label: "Rez.",
-                    field: "reservationCounter",
-                    align: "center",
-                    style: "width: 10px",
-                    // headerClasses: "bg-primary text-white",
-                    headerStyle: "max-width: 10px",
                     sortable: true
                 },
                 {
