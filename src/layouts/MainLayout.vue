@@ -96,7 +96,7 @@ export default {
         EventBus.$on("logged", user => {
             this.getLoggedUser(user);
             this.auth = "logged";
-            this.getLoggedUserFromLocalStore();
+            // this.getLoggedUserFromLocalStore();
             this.getProductTypes();
         });
 
@@ -190,8 +190,8 @@ export default {
                             message: "Nie jesteś zalogowany",
                             icon: "report_problem",
                         });
-                        // this.$router.push("/login")
-                        this.logout();
+                        this.$router.push("/login")
+                        // this.logout();
                     } else if (error.response.status === 500) {
                         this.$q.notify({
                             color: "negative",
@@ -199,8 +199,8 @@ export default {
                             message: "Strona nie istnieje",
                             icon: "report_problem",
                         });
-                        // this.$router.push("/login")
-                        this.logout();
+                        this.$router.push("/login")
+                        // this.logout();
                     } else {
                         this.$q.notify({
                             color: "negative",
@@ -241,7 +241,8 @@ export default {
                             message: "Nie jesteś zalogowany",
                             icon: "report_problem",
                         });
-                        this.$router.push("/login")
+                        this.$router.push("/login");
+                        // this.logout();
                     } else {
                         this.$q.notify({
                             color: "negative",
