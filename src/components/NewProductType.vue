@@ -25,7 +25,7 @@ import axios from "axios";
 
 export default {
     name: "NewProductType",
-    
+
     mounted() {
         this.getLoggedUserFromLocalStore();
     },

@@ -149,7 +149,7 @@
                         <div class="text-primary">Resetowanie hasła użytkownika: <strong>{{ editedUser.username }}</strong></div>
                     </q-card-section>
                     <q-card-section class="q-pt-none">
-                        <q-input dense v-model="oldUserPassword" label="Aktualne hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj aktualne hasło']" />
+                        <!-- <q-input dense v-model="oldUserPassword" label="Aktualne hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj aktualne hasło']" /> -->
                         <q-input dense v-model="newUserPassword" label="Nowe hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj nowe hasło']" />
                         <q-input dense v-model="newUserPassword2" label="Powtórz hasło" type="password" :rules="[(val) => (newUserPassword === newUserPassword2) || 'Hasła nie są identyczne']" />
                     </q-card-section>
@@ -488,12 +488,13 @@ export default {
 
             axios
                 .patch(url, {
-                    newPassword: this.newUserPassword,
-                    oldPassword: this.oldUserPassword
+                    newPassword: this.newUserPassword
+                    // oldPassword: this.oldUserPassword
                 }, {
                     headers: { Authorization: localStorage.getItem("token") }
                 }, {
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    dataType: "json",
                 })
                 .then((response) => {
                     this.$q.notify({

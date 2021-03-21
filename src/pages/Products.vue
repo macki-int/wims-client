@@ -264,7 +264,7 @@ export default {
                 .get(url, {
                     contentType: "application/json",
                     dataType: "json",
-                    headers: { "Authorization": localStorage.getItem("token") }
+                    headers: { Authorization: localStorage.getItem("token") }
                 })
                 .then((response) => {
                     this.products = response.data;
@@ -383,17 +383,15 @@ export default {
 
             if (props.row.active) {
                 this.message = "Aktywowano";
-                this.url = this.$API_URL + "products/activate/" + props.row.id;
+                url = this.$API_URL + "products/activate/" + props.row.id;
             } else {
                 this.message = "Dezaktywowano";
-                this.url = this.$API_URL + "products/deactivate/" + props.row.id;
+                url = this.$API_URL + "products/deactivate/" + props.row.id;
             }
 
             axios
-                .patch(this.url, {
+                .patch(url, {
                     headers: { Authorization: localStorage.getItem("token") }
-                }, {
-                    contentType: "application/json"
                 })
                 .then((response) => {
                     this.$q.notify({
@@ -450,7 +448,7 @@ export default {
 
             axios
                 .delete(url, {
-                    headers: { Authorization: localStorage.getItem("token") }
+                    headers: { "Authorization": localStorage.getItem("token") }
                 }, {
                     contentType: "application/json"
                 })
