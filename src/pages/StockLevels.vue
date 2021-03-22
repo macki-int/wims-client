@@ -71,8 +71,14 @@
                                     </div>
                                 </template>
                                 <q-separator color="primary" class="q-ml-sm" size="2px" />
-                                <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
-                                <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formLength" label="Długość" />
+                                <div class="row">
+                                    <div class="col q-mr-lg">
+                                        <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
+                                    </div>
+                                    <div class="col">
+                                        <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formLength" label="Długość" />
+                                    </div>
+                                </div>
                                 <q-input v-on:input="onChange" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
                                 <q-input full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
                                 <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
@@ -577,7 +583,7 @@ export default {
         getLoggedUserFromLocalStore: function () {
             this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         },
-        
+
         showAlert: function () {
             console.log("alert");
         }
