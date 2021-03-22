@@ -102,11 +102,12 @@
                                         </q-card>
                                     </q-dialog>
                                     <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Zapisz" type="submit" color="primary" />
+                                    <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Usuń" v-on:click="deleteInventory" color="negative" />
                                 </div>
-                                <!-- <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" /> -->
                                 <q-separator color="primary" class="q-ml-sm" size="2px" />
                                 <ProductReservation ref="refReservation" />
                             </q-form>
+                            <!-- <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" /> -->
                         </div>
                     </q-card-section>
                 </q-card>
@@ -531,6 +532,10 @@ export default {
                         });
                     };
                 });
+        },
+
+        deleteInventory: function () {
+            console.log("delete");
         },
 
         onRowClick: function (product) {
