@@ -79,8 +79,8 @@
                                         <q-input v-on:input="onChange" style="width: 10vh" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formLength" label="Długość" />
                                     </div>
                                     <div class="col">
-                                    <q-input v-on:input="onChange" style="width: 10vh" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
-                                </div>
+                                        <q-input v-on:input="onChange" style="width: 10vh" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
+                                    </div>
                                 </div>
                                 <q-input full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
                                 <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
@@ -104,7 +104,7 @@
                                         </q-card>
                                     </q-dialog>
                                     <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Zapisz" type="submit" color="primary" />
-                                    <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Usuń" v-on:click="deleteInventory" color="negative" />
+                                    <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Usuń" v-on:click="confirmDeleteInventory" color="negative" />
                                 </div>
                                 <q-separator color="primary" class="q-ml-sm" size="2px" />
                                 <ProductReservation ref="refReservation" />
@@ -536,8 +536,61 @@ export default {
                 });
         },
 
-        deleteInventory: function () {
-            console.log("delete");
+        confirmDeleteInventory: function (props) {
+            this.$q
+                .dialog({
+                    title: "<span class=text-negative>Usuwanie asortymentu</span>",
+                    message: "<span class=text-negative>Czy usunąć asortyment: " +
+                        this.formWidth + " x " + this.formLength + " (ilość: " + this.formQuantity + ")" +
+                        "<br>" +
+                        "produktu: <strong>" + this.formProductName + "</strong>?</span>",
+                    color: 'negative',
+                    html: true,
+                    persistent: true,
+                    ok: {
+                        label: 'usuń',
+                        flat: true
+                    },
+                    cancel: true,
+                }).onOk(() => {
+                    this.deleteInventory(this.formInventoryId);
+                })
+        },
+
+        deleteInventory: function (id) {
+            const url = this.$API_URL + "inventories/" + id;
+
+            axios
+                .delete(url, {
+                    headers: { "Authorization": localStorage.getItem("token") }
+                })
+                .then((response) => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Usunięto asortyment",
+                        icon: "check_circle_outline",
+                    });
+                    this.getReservationsByInventoryId();
+                })
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd usuwania asortymentu!",
+                            icon: "report_problem",
+                        });
+                    };
+                });
         },
 
         onRowClick: function (product) {
