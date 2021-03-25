@@ -73,13 +73,13 @@
                                 <q-separator color="primary" class="q-ml-sm" size="2px" />
                                 <div class="row">
                                     <div class="col q-mr-lg">
-                                        <q-input v-on:input="onChange" style="width: 10vh" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
+                                        <q-input v-on:input="onChange" style="min-width: 7vh" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
                                     </div>
                                     <div class="col  q-mr-lg">
-                                        <q-input v-on:input="onChange" style="width: 10vh" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formLength" label="Długość" />
+                                        <q-input v-on:input="onChange" style="min-width: 7vh" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formLength" label="Długość" />
                                     </div>
                                     <div class="col">
-                                        <q-input v-on:input="onChange" style="width: 10vh" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
+                                        <q-input v-on:input="onChange" style="min-width: 7vh" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
                                     </div>
                                 </div>
                                 <q-input full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
