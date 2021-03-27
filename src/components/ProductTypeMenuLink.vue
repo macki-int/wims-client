@@ -10,7 +10,7 @@
         <q-item-label hidden caption>{{ id }}</q-item-label>
     </q-item-section>
 
-    <q-item-section>
+    <!-- <q-item-section>
         <div class="row">
             <div class="col">
                 <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" size="sm" unelevated dense color="white" text-color="primary" icon="create" class="q-mr-xs float-right" v-on:click="save = true">
@@ -57,7 +57,7 @@
                 </q-dialog>
             </div>
         </div>
-    </q-item-section>
+    </q-item-section> -->
 </q-item>
 </template>
 
