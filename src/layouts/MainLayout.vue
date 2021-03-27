@@ -12,7 +12,7 @@
             <div>
                 <q-btn v-if="auth == 'logged'" flat label="Ustawienia" no-caps />
                 <q-menu content-class="text-primary" inverted anchor="bottom left" self="top left">
-                    <q-list style="min-width: 100px">
+                    <q-list style="min-width: 10vw">
                         <q-item clickable v-on:click="showChangeUserPasswordDialog = true" v-close-popup>
                             <q-item-section>Zmiana hasła</q-item-section>
                         </q-item>
@@ -25,7 +25,7 @@
             </div>
         </q-toolbar>
     </q-header>
-    <q-footer>
+    <q-footer >
         <div class="q-ml-md text-caption">
             Zalogowany:
             <strong>{{
@@ -57,7 +57,7 @@
             </q-card>
         </q-dialog>
     </template>
-    <q-drawer v-if="auth == 'logged'" v-model="leftDrawerOpen" min-width="10vw" show-if-above bordered content-class="bg-blue-8">
+    <q-drawer v-if="auth == 'logged'" v-model="leftDrawerOpen" :width="200" :breakpoint="700" elevated  show-if-above  bordered content-class="bg-blue-8">
         <q-list ref="onUpdateProductTypeList">
             <q-item-label header class="text-white">KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class="text-white" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
