@@ -46,9 +46,9 @@
             </div>
 
             <div class="col-3-md">
-                <q-card class="my-card" style="min-width: 20vw; min-height: 75vh">
+                <q-card class="my-card" style="min-width: 15vw; max-width: 20vw; min-height: 75vh">
                     <q-card-section>
-                        <div class="q-pa-md" style="max-width: 30vw">
+                        <div class="q-pa-md" >
                             <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
                                 <template>
                                     <div>
