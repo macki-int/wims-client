@@ -13,9 +13,9 @@
                         </div>
                     </q-card-section>
                     <q-table dense flat :data="products" :columns="columns" row-key="name" :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
-                        <template slot="top-right" >
-                            <q-input dense v-model="filter" clearable >
-                                <template v-slot:append >
+                        <template slot="top-right">
+                            <q-input dense v-model="filter" clearable>
+                                <template v-slot:append>
                                     <q-icon name="search" color="primary" />
                                 </template>
                             </q-input>
@@ -25,10 +25,10 @@
                                 {{ props.row.inventory.product.name }}
                                 <q-icon v-if="props.row.reservationCounter>0" class="q-pr-md text-weight-bolder" color="primary" size="16px" name="schedule" />
                             </q-td>
-                            <q-td key="productWidth" :props="props" :class="props.row.inventory.mainDimension?'text-primary':''">
+                            <q-td key="productWidth" :props="props" :class="props.row.inventory.mainDimension?'text-primary text-bold':''">
                                 {{ setNumericFormat(props.row.inventory.productWidth) }}
                             </q-td>
-                            <q-td key="productLength" :props="props">
+                            <q-td key="productLength" :props="props" :class="props.row.inventory.mainDimension?'text-primary text-bold':''">
                                 {{ setNumericFormat(props.row.inventory.productLength) }}
                             </q-td>
                             <q-td key="quantity" :props="props">
@@ -82,7 +82,14 @@
                                         <q-input v-on:input="onChange" style="min-width: 5vw" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
                                     </div>
                                 </div>
-                                <q-input v-if="productType.calculate" full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
+                                <div class="row" v-if="productType.calculate">
+                                    <div class="col q-mr-lg" >
+                                        <q-input  full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
+                                    </div>
+                                    <div class="col q-mt-md">
+                                        <q-checkbox class="q-pt-md" dense v-model="formMainDimension" size="sm" color="grey"  label="Standardowy" />
+                                    </div>
+                                </div>
                                 <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
                                 <div>
                                     <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Nowy asortyment" type="reset" color="primary" />
@@ -163,6 +170,7 @@ export default {
             formArea: "",
             formActiveValue: true,
             formDescription: "",
+            formMainDimension: "",
 
             showZeroValue: false,
             showActiveProduct: false,
@@ -231,7 +239,7 @@ export default {
     methods: {
         getProductType: function () {
             const url = this.$API_URL + "product-types/" + this.$route.params.id;
-            
+
             axios
                 .get(url, {
                     contentType: "application/json",
@@ -275,7 +283,7 @@ export default {
 
         getProductsAndQuantityByProductTypeId: function () {
             const url = this.$API_URL + "products/product-types/" + this.$route.params.id;
-            
+
             axios
                 .get(url, {
                     params: {
@@ -453,6 +461,7 @@ export default {
                         id: this.formProductId,
                     },
                     description: this.formDescription,
+                    mainDimension: this.formMainDimension
                 }, {
                     headers: { Authorization: localStorage.getItem("token") }
                 }, {
@@ -504,6 +513,7 @@ export default {
                         id: this.formProductId
                     },
                     description: this.formDescription,
+                    mainDimension: this.formMainDimension
                 }, {
                     headers: { Authorization: localStorage.getItem("token") }
                 }, {
@@ -605,6 +615,7 @@ export default {
             this.formLength = product.inventory.productLength;
             this.formQuantity = product.inventory.quantity;
             this.formDescription = product.inventory.description;
+            this.formMainDimension = product.inventory.mainDimension;
             this.formActiveValue = product.inventory.product.active;
             this.selected = !this.selected;
 
@@ -630,7 +641,7 @@ export default {
         },
 
         recalculateArea: function () {
-            if (this.productType.calculate){
+            if (this.productType.calculate) {
                 this.formArea = this.formWidth * this.formLength * this.formQuantity;
             }
         },
