@@ -8,7 +8,7 @@
                     <div class="text-h6 text-primary">LOGOWANIE</div>
                 </q-card-section>
                 <q-card-section>
-                    <q-input required v-model="username" no-outline type="text" label="Nazwa użytkownika (nick)" />
+                    <q-input required v-model="username"  no-outline type="text" label="Nazwa użytkownika (nick)" />
                     <q-input required v-model="password" no-outline type="password" label="Hasło" />
                 </q-card-section>
                 <q-card-actions align="left" class="text-primary">
@@ -36,7 +36,7 @@ export default {
 
     methods: {
         login: function () {
-            const user = this.username;
+            const user = this.username.toLowerCase();
             const password = this.password;
             const url = this.$API_URL + "users/login";
 
@@ -70,7 +70,8 @@ export default {
                         icon: "report_problem",
                     });
                 });
-        }
+        },
+      
     }
 }
 </script>
