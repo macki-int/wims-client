@@ -3,7 +3,7 @@
     <div class="q-pa-md">
         <q-card class="my-card fit" style="min-width: 40vw; min-height: 75vh">
             <q-card>
-                <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getProducts">
+                <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProducts">
                     <template slot="top-left">
                         <div class="q-pa-sm text-h6 text-primary">
                             Lista produktów
@@ -49,7 +49,7 @@
                         <div class="text-primary">Szczegóły produktu: <strong>{{detailProduct.name}}</strong> </div>
                     </q-card-section>
                     <q-card-section>
-                        <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" v-bind:request="getInventoriesByProductId">
+                        <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" :visible-columns="visibleColumns" v-bind:request="getInventoriesByProductId">
                             <q-tr slot="body" slot-scope="props" :props="props">
                                 <q-td key="productWidth" :props="props">
                                     {{ setNumericFormat(props.row.productWidth) }}
@@ -178,6 +178,8 @@ export default {
                     field: "",
                 },
             ],
+
+            visibleColumns: ["productWidth", "productLength", "quantity", "area", "description", "updateDate"],
 
             columnsDetails: [{
                     name: "productWidth",
@@ -341,6 +343,8 @@ export default {
         showDetailProduct: function (props) {
             this.detailProduct = Object.assign({}, props);
             this.getInventoriesByProductId();
+            console.log(this.detailProduct)
+            this.hiddenColumn()
             this.showDetailProductDialog = true;
         },
 
@@ -492,6 +496,15 @@ export default {
 
         setNumericFormat: function (num) {
             return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        },
+
+        hiddenColumn: function () {
+            this.visibleColumns = [];
+
+            if (this.detailProduct.productType.calculate ?
+                this.visibleColumns = ["productWidth", "productLength", "quantity", "area", "description", "updateDate"] :
+                this.visibleColumns = ["productWidth", "productLength", "quantity", "description", "updateDate"]);
+
         },
 
         getLoggedUserFromLocalStore() {
