@@ -25,7 +25,7 @@
                                 {{ props.row.inventory.product.name }}
                                 <q-icon v-if="props.row.reservationCounter>0" class="q-pr-md text-weight-bolder" color="primary" size="16px" name="schedule" />
                             </q-td>
-                            <q-td key="productWidth" :props="props">
+                            <q-td key="productWidth" :props="props" :class="props.row.inventory.mainDimension?'text-primary':''">
                                 {{ setNumericFormat(props.row.inventory.productWidth) }}
                             </q-td>
                             <q-td key="productLength" :props="props">
@@ -231,7 +231,7 @@ export default {
     methods: {
         getProductType: function () {
             const url = this.$API_URL + "product-types/" + this.$route.params.id;
-
+            
             axios
                 .get(url, {
                     contentType: "application/json",
@@ -275,7 +275,7 @@ export default {
 
         getProductsAndQuantityByProductTypeId: function () {
             const url = this.$API_URL + "products/product-types/" + this.$route.params.id;
-
+            
             axios
                 .get(url, {
                     params: {
