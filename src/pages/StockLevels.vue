@@ -13,10 +13,10 @@
                         </div>
                     </q-card-section>
                     <q-table dense flat :data="products" :columns="columns" row-key="name" :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
-                        <template slot="top-right">
-                            <q-input dense v-model="filter">
-                                <template v-slot:append>
-                                    <q-icon name="search" />
+                        <template slot="top-right" >
+                            <q-input dense v-model="filter" clearable >
+                                <template v-slot:append >
+                                    <q-icon name="search" color="primary" />
                                 </template>
                             </q-input>
                         </template>
