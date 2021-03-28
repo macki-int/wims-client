@@ -12,7 +12,7 @@
                     <template slot="top-right">
                         <q-input dense v-model="filter">
                             <template v-slot:append>
-                                <q-icon name="search" />
+                                <q-icon name="search" color="primary"/>
                             </template>
                         </q-input>
                     </template>
