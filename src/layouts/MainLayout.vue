@@ -25,12 +25,12 @@
             </div>
         </q-toolbar>
     </q-header>
-    <q-footer >
+    <q-footer>
         <div class="q-ml-md text-caption">
             Zalogowany:
-            <strong>{{
-          loggedUser.firstName + " " + loggedUser.lastName
-        }}</strong>
+            <strong v-if="loggedUser.firstName"> 
+                {{ loggedUser.firstName + " " + loggedUser.lastName }}
+            </strong>
         </div>
     </q-footer>
     <template>
@@ -57,7 +57,7 @@
             </q-card>
         </q-dialog>
     </template>
-    <q-drawer v-if="auth == 'logged'" v-model="leftDrawerOpen" :width="200" :breakpoint="700" elevated  show-if-above  bordered content-class="bg-blue-8">
+    <q-drawer v-if="auth == 'logged'" v-model="leftDrawerOpen" :width="200" :breakpoint="700" elevated show-if-above bordered content-class="bg-blue-8">
         <q-list ref="onUpdateProductTypeList">
             <q-item-label header class="text-white">KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class="text-white" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
