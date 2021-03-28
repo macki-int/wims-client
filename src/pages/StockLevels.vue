@@ -12,7 +12,7 @@
                             <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </div>
                     </q-card-section>
-                    <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" v-bind:request="getProductsAndQuantityByProductTypeId">
+                    <q-table dense flat :data="products" :columns="columns" row-key="name" :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
                         <template slot="top-right">
                             <q-input dense v-model="filter">
                                 <template v-slot:append>
@@ -46,9 +46,9 @@
             </div>
 
             <div class="col-3-md">
-                <q-card class="my-card" style="min-width: 15vw; max-width: 20vw; min-height: 75vh">
+                <q-card class="my-card" style="min-width: 15vw; max-width: 21vw; min-height: 75vh">
                     <q-card-section>
-                        <div class="q-pa-md" >
+                        <div class="q-pa-md">
                             <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
                                 <template>
                                     <div>
@@ -82,7 +82,7 @@
                                         <q-input v-on:input="onChange" style="min-width: 5vw" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
                                     </div>
                                 </div>
-                                <q-input full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
+                                <q-input v-if="productType.calculate" full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
                                 <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
                                 <div>
                                     <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Nowy asortyment" type="reset" color="primary" />
@@ -157,9 +157,9 @@ export default {
 
             formInventoryId: "",
             formProductName: "",
-            formWidth: "5.00",
-            formLength: "100.00",
-            formQuantity: "1",
+            formWidth: "",
+            formLength: "",
+            formQuantity: "",
             formArea: "",
             formActiveValue: true,
             formDescription: "",
@@ -181,6 +181,8 @@ export default {
             loggedUser: "",
 
             selected: [],
+            visibleColumns: ["product", "productWidth", "productLength", "quantity", "area", "active"],
+
             columns: [{
                     name: "product",
                     label: "Nazwa",
@@ -238,6 +240,8 @@ export default {
                 })
                 .then((response) => {
                     this.productType = response.data;
+                    this.hiddenColumn();
+                    this.clearFormInventory();
                     // alert(event.target.tagName);
                     // console.log('response: ' + JSON.stringify(response.data));
                 })
@@ -497,7 +501,7 @@ export default {
                     quantity: this.formQuantity,
                     updateDate: new Date().toJSON().slice(0, 10),
                     product: {
-                        id: this.formProductId,
+                        id: this.formProductId
                     },
                     description: this.formDescription,
                 }, {
@@ -613,20 +617,12 @@ export default {
             this.$refs.refReservation.getReservationsByInventoryId();
         },
 
-        onNewInventory: function () {
-            this.formWidth = 5.0;
-            this.formLength = 100.0;
-            this.formQuantity = 0.0;
-            this.formArea = 0.0;
-            this.formDescription = "";
-        },
-
         // toggleSingleRow: function (row) {
         //     this.selected = [];
         //     this.selected.push(row.name);
         // },
 
-     onChange: function () {
+        onChange: function () {
             if (this.formProductName.length > 0) {
                 this.disabled = false;
             }
@@ -634,7 +630,9 @@ export default {
         },
 
         recalculateArea: function () {
-            this.formArea = this.formWidth * this.formLength * this.formQuantity;
+            if (this.productType.calculate){
+                this.formArea = this.formWidth * this.formLength * this.formQuantity;
+            }
         },
 
         setNumericFormat: function (num) {
@@ -645,10 +643,31 @@ export default {
             this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         },
 
+        clearFormInventory: function () {
+            this.formInventoryId = "";
+            this.formProductName = "";
+            this.formWidth = "";
+            this.formLength = "";
+            this.formQuantity = "";
+            this.formArea = "";
+            this.formActiveValue = true;
+            this.formDescription = "";
+            this.formProductName = "";
+            this.disabled = true;
+        },
+
+        hiddenColumn: function () {
+            this.visibleColumns = [];
+
+            if (this.productType.calculate ?
+                this.visibleColumns = ["product", "productWidth", "productLength", "quantity", "area", "active"] :
+                this.visibleColumns = ["product", "productWidth", "productLength", "quantity", "active"]);
+        },
+
         showAlert: function () {
             console.log("alert");
         }
-
     },
+
 };
 </script>
