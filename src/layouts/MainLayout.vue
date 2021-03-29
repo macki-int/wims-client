@@ -28,7 +28,7 @@
     <q-footer>
         <div class="q-ml-md text-caption">
             Zalogowany:
-            <strong v-if="loggedUser.firstName"> 
+            <strong v-if="loggedUser.firstName">
                 {{ loggedUser.firstName + " " + loggedUser.lastName }}
             </strong>
         </div>
@@ -62,9 +62,9 @@
             <q-item-label header class="text-white">KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class="text-white" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
         </q-list>
-        <div>
+        <!-- <div>
             <NewProductType />
-        </div>
+        </div> -->
         <div class="q-mb-md q-ml-md fixed-bottom">
             <q-icon color="blue-3" size="30px" name="mood" v-on:click="showInfoDialog" />
         </div>
@@ -89,7 +89,7 @@ export default {
 
     components: {
         ProductTypeMenuLink,
-        NewProductType,
+        // NewProductType,
     },
 
     mounted: function () {
@@ -257,7 +257,7 @@ export default {
         showInfoDialog: function () {
             this.$q
                 .dialog({
-                    title: "<span class=text-primary><strong>WIMS</strong> v0.06(beta)",
+                    title: "<span class=text-primary><strong>WIMS</strong> v0.07(beta)",
                     message: "<span class=text-primary><strong> Warehouse Inventory Management System</strong>" +
                         "<br>" +
                         "TROLL-Systems Marek Janicki (C)" +
