@@ -96,80 +96,80 @@ export default {
     },
 
     methods: {
-        updateProductType: function () {
-            const url = this.$API_URL + "product-types";
+        // updateProductType: function () {
+        //     const url = this.$API_URL + "product-types";
 
-            axios
-                .put(url, {
-                    id: this.id,
-                    name: this.newNameProductType,
-                }, {
-                    headers: { "Authorization": localStorage.getItem("token") }
-                })
-                .then((response) => {
-                    this.$q.notify({
-                        color: "positive",
-                        position: "top",
-                        message: "Zaktualizowano kategorie",
-                        icon: "check_circle_outline",
-                    });
-                })
-                .catch((error) => {
-                    if (error.response.status === 403) {
-                        this.$q.notify({
-                            color: "negative",
-                            position: "top",
-                            message: "Nie jesteś zalogowany",
-                            icon: "report_problem",
-                        });
-                        this.$router.push("/login")
-                    } else {
-                        this.$q.notify({
-                            color: "negative",
-                            position: "top",
-                            message: "Błąd aktualizacji nazwy kategorii",
-                            icon: "report_problem",
-                        });
-                    };
-                });
-            location.reload();
-        },
+        //     axios
+        //         .put(url, {
+        //             id: this.id,
+        //             name: this.newNameProductType,
+        //         }, {
+        //             headers: { "Authorization": localStorage.getItem("token") }
+        //         })
+        //         .then((response) => {
+        //             this.$q.notify({
+        //                 color: "positive",
+        //                 position: "top",
+        //                 message: "Zaktualizowano kategorie",
+        //                 icon: "check_circle_outline",
+        //             });
+        //         })
+        //         .catch((error) => {
+        //             if (error.response.status === 403) {
+        //                 this.$q.notify({
+        //                     color: "negative",
+        //                     position: "top",
+        //                     message: "Nie jesteś zalogowany",
+        //                     icon: "report_problem",
+        //                 });
+        //                 this.$router.push("/login")
+        //             } else {
+        //                 this.$q.notify({
+        //                     color: "negative",
+        //                     position: "top",
+        //                     message: "Błąd aktualizacji nazwy kategorii",
+        //                     icon: "report_problem",
+        //                 });
+        //             };
+        //         });
+        //     location.reload();
+        // },
 
-        deleteProductType: function () {
-            const url = this.$API_URL + "product-types/" + this.id;
+        // deleteProductType: function () {
+        //     const url = this.$API_URL + "product-types/" + this.id;
 
-            axios
-                .delete(url, {
-                    headers: { "Authorization": localStorage.getItem("token") }
-                })
-                .then((response) => {
-                    this.$q.notify({
-                        color: "positive",
-                        position: "top",
-                        message: "Usunięto kategorię",
-                        icon: "check_circle_outline",
-                    });
-                })
-                .catch((error) => {
-                    if (error.response.status === 403) {
-                        this.$q.notify({
-                            color: "negative",
-                            position: "top",
-                            message: "Nie jesteś zalogowany",
-                            icon: "report_problem",
-                        });
-                        this.$router.push("/login")
-                    }  else {
-                        this.$q.notify({
-                            color: "negative",
-                            position: "top",
-                            message: "Błąd usuwania kategorii",
-                            icon: "report_problem",
-                        });
-                    };
-                });
-            location.reload();
-        },
+        //     axios
+        //         .delete(url, {
+        //             headers: { "Authorization": localStorage.getItem("token") }
+        //         })
+        //         .then((response) => {
+        //             this.$q.notify({
+        //                 color: "positive",
+        //                 position: "top",
+        //                 message: "Usunięto kategorię",
+        //                 icon: "check_circle_outline",
+        //             });
+        //         })
+        //         .catch((error) => {
+        //             if (error.response.status === 403) {
+        //                 this.$q.notify({
+        //                     color: "negative",
+        //                     position: "top",
+        //                     message: "Nie jesteś zalogowany",
+        //                     icon: "report_problem",
+        //                 });
+        //                 this.$router.push("/login")
+        //             }  else {
+        //                 this.$q.notify({
+        //                     color: "negative",
+        //                     position: "top",
+        //                     message: "Błąd usuwania kategorii",
+        //                     icon: "report_problem",
+        //                 });
+        //             };
+        //         });
+        //     location.reload();
+        // },
 
         getProductsByProductType: function (id) {
             this.$router.push({
