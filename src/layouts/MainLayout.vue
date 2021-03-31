@@ -255,6 +255,7 @@ export default {
         },
 
         showInfoDialog: function () {
+          const role = this.loggedUser.role.split('_')
             this.$q
                 .dialog({
                     title: "<span class=text-primary><strong>WIMS</strong> v0.07(beta)",
@@ -265,7 +266,7 @@ export default {
                         "<br>" +
                         "<div class=text-caption> Zalogowany: <strong>" + this.loggedUser.firstName + " " + this.loggedUser.lastName + "</strong>" +
                         "<br>" +
-                        " Uprawnienia: <strong>" + this.loggedUser.role + "</strong></div></span>",
+                        " Uprawnienia: <strong>" + role[1] + "</strong></div></span>",
                     html: true,
                 })
         },
