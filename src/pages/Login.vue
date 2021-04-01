@@ -8,7 +8,7 @@
                     <div class="text-h6 text-primary">LOGOWANIE</div>
                 </q-card-section>
                 <q-card-section>
-                    <q-input required v-model="username"  no-outline type="text" label="Nazwa użytkownika (nick)" />
+                    <q-input required v-model="username" no-outline type="text" label="Nazwa użytkownika (nick)" />
                     <q-input required v-model="password" no-outline type="password" label="Hasło" />
                 </q-card-section>
                 <q-card-actions align="left" class="text-primary">
@@ -28,8 +28,8 @@ export default {
 
     data() {
         return {
-            username: "",
-            password: ""
+            username: "test",
+            password: "test"
         }
 
     },
@@ -71,7 +71,7 @@ export default {
                     });
                 });
         },
-      
+
     }
 }
 </script>

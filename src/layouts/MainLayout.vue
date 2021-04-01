@@ -16,9 +16,15 @@
                         <q-item clickable v-on:click="showChangeUserPasswordDialog = true" v-close-popup>
                             <q-item-section>Zmiana hasła</q-item-section>
                         </q-item>
-                        <q-separator />
                         <q-item clickable to="users" v-close-popup>
-                            <q-item-section>Admin</q-item-section>
+                            <q-item-section>Użytkownicy</q-item-section>
+                        </q-item>
+                        <q-separator />
+                        <q-item clickable to="listProductTypes" v-close-popup>
+                            <q-item-section>Kategorie</q-item-section>
+                        </q-item>
+                        <q-item clickable to="reservations" v-close-popup>
+                            <q-item-section>Rezerwacje po terminie</q-item-section>
                         </q-item>
                     </q-list>
                 </q-menu>
@@ -255,7 +261,7 @@ export default {
         },
 
         showInfoDialog: function () {
-          const role = this.loggedUser.role.split('_')
+            const role = this.loggedUser.role.split('_')
             this.$q
                 .dialog({
                     title: "<span class=text-primary><strong>WIMS</strong> v0.07(beta)",
