@@ -87,7 +87,6 @@
 
 <script>
 import ProductTypeMenuLink from "components/ProductTypeMenuLink.vue";
-import NewProductType from "components/NewProductType.vue";
 import axios from "axios";
 
 export default {
