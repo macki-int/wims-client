@@ -2,8 +2,7 @@
 <q-page class="flex flex-left">
     <div class="q-pa-md">
         <q-card class="my-card fit" style="min-width: 40vw; min-height: 75vh">
-            <q-card>
-                <q-table dense flat :data="productTypes" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProducts">
+                <q-table dense flat :data="productTypes" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductTypes">
                     <template slot="top-left">
                         <div class="q-pa-sm text-h6 text-primary">
                             Lista kategorii
@@ -26,16 +25,18 @@
                             </q-td>
                             <q-td key="action" :props="props">
                                 <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editProductType(props)">
-                                    <q-tooltip content-class="bg-blue-8">Edytuj produkt</q-tooltip>
+                                    <q-tooltip content-class="bg-blue-8">Edytuj kategorię</q-tooltip>
                                 </q-btn>
                                 <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
-                                    <q-tooltip content-class="bg-red">Usuń produkt</q-tooltip>
+                                    <q-tooltip content-class="bg-red">Usuń kategorię</q-tooltip>
                                 </q-btn>
                             </q-td>
                         </q-tr>
                     </template>
                 </q-table>
-            </q-card>
+                <q-card-section>
+                    <q-btn flat label="Nowa kategoria" color="primary" v-on:click="showAddProductType = true" />
+                </q-card-section>
         </q-card>
     </div>
 </q-page>
@@ -55,6 +56,7 @@ export default {
     data() {
         return {
             showEditProductDialog: false,
+            showAddProductType: false,
 
             productTypes: [],
 
