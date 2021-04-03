@@ -20,6 +20,14 @@ const routes = [
         component: () => import("pages/Users.vue")
       },
       {
+        path: "listProductTypes",
+        component: () => import("pages/ProductTypes.vue")
+      },
+      {
+        path: "reservations",
+        component: () => import("pages/ReservationsAfterDeadline.vue")
+      },
+      {
         path: "/:id?",
         component: () => import("pages/StockLevels.vue")
       }
