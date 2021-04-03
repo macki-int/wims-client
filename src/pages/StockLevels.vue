@@ -5,10 +5,10 @@
             <div class="col-6-md q-pr-md">
                 <q-card class="my-card" style="min-width: 40vw; min-height: 75vh">
                     <q-card-section>
-                        <div class="text-h6">
+                        <div class="text-h6 text-primary">
                             {{ productType.name }}
-                            <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-xl" size="xs" color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
-                            <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 q-pl-md" size="xs" color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne produkty"></q-checkbox>
+                            <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 text-dark q-pl-xl" size="xs" color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
+                            <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 text-dark q-pl-md" size="xs" color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne produkty"></q-checkbox>
                             <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </div>
                     </q-card-section>
@@ -75,7 +75,7 @@
                                     <div class="col q-mr-lg">
                                         <q-input v-on:input="onChange" style="min-width: 5vw" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
                                     </div>
-                                    <div class="col  q-mr-lg">
+                                    <div class="col q-mr-lg">
                                         <q-input v-on:input="onChange" style="min-width: 5vhw" full-width no-outline type="number" :decimals="2" :step="0.01" v-model.number="formLength" label="Długość" />
                                     </div>
                                     <div class="col">
