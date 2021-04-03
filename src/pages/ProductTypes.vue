@@ -35,37 +35,24 @@
                 </template>
             </q-table>
             <q-card-section>
-                <!-- <q-btn flat label="Nowa kategoria" color="primary" v-on:click="showAddProductType = true" /> -->
                 <NewProductType />
             </q-card-section>
         </q-card>
-        <!-- <q-dialog v-model="showEditProductDialog" persistent>
+        <q-dialog v-model="showEditProductTypeDialog" persistent>
                 <q-card style="min-width: 15vw">
                     <q-card-section>
-                        <div class="text-primary">Edycja produktu</div>
+                        <div class="text-primary">Edycja kategorii</div>
                     </q-card-section>
                     <q-card-section class="q-pt-none">
-                        <q-select dense v-model="productType" :options="filteredProductTypes" label="Kategoria produktu" v-on:filter="filterProductTypes" :display-value="productType.name" selected="productType.name" autofocus>
-                            <template #option="{ opt, toggleOption }">
-                                <q-item dense clickable @click="toggleOption(opt)">
-                                    <q-item-section>
-                                        <q-item-label>
-                                            {{ `${opt.name}` }}
-                                        </q-item-label>
-                                    </q-item-section>
-                                </q-item>
-                                <q-separator class="q-virtual-scroll--with-prev"></q-separator>
-                            </template>
-                        </q-select>
-                        <q-input dense v-model="editedProduct.name" label="Nazwa produktu" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']" />
-                        <q-checkbox class="q-pt-md" dense v-model="editedProduct.active" size="sm" label="Aktywny" />
+                        <q-input dense v-model="editedProductType.name" label="Nazwa kategorii" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę kategorii']" />
+                        <q-checkbox class="q-pt-md" dense v-model="editedProductType.calculate" size="sm" label="Oblicz powierzchnię" />
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
                         <q-btn flat label="Anuluj" v-close-popup />
-                        <q-btn flat label="Zapisz" v-on:click="updateProduct(editedProduct)" v-close-popup />
+                        <q-btn flat label="Zapisz" v-on:click="updateProductType(editedProductType)" v-close-popup />
                     </q-card-actions>
                 </q-card>
-            </q-dialog> -->
+            </q-dialog>
     </div>
 </q-page>
 </template>
@@ -88,9 +75,10 @@ export default {
 
     data() {
         return {
-            showEditProductDialog: false,
+            showEditProductTypeDialog: false,
 
             productTypes: [],
+            editedProductType: [],
 
             search: "",
             filter: "",
@@ -168,18 +156,18 @@ export default {
         },
 
         editProductType: function (props) {
-            this.editedProduct = Object.assign({}, props.row);
-            this.productType = this.editedProduct.productType;
-            this.showEditProductDialog = true;
+            this.editedProductType = Object.assign({}, props.row);
+            this.showEditProductTypeDialog = true;
         },
 
-        updateProductType: function () {
+        updateProductType: function (editedProductType) {
             const url = this.$API_URL + "product-types";
 
             axios
                 .put(url, {
-                    id: this.id,
-                    name: this.newNameProductType,
+                    id: this.editedProductType.id,
+                    name: this.editedProductType.name,
+                    calculate: this.editedProductType.calculate
                 }, {
                     headers: { "Authorization": localStorage.getItem("token") }
                 })
@@ -209,7 +197,6 @@ export default {
                         });
                     };
                 });
-            location.reload();
         },
 
         confirmDelete: function (props) {
@@ -229,12 +216,12 @@ export default {
                     cancel: true,
                 })
                 .onOk(() => {
-                    this.deleteProduct(props.row.id);
+                    this.deleteProductType(props.row.id);
                 });
         },
 
-        deleteProductType: function () {
-            const url = this.$API_URL + "product-types/" + this.id;
+        deleteProductType: function (id) {
+            const url = this.$API_URL + "product-types/" + id;
 
             axios
                 .delete(url, {
