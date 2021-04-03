@@ -2,6 +2,10 @@
 <div>
     <q-table dense flat :data="reservations" :columns="columns" row-key="name" hide-no-data color="primary" v-bind:request="getReservationsByInventoryId">
         <q-tr slot="body" slot-scope="props" :props="props">
+            <q-tooltip v-if="props.row.description.length>0">
+                {{ props.row.description }}
+            </q-tooltip>
+
             <q-td key="user" :props="props">
                 {{ props.row.user.username }}
             </q-td>
