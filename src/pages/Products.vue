@@ -10,7 +10,7 @@
                         </div>
                     </template>
                     <template slot="top-right">
-                        <q-input dense v-model="filter">
+                        <q-input dense v-model="filter" clearable>
                             <template v-slot:append>
                                 <q-icon name="search" color="primary"/>
                             </template>
@@ -164,7 +164,6 @@ export default {
                     align: "left",
                     sortable: true,
                 },
-
                 {
                     name: "active",
                     label: "Aktywny",
@@ -432,7 +431,7 @@ export default {
                     title: "<span class=text-negative>Usuwanie productu</span>",
                     message: "<span class=text-negative>Czy usunąć produkt: <strong>" +
                         props.row.name +
-                        "?",
+                        "</strong>?",
                     color: "negative",
                     html: true,
                     persistent: true,
