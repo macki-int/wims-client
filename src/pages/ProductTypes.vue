@@ -89,7 +89,6 @@ export default {
     data() {
         return {
             showEditProductDialog: false,
-            showAddProductType: false,
 
             productTypes: [],
 
