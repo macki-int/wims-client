@@ -589,7 +589,7 @@ export default {
                         message: "Usunięto asortyment",
                         icon: "check_circle_outline",
                     });
-                    this.getReservationsByInventoryId();
+                    // this.getReservationsByInventoryId();
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
