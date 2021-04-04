@@ -20,10 +20,10 @@
                             <q-item-section>Użytkownicy</q-item-section>
                         </q-item>
                         <q-separator />
-                        <q-item clickable to="listProductTypes" v-close-popup>
+                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="listProductTypes" v-close-popup>
                             <q-item-section>Kategorie</q-item-section>
                         </q-item>
-                        <q-item clickable to="reservations" v-close-popup>
+                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="reservations" v-close-popup>
                             <q-item-section>Rezerwacje po terminie</q-item-section>
                         </q-item>
                     </q-list>
