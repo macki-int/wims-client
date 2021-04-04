@@ -9,7 +9,7 @@
 
             <q-card-section class="q-pt-none">
                 <q-input dense v-model.trim="newProductType" v-on:keyup.enter="save = false" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę kategorii']" lazy-rules autofocus />
-            <q-checkbox class="q-pt-md" dense v-model="newCalculate" size="sm" label="Oblicz powierzchnię" />
+                <q-checkbox class="q-pt-md" dense v-model="newCalculate" size="sm" label="Oblicz powierzchnię" />
             </q-card-section>
             <q-card-actions align="right" class="text-primary">
                 <q-btn flat label="Anuluj" v-close-popup />
@@ -59,6 +59,7 @@ export default {
                         message: "Dodano nową kategorię",
                         icon: "check_circle_outline",
                     });
+                    this.$root.$emit("refreshProductTypes");
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
