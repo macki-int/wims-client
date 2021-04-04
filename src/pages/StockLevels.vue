@@ -83,11 +83,11 @@
                                     </div>
                                 </div>
                                 <div class="row" v-if="productType.calculate">
-                                    <div class="col q-mr-lg" >
-                                        <q-input  full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
+                                    <div class="col q-mr-lg">
+                                        <q-input full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
                                     </div>
                                     <div class="col q-mt-md">
-                                        <q-checkbox class="q-pt-md" dense v-model="formMainDimension" size="sm" color="grey"  label="Standardowy" />
+                                        <q-checkbox class="q-pt-md" dense v-model="formMainDimension" size="sm" color="grey" label="Standardowy" />
                                     </div>
                                 </div>
                                 <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
@@ -151,6 +151,10 @@ export default {
         this.getProductType();
         this.getProductsAndQuantityByProductTypeId();
         this.getMaxUpdateDateByProductType();
+
+        this.$root.$on("refreshProducts", () => {
+            this.getProductsAndQuantityByProductTypeId();
+        });
     },
 
     data() {
