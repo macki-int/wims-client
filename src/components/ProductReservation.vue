@@ -241,6 +241,7 @@ export default {
                         icon: "check_circle_outline",
                     });
                     this.getReservationsByInventoryId();
+                    this.$root.$emit("refreshProducts");
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
@@ -355,6 +356,7 @@ export default {
                         icon: "check_circle_outline",
                     });
                     this.getReservationsByInventoryId();
+                    this.$root.$emit("refreshProducts");
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
