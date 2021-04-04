@@ -111,6 +111,11 @@ export default {
             this.getProductTypes();
         };
 
+        this.$root.$on("refreshProductTypes", () => {
+            // console.log('reshresh2');
+            this.getProductTypes();
+        });
+
         this.$root.$on("logout", (item, response) => {
             this.logout();
         });
