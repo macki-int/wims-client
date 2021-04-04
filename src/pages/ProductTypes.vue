@@ -39,20 +39,20 @@
             </q-card-section>
         </q-card>
         <q-dialog v-model="showEditProductTypeDialog" persistent>
-                <q-card style="min-width: 15vw">
-                    <q-card-section>
-                        <div class="text-primary">Edycja kategorii</div>
-                    </q-card-section>
-                    <q-card-section class="q-pt-none">
-                        <q-input dense v-model="editedProductType.name" label="Nazwa kategorii" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę kategorii']" />
-                        <q-checkbox class="q-pt-md" dense v-model="editedProductType.calculate" size="sm" label="Oblicz powierzchnię" />
-                    </q-card-section>
-                    <q-card-actions align="right" class="text-primary">
-                        <q-btn flat label="Anuluj" v-close-popup />
-                        <q-btn flat label="Zapisz" v-on:click="updateProductType(editedProductType)" v-close-popup />
-                    </q-card-actions>
-                </q-card>
-            </q-dialog>
+            <q-card style="min-width: 15vw">
+                <q-card-section>
+                    <div class="text-primary">Edycja kategorii</div>
+                </q-card-section>
+                <q-card-section class="q-pt-none">
+                    <q-input dense v-model="editedProductType.name" label="Nazwa kategorii" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę kategorii']" />
+                    <q-checkbox class="q-pt-md" dense v-model="editedProductType.calculate" size="sm" label="Oblicz powierzchnię" />
+                </q-card-section>
+                <q-card-actions align="right" class="text-primary">
+                    <q-btn flat label="Anuluj" v-close-popup />
+                    <q-btn flat label="Zapisz" v-on:click="updateProductType(editedProductType)" v-close-popup />
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
     </div>
 </q-page>
 </template>
@@ -63,14 +63,18 @@ import NewProductType from "components/NewProductType.vue";
 
 export default {
     name: "ProductTypes",
-    
-    components:{
+
+    components: {
         NewProductType
     },
 
     mounted() {
         this.getLoggedUserFromLocalStore();
         this.getProductTypes();
+
+        this.$root.$on("refreshProductTypes", () => {
+            this.getProductTypes();
+        });
     },
 
     data() {
@@ -178,6 +182,8 @@ export default {
                         message: "Zaktualizowano kategorię",
                         icon: "check_circle_outline",
                     });
+                    // this.getProductTypes();
+                    this.$root.$emit("refreshProductTypes");
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
@@ -234,6 +240,8 @@ export default {
                         message: "Usunięto kategorię",
                         icon: "check_circle_outline",
                     });
+                    // this.getProductTypes();
+                    this.$root.$emit("refreshProductTypes");
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
