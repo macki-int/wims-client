@@ -12,7 +12,7 @@
                     <template slot="top-right">
                         <q-input dense v-model="filter" clearable>
                             <template v-slot:append>
-                                <q-icon name="search" color="primary"/>
+                                <q-icon name="search" color="primary" />
                             </template>
                         </q-input>
                     </template>
@@ -381,20 +381,24 @@ export default {
         },
 
         activateProduct: function (props) {
-            const url = "";
-            const message = "";
+            var url = this.$API_URL;
+            var message = "";
 
-            if (props.row.active) {
-                this.message = "Aktywowano";
-                url = this.$API_URL + "products/activate/" + props.row.id;
-            } else {
+            if (props.row.active == false) {
                 this.message = "Dezaktywowano";
-                url = this.$API_URL + "products/deactivate/" + props.row.id;
+                url = url + "products/deactivate/" + props.row.id;
+                console.log('dezaktywacja: ' + url);
+            } else {
+                this.message = "Aktywowano";
+                url = url + "products/activate/" + props.row.id;
+                console.log('aktywacja: ' + url);
             }
 
             axios
                 .patch(url, {
                     headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
                 })
                 .then((response) => {
                     this.$q.notify({
