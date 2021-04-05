@@ -77,6 +77,10 @@ export default {
         });
     },
 
+    destroyed: function () {
+        $root.$off("refreshProductTypes");
+    },
+
     data() {
         return {
             showEditProductTypeDialog: false,
