@@ -251,7 +251,7 @@ export default {
 
             columnsDetails: [{
                     name: "productName",
-                    label: "Wyrób",
+                    label: "Nazwa",
                     field: (row) => row.inventory.product,
                     field: "",
                     align: "left",
