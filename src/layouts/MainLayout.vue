@@ -23,7 +23,7 @@
                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="listProductTypes" v-close-popup>
                             <q-item-section>Kategorie</q-item-section>
                         </q-item>
-                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="reservations" v-close-popup>
+                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="reservationsAfterDeadline" v-close-popup>
                             <q-item-section>Rezerwacje po terminie</q-item-section>
                         </q-item>
                     </q-list>
@@ -46,7 +46,7 @@
                     <div class="text-primary">Zmiana hasła</div>
                 </q-card-section>
                 <q-card-section class="q-pt-none">
-                    <q-input dense v-model="oldUserPassword" label="Aktualne hasło" type="password" :rules="[
+                    <q-input dense v-model="oldUserPassword" autofocus label="Aktualne hasło" type="password" :rules="[
                 val => (val && val.length > 0) || 'Podaj aktualne hasło'
               ]" />
                     <q-input dense v-model="newUserPassword" label="Nowe hasło" type="password" :rules="[val => (val && val.length > 0) || 'Podaj nowe hasło']" />
