@@ -262,7 +262,7 @@ export default {
             const role = this.loggedUser.role.split('_')
             this.$q
                 .dialog({
-                    title: "<span class=text-primary><strong>WIMS</strong> v0.07(beta)",
+                    title: "<span class=text-primary><strong>WIMS</strong> v0.08(beta)",
                     message: "<span class=text-primary><strong> Warehouse Inventory Management System</strong>" +
                         "<br>" +
                         "TROLL-Systems Marek Janicki (C)" +
