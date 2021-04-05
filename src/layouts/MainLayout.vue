@@ -7,7 +7,6 @@
                 <q-btn v-if="auth == 'logged'" to="products" flat color="white" label="Produkty" no-caps />
                 <q-btn v-if="auth == ''" to="login" flat color="white" label="Logowanie" no-caps />
                 <q-btn v-if="auth == 'logged'" v-on:click="logout" flat color="white" label="Wyloguj" no-caps />
-                <!-- <div>Wims v{{ $q.version }}</div> -->
             </q-toolbar-title>
             <div>
                 <q-btn v-if="auth == 'logged'" flat label="Ustawienia" no-caps />
@@ -68,13 +67,9 @@
             <q-item-label header class="text-white">KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class="text-white" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
         </q-list>
-        <!-- <div>
-            <NewProductType />
-        </div> -->
         <div class="q-mb-md q-ml-md fixed-bottom">
             <q-icon color="blue-3" size="30px" name="mood" v-on:click="showInfoDialog" />
         </div>
-        <!-- TODO: add q-dialog info -->
     </q-drawer>
 
     <q-page-container>
@@ -101,7 +96,6 @@ export default {
         EventBus.$on("logged", user => {
             this.getLoggedUser(user);
             this.auth = "logged";
-            // this.getLoggedUserFromLocalStore();
             this.getProductTypes();
         });
 
@@ -112,7 +106,6 @@ export default {
         };
 
         this.$root.$on("refreshProductTypes", () => {
-            // console.log('reshresh2');
             this.getProductTypes();
         });
 
