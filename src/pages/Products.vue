@@ -161,24 +161,24 @@ export default {
                 field: "name",
                 align: "left",
                 sortable: true,
-                style: 'max-width: 70px',
-                headerStyle: 'max-width: 70px'
+                style: "max-width: 70px",
+                headerStyle: "max-width: 70px"
             }, {
                 name: "type",
                 label: "Typ",
                 field: (row) => row.productType.name,
                 align: "left",
                 sortable: true,
-                style: 'max-width: 50px',
-                headerStyle: 'max-width: 50px'
+                style: "max-width: 50px",
+                headerStyle: "max-width: 50px"
             }, {
                 name: "description",
                 label: "Opis",
                 field: "description",
                 align: "left",
                 sortable: true,
-                style: 'color: primary max-width: 50px',
-                headerStyle: 'max-width: 50px'
+                style: "max-width: 50px",
+                headerStyle: "max-width: 50px"
             }, {
                 name: "active",
                 label: "Aktywny",
@@ -193,7 +193,7 @@ export default {
                 field: "",
                 style: "max-width: 30px",
                 headerStyle: "max-width: 30px"
-            }, ],
+            }],
 
             visibleColumns: ["productWidth", "productLength", "quantity", "area", "description", "updateDate"],
 
