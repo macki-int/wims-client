@@ -123,7 +123,8 @@ export default {
 
     destroyed: function () {
         EventBus.$off("logged");
-        EventBus.$off("logout");
+        $root.$off("logout");
+        $root.$off("refreshProductTypes");
     },
 
     data() {
