@@ -24,8 +24,12 @@
                             <q-td key="type" :props="props">
                                 {{ props.row.productType.name }}
                             </q-td>
+                            <q-td key="description" :props="props">
+                                {{ props.row.description }}
+                            </q-td>
                             <q-td key="active" :props="props">
-                                <q-checkbox dense v-model="props.row.active" size="sm" color="grey" v-on:click.native="activateProduct(props)" />
+                                <q-icon class="q-pr-md text-weight-bolder" color="primary" v-if="props.row.active" size="16px" name="radio_button_checked" />
+                                <!-- <q-checkbox dense v-model="props.row.active" size="sm" color="grey" v-on:click.native="activateProduct(props)" /> -->
                             </q-td>
                             <q-td key="action" :props="props">
                                 <q-btn flat size="sm" dense unelevated color="positive" icon="more_horiz" v-on:click="showDetailProduct(props.row)">
@@ -97,6 +101,7 @@
                             </template>
                         </q-select>
                         <q-input dense v-model="editedProduct.name" label="Nazwa produktu" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']" />
+                        <q-input dense v-model="editedProduct.description" label="Opis" />
                         <q-checkbox class="q-pt-md" dense v-model="editedProduct.active" size="sm" label="Aktywny" />
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
@@ -151,32 +156,44 @@ export default {
             },
 
             columns: [{
-                    name: "product",
-                    label: "Nazwa",
-                    field: "name",
-                    align: "left",
-                    sortable: true,
-                },
-                {
-                    name: "type",
-                    label: "Typ",
-                    field: (row) => row.productType.name,
-                    align: "left",
-                    sortable: true,
-                },
-                {
-                    name: "active",
-                    label: "Aktywny",
-                    field: "active",
-                    align: "center",
-                    sortable: true,
-                },
-                {
-                    name: "action",
-                    align: "right",
-                    field: "",
-                },
-            ],
+                name: "product",
+                label: "Nazwa",
+                field: "name",
+                align: "left",
+                sortable: true,
+                style: 'max-width: 70px',
+                headerStyle: 'max-width: 70px'
+            }, {
+                name: "type",
+                label: "Typ",
+                field: (row) => row.productType.name,
+                align: "left",
+                sortable: true,
+                style: 'max-width: 50px',
+                headerStyle: 'max-width: 50px'
+            }, {
+                name: "description",
+                label: "Opis",
+                field: "description",
+                align: "left",
+                sortable: true,
+                style: 'color: primary max-width: 50px',
+                headerStyle: 'max-width: 50px'
+            }, {
+                name: "active",
+                label: "Aktywny",
+                field: "active",
+                align: "center",
+                sortable: true,
+                style: "max-width: 20px",
+                headerStyle: "max-width: 20px"
+            }, {
+                name: "action",
+                align: "right",
+                field: "",
+                style: "max-width: 30px",
+                headerStyle: "max-width: 30px"
+            }, ],
 
             visibleColumns: ["productWidth", "productLength", "quantity", "area", "description", "updateDate"],
 
@@ -303,6 +320,7 @@ export default {
                 .put(url, {
                     id: this.editedProduct.id,
                     name: this.editedProduct.name,
+                    description: this.editedProduct.description,
                     active: this.editedProduct.active,
                     productType: this.productType
                 }, {
@@ -342,7 +360,6 @@ export default {
         showDetailProduct: function (props) {
             this.detailProduct = Object.assign({}, props);
             this.getInventoriesByProductId();
-            console.log(this.detailProduct)
             this.hiddenColumn()
             this.showDetailProductDialog = true;
         },
@@ -380,54 +397,54 @@ export default {
                 });
         },
 
-        activateProduct: function (props) {
-            var url = this.$API_URL;
-            var message = "";
+        // activateProduct: function (props) {
+        //     var url = this.$API_URL;
+        //     var message = "";
 
-            if (props.row.active == false) {
-                this.message = "Dezaktywowano";
-                url = url + "products/deactivate/" + props.row.id;
-                console.log('dezaktywacja: ' + url);
-            } else {
-                this.message = "Aktywowano";
-                url = url + "products/activate/" + props.row.id;
-                console.log('aktywacja: ' + url);
-            }
+        //     if (props.row.active == false) {
+        //         this.message = "Dezaktywowano";
+        //         url = url + "products/deactivate/" + props.row.id;
+        //         console.log('dezaktywacja: ' + url);
+        //     } else {
+        //         this.message = "Aktywowano";
+        //         url = url + "products/activate/" + props.row.id;
+        //         console.log('aktywacja: ' + url);
+        //     }
 
-            axios
-                .patch(url, {
-                    headers: { Authorization: localStorage.getItem("token") }
-                }, {
-                    contentType: "application/json"
-                })
-                .then((response) => {
-                    this.$q.notify({
-                        color: "positive",
-                        position: "top",
-                        message: this.message + " produkt: " + props.row.name,
-                        icon: "check_circle_outline",
-                    });
-                })
-                .catch((error) => {
-                    if (error.response.status === 403) {
-                        this.$q.notify({
-                            color: "negative",
-                            position: "top",
-                            message: "Nie masz uprawnień lub zostałeś wylogowany",
-                            icon: "report_problem",
-                        });
-                        this.$router.push("/login")
-                    } else {
-                        this.$q.notify({
-                                color: "negative",
-                                position: "top",
-                                message: "Błąd aktywacji/dezaktywacji produktu!",
-                                icon: "report_problem",
-                            }),
-                            this.getProducts();
-                    }
-                });
-        },
+        //     axios
+        //         .patch(url, {
+        //             headers: { Authorization: localStorage.getItem("token") }
+        //         }, {
+        //             contentType: "application/json"
+        //         })
+        //         .then((response) => {
+        //             this.$q.notify({
+        //                 color: "positive",
+        //                 position: "top",
+        //                 message: this.message + " produkt: " + props.row.name,
+        //                 icon: "check_circle_outline",
+        //             });
+        //         })
+        //         .catch((error) => {
+        //             if (error.response.status === 403) {
+        //                 this.$q.notify({
+        //                     color: "negative",
+        //                     position: "top",
+        //                     message: "Nie masz uprawnień lub zostałeś wylogowany",
+        //                     icon: "report_problem",
+        //                 });
+        //                 this.$router.push("/login")
+        //             } else {
+        //                 this.$q.notify({
+        //                         color: "negative",
+        //                         position: "top",
+        //                         message: "Błąd aktywacji/dezaktywacji produktu!",
+        //                         icon: "report_problem",
+        //                     }),
+        //                     this.getProducts();
+        //             }
+        //         });
+        // },
 
         confirmDelete: function (props) {
             this.$q
