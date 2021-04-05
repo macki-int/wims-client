@@ -185,8 +185,8 @@ export default {
                 field: "active",
                 align: "center",
                 sortable: true,
-                style: "max-width: 20px",
-                headerStyle: "max-width: 20px"
+                style: "max-width: 30px",
+                headerStyle: "max-width: 30px"
             }, {
                 name: "action",
                 align: "right",
