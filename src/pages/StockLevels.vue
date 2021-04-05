@@ -158,6 +158,10 @@ export default {
         });
     },
 
+    destroyed: function () {
+        $root.$off("refreshProducts");
+    },
+
     data() {
         return {
             counter: 0,
@@ -596,6 +600,7 @@ export default {
                         icon: "check_circle_outline",
                     });
                     // this.getReservationsByInventoryId();
+                    getProductsAndQuantityByProductTypeId();
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
