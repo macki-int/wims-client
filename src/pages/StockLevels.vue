@@ -61,6 +61,7 @@
                                                 </q-card-section>
                                                 <q-card-section class="q-pt-none">
                                                     <q-input dense v-model.trim="newProduct" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']" v-on:keyup.enter="dialogNewProduct = false" autofocus />
+                                                    <q-input dense v-model.trim="newProductDescription" v-on:keyup.enter="dialogNewProduct = false" />
                                                 </q-card-section>
                                                 <q-card-actions align="right" class="text-primary">
                                                     <q-btn flat label="Anuluj" v-close-popup />
@@ -163,11 +164,13 @@ export default {
             productType: [],
             maxUpdateDate: [],
             newProduct: "",
+            newProductDescription:"",
             product: "",
             products: [],
 
             formInventoryId: "",
             formProductName: "",
+            formProductDescription: "",
             formWidth: "",
             formLength: "",
             formQuantity: "",
@@ -371,6 +374,7 @@ export default {
             axios
                 .post(url, {
                     name: this.newProduct,
+                    description: this.newProductDescription,
                     productType: this.productType,
                 }, {
                     headers: { Authorization: localStorage.getItem("token") }
@@ -386,6 +390,7 @@ export default {
                     });
                     this.formProductId = response.data.id;
                     this.formProductName = response.data.name;
+                    this.formProductDescription = response.data.description;
                     this.dialogNewInventory = true;
                     // console.log('post product:' + response.data.id);
                     // return response.data;
@@ -418,6 +423,7 @@ export default {
                     id: this.formProductId,
                     active: this.formActiveValue,
                     name: this.formProductName,
+                    name: this.formProductDescription,
                     productType: this.productType,
                 }, {
                     headers: { Authorization: localStorage.getItem("token") }
@@ -624,6 +630,7 @@ export default {
             this.selected = !this.selected;
 
             this.newProduct = "";
+            this.newProductDescription = "";
             this.disabled = false;
             this.recalculateArea();
             // this.toggleSingleRow(product);
@@ -661,6 +668,7 @@ export default {
         clearFormInventory: function () {
             this.formInventoryId = "";
             this.formProductName = "";
+            this.formProductDescription = "";
             this.formWidth = "";
             this.formLength = "";
             this.formQuantity = "";
