@@ -78,7 +78,7 @@ export default {
     },
 
     destroyed: function () {
-        $root.$off("refreshProductTypes");
+        $off("refreshProductTypes");
     },
 
     data() {
