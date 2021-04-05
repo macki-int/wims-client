@@ -24,7 +24,7 @@ const routes = [
         component: () => import("pages/ProductTypes.vue")
       },
       {
-        path: "reservations",
+        path: "reservationsAfterDeadline",
         component: () => import("pages/ReservationsAfterDeadline.vue")
       },
       {
