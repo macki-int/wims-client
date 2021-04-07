@@ -11,8 +11,8 @@
                     </template>
                     <template slot="top-right">
                         <q-input dense v-model="filter" clearable>
-                            <template v-slot:append >
-                                <q-icon name="search" color="primary"/>
+                            <template v-slot:append>
+                                <q-icon name="search" color="primary" />
                             </template>
                         </q-input>
                     </template>
@@ -206,7 +206,7 @@ export default {
             pagination: {
                 sortBy: "type",
                 descending: false,
-                rowsPerPage: 10
+                rowsPerPage: 20
             },
 
             columns: [{
