@@ -20,7 +20,7 @@
                                 </template>
                             </q-input>
                         </template>
-                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row) ">
+                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row, props.rowIndex)">
                             <q-td key="product" :props="props">
                                 {{ props.row.inventory.product.name }}
                                 <q-icon v-if="props.row.reservationCounter>0" class="q-pr-md text-weight-bolder" color="primary" size="16px" name="schedule" />
@@ -164,11 +164,13 @@ export default {
 
     data() {
         return {
+            
+            rowIndex: 0,
             counter: 0,
             productType: [],
             maxUpdateDate: [],
             newProduct: "",
-            newProductDescription:"",
+            newProductDescription: "",
             product: "",
             products: [],
 
@@ -199,7 +201,6 @@ export default {
             filter: "",
             loggedUser: "",
 
-            selected: [],
             visibleColumns: ["product", "productWidth", "productLength", "quantity", "area", "active"],
 
             columns: [{
@@ -622,7 +623,7 @@ export default {
                 });
         },
 
-        onRowClick: function (product) {
+        onRowClick: function (product, rowIndex) {
             this.formProductId = product.inventory.product.id;
             this.formProductName = product.inventory.product.name;
             this.formInventoryId = product.inventory.id;
@@ -632,7 +633,6 @@ export default {
             this.formDescription = product.inventory.description;
             this.formMainDimension = product.inventory.mainDimension;
             this.formActiveValue = product.inventory.product.active;
-            this.selected = !this.selected;
 
             this.newProduct = "";
             this.newProductDescription = "";
@@ -642,12 +642,9 @@ export default {
 
             EventBus.$emit("click", product);
             this.$refs.refReservation.getReservationsByInventoryId();
-        },
 
-        // toggleSingleRow: function (row) {
-        //     this.selected = [];
-        //     this.selected.push(row.name);
-        // },
+            console.log(rowIndex)
+        },
 
         onChange: function () {
             if (this.formProductName.length > 0) {
@@ -692,9 +689,6 @@ export default {
                 this.visibleColumns = ["product", "productWidth", "productLength", "quantity", "active"]);
         },
 
-        showAlert: function () {
-            console.log("alert");
-        }
     },
 
 };
