@@ -12,7 +12,7 @@
                             <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </div>
                     </q-card-section>
-                    <q-table dense flat :data="products" :columns="columns" row-key="name" :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
+                    <q-table  dense flat :data="products" :columns="columns" row-key="id" :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
                         <template slot="top-right">
                             <q-input dense v-model="filter" clearable>
                                 <template v-slot:append>
@@ -20,7 +20,7 @@
                                 </template>
                             </q-input>
                         </template>
-                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row, props.rowIndex)">
+                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row, props)">
                             <q-td key="product" :props="props">
                                 {{ props.row.inventory.product.name }}
                                 <q-icon v-if="props.row.reservationCounter>0" class="q-pr-md text-weight-bolder" color="primary" size="16px" name="schedule" />
@@ -120,6 +120,7 @@
                             <!-- <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" /> -->
                         </div>
                     </q-card-section>
+
                 </q-card>
             </div>
         </div>
@@ -130,6 +131,7 @@
 <script>
 import axios from "axios";
 import ProductReservation from "components/ProductReservation.vue";
+import IndexVue from './Index.vue';
 
 export default {
     name: "StockLevels",
@@ -164,8 +166,9 @@ export default {
 
     data() {
         return {
-            
-            rowIndex: 0,
+            selected: [],
+            // rowIndex: 0,
+            isClicked: false,
             counter: 0,
             productType: [],
             maxUpdateDate: [],
@@ -623,7 +626,7 @@ export default {
                 });
         },
 
-        onRowClick: function (product, rowIndex) {
+        onRowClick: function (product, props) {
             this.formProductId = product.inventory.product.id;
             this.formProductName = product.inventory.product.name;
             this.formInventoryId = product.inventory.id;
@@ -638,12 +641,16 @@ export default {
             this.newProductDescription = "";
             this.disabled = false;
             this.recalculateArea();
-            // this.toggleSingleRow(product);
+
+            this.isClicked = !this.isClicked;
+            var element = document.getElementById("row-key");
+            element.style.background = (this.isClicked == true) ? "rgba(0,0,0,0.6)" : "transparent";
+
+            // console.log(props)
 
             EventBus.$emit("click", product);
             this.$refs.refReservation.getReservationsByInventoryId();
 
-            console.log(rowIndex)
         },
 
         onChange: function () {
