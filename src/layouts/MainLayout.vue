@@ -82,13 +82,16 @@
 
 <script>
 import ProductTypeMenuLink from "components/ProductTypeMenuLink.vue";
+import About from "components/About.vue";
+
 import axios from "axios";
 
 export default {
     name: "MainLayout",
 
     components: {
-        ProductTypeMenuLink,
+        ProductTypeMenuLink
+        
         // NewProductType,
     },
 
@@ -136,7 +139,7 @@ export default {
                 role: "",
                 active: ""
             },
-
+            infoDialog: null,
             productTypes: [],
             auth: ""
         };
@@ -259,19 +262,24 @@ export default {
         },
 
         showInfoDialog: function () {
-            const role = this.loggedUser.role.split('_')
-            this.$q
+            // const role = this.loggedUser.role.split('_')
+            // this.$q
+            //     .dialog({
+            //         title: "<span class=text-primary><strong>WIMS</strong> v0.08(beta)",
+            //         message: "<span class=text-primary><strong> Warehouse Inventory Management System</strong>" +
+            //             "<br>" +
+            //             "TROLL-Systems Marek Janicki (C)" +
+            //             "<br>" +
+            //             "<br>" +
+            //             "<div class=text-caption> Zalogowany: <strong>" + this.loggedUser.firstName + " " + this.loggedUser.lastName + "</strong>" +
+            //             "<br>" +
+            //             " Uprawnienia: <strong>" + role[1] + "</strong></div></span>",
+            //         html: true,
+            //     })
+
+            this.infoDialog = this.$q
                 .dialog({
-                    title: "<span class=text-primary><strong>WIMS</strong> v0.08(beta)",
-                    message: "<span class=text-primary><strong> Warehouse Inventory Management System</strong>" +
-                        "<br>" +
-                        "TROLL-Systems Marek Janicki (C)" +
-                        "<br>" +
-                        "<br>" +
-                        "<div class=text-caption> Zalogowany: <strong>" + this.loggedUser.firstName + " " + this.loggedUser.lastName + "</strong>" +
-                        "<br>" +
-                        " Uprawnienia: <strong>" + role[1] + "</strong></div></span>",
-                    html: true,
+                    component: About,
                 })
         },
 
@@ -292,6 +300,6 @@ export default {
             });
             this.$router.push("/");
         }
-    },
+    }
 };
 </script>
