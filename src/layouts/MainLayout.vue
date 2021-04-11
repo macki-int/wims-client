@@ -2,14 +2,15 @@
 <q-layout view="lHh Lpr lFf" container style="height: 100vh">
     <q-header elevated>
         <q-toolbar>
-            <q-btn flat dense round icon="menu" aria-label="Menu" v-on:click="leftDrawerOpen = !leftDrawerOpen" />
+            <q-btn flat dense icon="menu" aria-label="Menu" v-on:click="leftDrawerOpen = !leftDrawerOpen" />
             <q-toolbar-title>
-                <q-btn v-if="auth == 'logged'" to="products" flat color="white" label="Produkty" no-caps />
-                <q-btn v-if="auth == ''" to="login" flat color="white" label="Logowanie" no-caps />
-                <q-btn v-if="auth == 'logged'" v-on:click="logout" flat color="white" label="Wyloguj" no-caps />
+                <q-btn flat dense v-if="auth == 'logged'" to="products" color="white" label="Produkty" no-caps  />
+                <q-btn flat v-if="auth == ''" to="login" color="white" label="Logowanie" no-caps />
+                <q-btn flat v-if="auth == 'logged'" v-on:click="logout" color="white" label="Wyloguj" no-caps />
+                <q-btn flat dense v-if="auth == 'logged'" @click="$q.fullscreen.toggle()" color="white" :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" />
             </q-toolbar-title>
             <div>
-                <q-btn v-if="auth == 'logged'" flat label="Ustawienia" no-caps />
+                <q-btn flat v-if="auth == 'logged'" label="Ustawienia" no-caps />
                 <q-menu content-class="text-primary" inverted anchor="bottom left" self="top left">
                     <q-list style="min-width: 10vw">
                         <q-item clickable v-on:click="showChangeUserPasswordDialog = true" v-close-popup>
@@ -67,11 +68,10 @@
             <q-item-label header class="text-white">KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class="text-white" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
         </q-list>
-        <div class="q-mb-md q-ml-md fixed-bottom">
-            <q-icon color="blue-3" size="30px" name="mood" v-on:click="showInfoDialog" />
+        <div class="q-mb-md q-ml-md fixed-bottom" >
+            <q-icon color="blue-3" size="30px" name="mood" v-on:click="showInfoDialog" class="cursor-pointer"/>
         </div>
     </q-drawer>
-
     <q-page-container>
         <q-page>
             <router-view />
@@ -91,8 +91,6 @@ export default {
 
     components: {
         ProductTypeMenuLink
-        
-        // NewProductType,
     },
 
     mounted: function () {
@@ -207,7 +205,6 @@ export default {
                             icon: "report_problem",
                         });
                         this.$router.push("/login")
-                        // this.logout();
                     } else {
                         this.$q.notify({
                             color: "negative",
@@ -249,7 +246,6 @@ export default {
                             icon: "report_problem",
                         });
                         this.$router.push("/login");
-                        // this.logout();
                     } else {
                         this.$q.notify({
                             color: "negative",
@@ -262,21 +258,6 @@ export default {
         },
 
         showInfoDialog: function () {
-            // const role = this.loggedUser.role.split('_')
-            // this.$q
-            //     .dialog({
-            //         title: "<span class=text-primary><strong>WIMS</strong> v0.08(beta)",
-            //         message: "<span class=text-primary><strong> Warehouse Inventory Management System</strong>" +
-            //             "<br>" +
-            //             "TROLL-Systems Marek Janicki (C)" +
-            //             "<br>" +
-            //             "<br>" +
-            //             "<div class=text-caption> Zalogowany: <strong>" + this.loggedUser.firstName + " " + this.loggedUser.lastName + "</strong>" +
-            //             "<br>" +
-            //             " Uprawnienia: <strong>" + role[1] + "</strong></div></span>",
-            //         html: true,
-            //     })
-
             this.infoDialog = this.$q
                 .dialog({
                     component: About,
@@ -291,7 +272,6 @@ export default {
             this.auth = "";
             this.loggedUser = "";
             localStorage.clear();
-            // location.reload();
             this.$q.notify({
                 color: "positive",
                 position: "top",
