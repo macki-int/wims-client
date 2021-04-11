@@ -167,7 +167,6 @@ export default {
     data() {
         return {
             selected: [],
-            // rowIndex: 0,
             isClicked: false,
             counter: 0,
             productType: [],
@@ -641,10 +640,6 @@ export default {
             this.newProductDescription = "";
             this.disabled = false;
             this.recalculateArea();
-
-            this.isClicked = !this.isClicked;
-            var element = document.getElementById("row-key");
-            element.style.background = (this.isClicked == true) ? "rgba(0,0,0,0.6)" : "transparent";
 
             // console.log(props)
 
