@@ -2,9 +2,9 @@
 <q-dialog v-model="card" ref="dialog" >
     <q-card class="my-card text-primary" style="min-width:400px">
         <div class="row">
-            <img alt="Wims logo" src="~assets/icon-96x96.png" style="width: 25%;">
+            <img alt="Wims logo" src="~assets/icon-96x96.png" style="width: 23%;">
             <q-card-section >
-                <div class="text-h3 ellipsis">
+                <div class="text-h4 ellipsis">
                     <strong>WIMS App</strong>
                 </div>
                 <div class="text-caption">
