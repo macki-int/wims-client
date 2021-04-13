@@ -5,7 +5,7 @@
             <img alt="Wims logo" src="~assets/icon-96x96.png" style="width: 23%;">
             <q-card-section >
                 <div class="text-h4 ellipsis">
-                    <strong>WIMS App</strong>
+                    <strong>WIMS</strong>
                 </div>
                 <div class="text-caption">
                     Warehouse Inventory Management System
