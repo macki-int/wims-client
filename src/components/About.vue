@@ -1,11 +1,14 @@
 <template>
-<q-dialog v-model="card" ref="dialog">
-    <q-card class="my-card text-primary">
+<q-dialog v-model="card" ref="dialog" >
+    <q-card class="my-card text-primary" style="min-width:400px">
         <div class="row">
-            <img alt="Wims logo" src="~assets/icon-96x96.png" style="width: 12%;" enter-active-class="animated fadeIn">
+            <img alt="Wims logo" src="~assets/icon-96x96.png" style="width: 25%;">
             <q-card-section >
-                <div class="text-h6 ellipsis">
-                    <strong>Warehouse Inventory Management System</strong>
+                <div class="text-h3 ellipsis">
+                    <strong>WIMS App</strong>
+                </div>
+                <div class="text-caption">
+                    Warehouse Inventory Management System
                 </div>
             </q-card-section>
         </div>
