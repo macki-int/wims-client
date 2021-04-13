@@ -23,7 +23,8 @@
                         <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row, props)">
                             <q-td key="product" :props="props">
                                 {{ props.row.inventory.product.name }}
-                                <q-icon v-if="props.row.reservationCounter>0" class="q-pr-md text-weight-bolder" color="primary" size="16px" name="schedule" />
+                                <q-icon v-if="props.row.reservationCounter>0" class="text-weight-bolder" color="primary" size="16px" name="schedule" />
+                                  <q-icon v-if="props.row.inventory.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes" />
                             </q-td>
                             <q-td key="productWidth" :props="props" :class="props.row.inventory.mainDimension?'text-primary text-bold':''">
                                 {{ setNumericFormat(props.row.inventory.productWidth) }}
