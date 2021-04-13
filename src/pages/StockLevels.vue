@@ -12,7 +12,7 @@
                             <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </div>
                     </q-card-section>
-                    <q-table  dense flat :data="products" :columns="columns" row-key="id" :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
+                    <q-table dense flat :data="products" :columns="columns" row-key="area" :visible-columns="visibleColumns" :filter="filter" :selected.sync="selected" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
                         <template slot="top-right">
                             <q-input dense v-model="filter" clearable>
                                 <template v-slot:append>
@@ -20,11 +20,12 @@
                                 </template>
                             </q-input>
                         </template>
-                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row, props)">
+                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row)" >
+                        <!-- <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row)" @click.exact="toggleSingleRow(props.row)"> -->
                             <q-td key="product" :props="props">
                                 {{ props.row.inventory.product.name }}
                                 <q-icon v-if="props.row.reservationCounter>0" class="text-weight-bolder" color="primary" size="16px" name="schedule" />
-                                  <q-icon v-if="props.row.inventory.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes" />
+                                <q-icon v-if="props.row.inventory.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes" />
                             </q-td>
                             <q-td key="productWidth" :props="props" :class="props.row.inventory.mainDimension?'text-primary text-bold':''">
                                 {{ setNumericFormat(props.row.inventory.productWidth) }}
@@ -132,7 +133,7 @@
 <script>
 import axios from "axios";
 import ProductReservation from "components/ProductReservation.vue";
-import IndexVue from './Index.vue';
+// import IndexVue from './Index.vue';
 
 export default {
     name: "StockLevels",
@@ -167,6 +168,7 @@ export default {
 
     data() {
         return {
+            val: false,
             selected: [],
             isClicked: false,
             counter: 0,
@@ -626,7 +628,7 @@ export default {
                 });
         },
 
-        onRowClick: function (product, props) {
+        onRowClick: function (product) {
             this.formProductId = product.inventory.product.id;
             this.formProductName = product.inventory.product.name;
             this.formInventoryId = product.inventory.id;
@@ -691,6 +693,12 @@ export default {
                 this.visibleColumns = ["product", "productWidth", "productLength", "quantity", "area", "active"] :
                 this.visibleColumns = ["product", "productWidth", "productLength", "quantity", "active"]);
         },
+
+        toggleSingleRow(row) {
+            this.selected = []
+            this.selected.push(row)
+            console.log(this.selected)
+        }
 
     },
 
