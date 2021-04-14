@@ -15,7 +15,7 @@
                     <q-table dense flat :data="products" :columns="columns" row-key="area" :visible-columns="visibleColumns" :filter="filter" :selected.sync="selected" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
                         <template slot="top-right">
                             <q-input dense v-model="filter" clearable>
-                                <template v-slot:append>
+                                <template v-slot:prepend>
                                     <q-icon name="search" color="primary" />
                                 </template>
                             </q-input>
