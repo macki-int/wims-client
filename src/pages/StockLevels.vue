@@ -632,6 +632,7 @@ export default {
         onRowClick: function (product) {
             this.formProductId = product.inventory.product.id;
             this.formProductName = product.inventory.product.name;
+            this.formProductDescription = product.inventory.product.description;
             this.formInventoryId = product.inventory.id;
             this.formWidth = product.inventory.productWidth;
             this.formLength = product.inventory.productLength;
