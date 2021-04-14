@@ -11,7 +11,7 @@
                     </template>
                     <template slot="top-right">
                         <q-input dense v-model="filter" clearable>
-                            <template v-slot:append>
+                            <template v-slot:prepend>
                                 <q-icon name="search" color="primary" />
                             </template>
                         </q-input>
@@ -225,8 +225,8 @@ export default {
                     title: "<span class=text-negative>Usuwanie rezerwacji</span>",
                     message: "<span class=text-negative>Czy usunąć rezerwację produktu: <strong>" + props.row.inventory.product.name + "</strong>" +
                         "<br>" +
-                        "dla ilości: <strong>" + props.row.inventory.productWidth * props.row.inventory.productLength * props.row.quantity + 
-                        "</strong> (" + props.row.inventory.productWidth + " x " + props.row.inventory.productLength + ")" + 
+                        "dla ilości: <strong>" + props.row.inventory.productWidth * props.row.inventory.productLength * props.row.quantity +
+                        "</strong> (" + props.row.inventory.productWidth + " x " + props.row.inventory.productLength + ")" +
                         "<br>" +
                         "użytkownika: <strong>" + props.row.user.username + "</strong>?</span>",
                     color: 'negative',
