@@ -10,7 +10,7 @@
                 </template>
                 <template slot="top-right">
                     <q-input dense v-model="filter" clearable>
-                        <template v-slot:append>
+                        <template v-slot:prepend>
                             <q-icon name="search" color="primary" />
                         </template>
                     </q-input>
