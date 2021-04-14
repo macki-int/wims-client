@@ -14,7 +14,7 @@
                     </q-card-section>
                     <q-table dense flat :data="products" :columns="columns" row-key="area" :visible-columns="visibleColumns" :filter="filter" :selected.sync="selected" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
                         <template slot="top-right">
-                            <q-input dense v-model="filter" clearable>
+                            <q-input dense v-model="filter" clear-icon="close" clearable>
                                 <template v-slot:prepend>
                                     <q-icon name="search" color="primary" />
                                 </template>
@@ -55,7 +55,7 @@
                                 <template>
                                     <div>
                                         <q-input full-width no-outline type="text" v-model="formProductName" style="font-size: 2em" readonly />
-                                        <div align="right">{{ formProductDescription }}</div>
+                                        <q-input dense full-width borderless input-class="text-right" v-model="formProductDescription" style="font-size: 1em" readonly />
                                         <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat label="Nowy produkt" color="primary" v-on:click="dialogNewProduct = true" />
                                         <q-dialog v-model="dialogNewProduct" persistent>
                                             <q-card style="min-width: 15vw">
