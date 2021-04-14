@@ -55,7 +55,7 @@
                                 <template>
                                     <div>
                                         <q-input full-width no-outline type="text" v-model="formProductName" style="font-size: 2em" readonly />
-                                        <q-input dense full-width no-outline type="text" v-model="formProductDescription" readonly />
+                                        <div align="right">{{ formProductDescription }}</div>
                                         <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat label="Nowy produkt" color="primary" v-on:click="dialogNewProduct = true" />
                                         <q-dialog v-model="dialogNewProduct" persistent>
                                             <q-card style="min-width: 15vw">
