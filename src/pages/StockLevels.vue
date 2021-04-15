@@ -664,7 +664,6 @@ export default {
           if (this.productType.calculate) {
             this.formArea = this.formWidth * this.formLength * this.formQuantity;
             }
-            console.log(this.formWidth * this.formLength + this.formQuantity)
         },
 
         setNumericFormat: function (num) {
