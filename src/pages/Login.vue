@@ -9,7 +9,11 @@
                 </q-card-section>
                 <q-card-section>
                     <q-input required v-model="username" no-outline type="text" label="Nazwa użytkownika (nick)" />
-                    <q-input required v-model="password" no-outline type="password" label="Hasło" />
+                    <q-input required v-model="password" no-outline :type="isPwd ? 'password' : 'text'" label="Hasło">
+                        <template v-slot:append>
+                            <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
+                        </template>
+                    </q-input>
                 </q-card-section>
                 <q-card-actions align="left" class="text-primary">
                     <q-btn flat type="submit" label="Zaloguj" color="primary" />
@@ -28,6 +32,7 @@ export default {
 
     data() {
         return {
+            isPwd: true,
             username: "",
             password: ""
         }
