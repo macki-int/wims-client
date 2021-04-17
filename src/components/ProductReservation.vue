@@ -419,6 +419,9 @@ export default {
             });
         },
 
+        clearReservationTable: function () {
+            this.reservations = [];
+        },
     },
 };
 </script>
