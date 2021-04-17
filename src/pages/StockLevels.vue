@@ -20,8 +20,11 @@
                                 </template>
                             </q-input>
                         </template>
-                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row)" >
-                        <!-- <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row)" @click.exact="toggleSingleRow(props.row)"> -->
+                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row, props)">
+                            <!-- <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row)" @click.exact="toggleSingleRow(props.row)"> -->
+                            <q-td key="index" :props="props">
+                                {{ props.rowIndex + 1 }}
+                            </q-td>
                             <q-td key="product" :props="props">
                                 {{ props.row.inventory.product.name }}
                                 <q-icon v-if="props.row.reservationCounter>0" class="text-weight-bolder" color="primary" size="16px" name="schedule" />
@@ -207,9 +210,15 @@ export default {
             filter: "",
             loggedUser: "",
 
-            visibleColumns: ["product", "productWidth", "productLength", "quantity", "area", "active"],
+            visibleColumns: ["index", "product", "productWidth", "productLength", "quantity", "area", "active"],
 
             columns: [{
+                    name: "index",
+                    label: "Lp",
+                    field: "",
+                    align: "left"
+                },
+                {
                     name: "product",
                     label: "Nazwa",
                     field: (row) => row.inventory.product.name,
@@ -268,6 +277,7 @@ export default {
                     this.productType = response.data;
                     this.hiddenColumn();
                     this.clearFormInventory();
+                    this.clearReservationTable();
                     // alert(event.target.tagName);
                     // console.log('response: ' + JSON.stringify(response.data));
                 })
@@ -629,7 +639,7 @@ export default {
                 });
         },
 
-        onRowClick: function (product) {
+        onRowClick: function (product, props) {
             this.formProductId = product.inventory.product.id;
             this.formProductName = product.inventory.product.name;
             this.formProductDescription = product.inventory.product.description;
@@ -646,7 +656,7 @@ export default {
             this.disabled = false;
             this.recalculateArea();
 
-            // console.log(props)
+            console.log(props)
 
             EventBus.$emit("click", product);
             this.$refs.refReservation.getReservationsByInventoryId();
@@ -661,8 +671,8 @@ export default {
         },
 
         recalculateArea: function () {
-          if (this.productType.calculate) {
-            this.formArea = this.formWidth * this.formLength * this.formQuantity;
+            if (this.productType.calculate) {
+                this.formArea = this.formWidth * this.formLength * this.formQuantity;
             }
         },
 
@@ -688,12 +698,16 @@ export default {
             this.disabled = true;
         },
 
+        clearReservationTable: function () {
+            this.$refs.refReservation.clearReservationTable();
+        },
+
         hiddenColumn: function () {
             this.visibleColumns = [];
 
             if (this.productType.calculate ?
-                this.visibleColumns = ["product", "productWidth", "productLength", "quantity", "area", "active"] :
-                this.visibleColumns = ["product", "productWidth", "productLength", "quantity", "active"]);
+                this.visibleColumns = ["index", "product", "productWidth", "productLength", "quantity", "area", "active"] :
+                this.visibleColumns = ["index", "product", "productWidth", "productLength", "quantity", "active"]);
         },
 
         toggleSingleRow(row) {
@@ -701,7 +715,6 @@ export default {
             this.selected.push(row)
             console.log(this.selected)
         }
-
     },
 
 };
