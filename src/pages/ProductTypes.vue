@@ -77,7 +77,7 @@ export default {
         });
     },
 
-    destroyed: function () {
+    destroyed() {
         $off("refreshProductTypes");
     },
 
