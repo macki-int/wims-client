@@ -26,7 +26,7 @@
                                 <q-checkbox dense v-model="props.selected" size="28px"/>
                             </q-td> -->
                             <q-td key="index" :props="props" auto-width>
-                                {{ props.rowIndex + 1 }}
+                                {{ props.rowIndex + 1 }}.
                             </q-td>
                             <!-- <q-td key="id" :props="props">
                                 {{ props.row.inventory.id }}
