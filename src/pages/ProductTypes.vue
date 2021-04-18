@@ -17,6 +17,9 @@
                 </template>
                 <template slot="body" slot-scope="props">
                     <q-tr :props="props">
+                        <q-td key="index" :props="props" auto-width>
+                            {{ props.rowIndex + 1 }}.
+                        </q-td>
                         <q-td key="name" :props="props">
                             {{ props.row.name }}
                         </q-td>
@@ -100,6 +103,11 @@ export default {
             },
 
             columns: [{
+                    name: "index",
+                    label: "Lp",
+                    field: "",
+                    align: "right"
+                }, {
                     name: "name",
                     label: "Nazwa",
                     field: "name",
