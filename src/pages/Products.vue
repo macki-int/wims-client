@@ -18,6 +18,9 @@
                     </template>
                     <template slot="body" slot-scope="props">
                         <q-tr :props="props">
+                            <q-td key="index" :props="props" auto-width>
+                                {{ props.rowIndex + 1 }}.
+                            </q-td>
                             <q-td key="product" :props="props">
                                 {{ props.row.name }}
                             </q-td>
@@ -55,6 +58,9 @@
                     <q-card-section>
                         <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" :visible-columns="visibleColumns" v-bind:request="getInventoriesByProductId">
                             <q-tr slot="body" slot-scope="props" :props="props">
+                                <q-td key="index" :props="props" auto-width>
+                                    {{ props.rowIndex + 1 }}.
+                                </q-td>
                                 <q-td key="productWidth" :props="props">
                                     {{ setNumericFormat(props.row.productWidth) }}
                                 </q-td>
@@ -156,6 +162,11 @@ export default {
             },
 
             columns: [{
+                name: "index",
+                label: "Lp",
+                field: "",
+                align: "right"
+            }, {
                 name: "product",
                 label: "Nazwa",
                 field: "name",
@@ -195,9 +206,14 @@ export default {
                 headerStyle: "max-width: 30px"
             }],
 
-            visibleColumns: ["productWidth", "productLength", "quantity", "area", "description", "updateDate"],
+            visibleColumns: ["index", "productWidth", "productLength", "quantity", "area", "description", "updateDate"],
 
             columnsDetails: [{
+                    name: "index",
+                    label: "Lp",
+                    field: "",
+                    align: "right"
+                }, {
                     name: "productWidth",
                     label: "Szerokość",
                     field: "productWidth",
@@ -522,8 +538,8 @@ export default {
             this.visibleColumns = [];
 
             if (this.detailProduct.productType.calculate ?
-                this.visibleColumns = ["productWidth", "productLength", "quantity", "area", "description", "updateDate"] :
-                this.visibleColumns = ["productWidth", "productLength", "quantity", "description", "updateDate"]);
+                this.visibleColumns = ["index", "productWidth", "productLength", "quantity", "area", "description", "updateDate"] :
+                this.visibleColumns = ["index", "productWidth", "productLength", "quantity", "description", "updateDate"]);
 
         },
 
