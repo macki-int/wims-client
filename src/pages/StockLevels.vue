@@ -222,7 +222,7 @@ export default {
                     name: "index",
                     label: "Lp",
                     field: "",
-                    align: "left"
+                    align: "right"
                 },
                 // {
                 //     name: "id",
