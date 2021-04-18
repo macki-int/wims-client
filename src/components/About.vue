@@ -13,7 +13,7 @@
             </q-card-section>
         </div>
         <q-card-section class="bg-primary text-white">
-            TROLL-Systems Marek Janicki &copy;
+            TROLL-Systems Marek Janicki &copy; 2021
         </q-card-section>
         <q-card-section class="bg-primary text-white">
             Zalogowany: <strong> {{ this.loggedUser.firstName }} {{ this.loggedUser.lastName }} </strong><br>
@@ -21,7 +21,7 @@
         </q-card-section>
         <q-card-actions>
             <div class="col q-ml-sm text-caption" align="left">
-                v0.09 (beta)
+                v0.10 (beta)
             </div>
             <div class="col" align="right">
                 <q-btn v-close-popup flat color="primary" label="OK" />
