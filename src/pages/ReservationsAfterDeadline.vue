@@ -184,10 +184,12 @@ export default {
 
     methods: {
         getReservations: function () {
-            const url = this.$API_URL + "reservations";
+            const url = this.$API_URL + "reservations/expire";
 
             axios
-                .get(url, {
+                .get(url, { params: {
+                        date: new Date().toJSON().slice(0, 10)
+                    },
                     contentType: "application/json",
                     dataType: "json",
                     headers: { Authorization: localStorage.getItem("token") }
