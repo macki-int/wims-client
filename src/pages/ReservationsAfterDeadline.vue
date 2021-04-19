@@ -47,9 +47,9 @@
                             </q-td>
 
                             <q-td key="action" :props="props">
-                                <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editReservation(props)">
+                                <!-- <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editReservation(props)">
                                     <q-tooltip content-class="bg-blue-8">Edytuj rezerwację</q-tooltip>
-                                </q-btn>
+                                </q-btn> -->
                                 <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
                                     <q-tooltip content-class="bg-red">Usuń rezerwację</q-tooltip>
                                 </q-btn>
