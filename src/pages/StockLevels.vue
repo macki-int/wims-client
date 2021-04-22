@@ -33,8 +33,12 @@
                             </q-td> -->
                             <q-td key="product" :props="props">
                                 {{ props.row.inventory.product.name }}
-                                <q-icon v-if="props.row.reservationCounter>0" class="text-weight-bolder" color="primary" size="16px" name="schedule" />
-                                <q-icon v-if="props.row.inventory.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes" />
+                                <q-icon v-if="props.row.reservationCounter>0" class="text-weight-bolder" color="primary" size="16px" name="schedule">
+                                    <q-tooltip content-class="bg-blue-8">Dodano rezerwację</q-tooltip>
+                                </q-icon>
+                                <q-icon v-if="props.row.inventory.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes">
+                                    <q-tooltip content-class="bg-blue-8">Dodano komentarz</q-tooltip>
+                                </q-icon>
                             </q-td>
                             <q-td key="productWidth" :props="props" :class="props.row.inventory.mainDimension?'text-primary text-bold':''">
                                 {{ setNumericFormat(props.row.inventory.productWidth) }}
