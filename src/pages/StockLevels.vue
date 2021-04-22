@@ -203,7 +203,7 @@ export default {
             formDescription: "",
             formMainDimension: "",
 
-            showZeroValue: false,
+            showZeroValue: true,
             showActiveProduct: false,
 
             disabled: true,
