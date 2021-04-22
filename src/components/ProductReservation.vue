@@ -8,9 +8,7 @@
 
             <q-td key="user" :props="props">
                 {{ props.row.user.username }}
-                <q-icon v-if="props.row.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes">
-                    <q-tooltip content-class="bg-blue-8">Dodano komentarz</q-tooltip>
-                </q-icon>
+                <q-icon v-if="props.row.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes" />
             </q-td>
             <q-td key="stopDate" :props="props">
                 {{ props.row.stopDate }}
