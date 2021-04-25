@@ -81,7 +81,7 @@ export default {
     },
 
     destroyed() {
-        $off("refreshProductTypes");
+        $root.$off("refreshProductTypes");
     },
 
     data() {
