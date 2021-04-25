@@ -37,7 +37,7 @@
                                     <q-tooltip content-class="bg-blue-8">Dodano rezerwację</q-tooltip>
                                 </q-icon>
                                 <q-icon v-if="props.row.inventory.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes">
-                                    <q-tooltip content-class="bg-blue-8">Dodano komentarz</q-tooltip>
+                                    <q-tooltip content-class="bg-blue-8">Dodano opis</q-tooltip>
                                 </q-icon>
                             </q-td>
                             <q-td key="productWidth" :props="props" :class="props.row.inventory.mainDimension?'text-primary text-bold':''">
@@ -107,7 +107,7 @@
                                         <q-checkbox class="q-pt-md" dense v-model="formMainDimension" size="sm" color="grey" label="Standardowy" />
                                     </div>
                                 </div>
-                                <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Uwagi" />
+                                <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Opis" />
                                 <div>
                                     <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Nowy asortyment" type="reset" color="primary" />
                                     <q-dialog v-model="dialogNewInventory" persistent>
@@ -119,7 +119,7 @@
                                                 <q-input dense v-model="formWidth" label="Szerokość" type="number" :decimals="3" :rules="[(val) => val > 0 && val.length > 0]" autofocus />
                                                 <q-input dense v-model="formLength" label="Długość" type="number" :decimals="3" :rules="[(val) => val > 0 && val.length > 0]" />
                                                 <q-input dense v-model="formQuantity" label="Ilość" type="number" :rules="[(val) => val > 0 && val.length > 0]" />
-                                                <q-input dense v-model="formDescription" label="Uwagi" type="textarea" autogrow />
+                                                <q-input dense v-model="formDescription" label="Opis" type="textarea" autogrow />
                                             </q-card-section>
                                             <q-card-actions align="right" class="text-primary">
                                                 <q-btn flat label="Anuluj" v-close-popup />
