@@ -123,6 +123,7 @@ export default {
     mounted: function () {
         EventBus.$on("click", (product) => {
             this.inventory = product.inventory;
+            this.calculate = product.producType.calculate;
             this.disabledNewReservation = false;
         });
         this.getUsers();
@@ -142,6 +143,7 @@ export default {
             users: [],
             filteredUsers: [],
             inventory: "",
+            calculate: true,
 
             editedReservation: [],
             reservations: [],
