@@ -73,7 +73,7 @@
     <q-dialog v-model="showAddReservationDialog" persistent>
         <q-card style="min-width: 15vw">
             <q-card-section>
-                <div class="text-primary">Dodawanie rezerwacji:</div>
+                <div class="text-primary">Dodawanie rezerwacji dla: <strong>{{ productName }}</strong></div>
             </q-card-section>
             <q-card-section class="q-pt-none">
                 <q-select dense v-model="user" :options="filteredUsers" label="Użytkownik" @filter="filterUsers" :display-value="user.username" autofocus>
@@ -88,9 +88,9 @@
                         <q-separator class="q-virtual-scroll--with-prev"></q-separator>
                     </template>
                 </q-select>
-                <q-input dense v-model.trim="newReservationQuantity" label="Ilość" type="number" :decimals="3" :rules="[(val) => val >= 0 && val.length > 0]" />
-                <div v-if="!calculate">lub
-                    <q-input dense v-model.trim="newReservationArea" label="Powierzchnia" type="number" :decimals="3" :rules="[(val) => val >= 0 && val.length > 0]"/>
+                <q-input dense v-model.trim="newReservationQuantity" label="Ilość" type="number" mask="#.###" :decimals="3" :rules="[(val) => val >= 0]" />
+                <div v-if="calculate">lub
+                    <q-input dense v-model.trim="newReservationArea" label="Powierzchnia" type="number" mask="#.###" :decimals="3" :rules="[(val) => val >= 0]" />
                 </div>
                 <q-input dense v-model="newReservationStopDate" label="Data zakończenia rezerwacji">
                     <template v-slot:append>
@@ -127,6 +127,7 @@ export default {
         EventBus.$on("click", (product) => {
             this.inventory = product.inventory;
             this.calculate = product.inventory.product.productType.calculate;
+            this.productName = product.inventory.product.name;
             this.disabledNewReservation = false;
         });
         this.getUsers();
@@ -136,13 +137,22 @@ export default {
         EventBus.$off("click");
     },
 
-    computed: {
-        calculateQuantityFromArea: function () {
-          console.log(this.newReservationQuantity)
-            this.newReservationQuantity / (this.inventory.productWidth * this.inventory.productLenght);
-            return this.newReservationArea;
-        }
+    watch: {
+        newReservationQuantity: function () {
+            this.newReservationArea = this.newReservationQuantity * (this.inventory.productWidth * this.inventory.productLength);
+        },
+
+        newReservationArea: function () {
+            this.newReservationQuantity = this.newReservationArea / (this.inventory.productWidth * this.inventory.productLength);
+        },
     },
+    // computed: {
+    //     calculateQuantityFromArea: function () {
+    //       console.log(this.newReservationQuantity)
+    //         this.newReservationQuantity / (this.inventory.productWidth * this.inventory.productLenght);
+    //         return this.newReservationArea;
+    //     }
+    // },
 
     data() {
         return {
@@ -154,6 +164,7 @@ export default {
             users: [],
             filteredUsers: [],
             inventory: "",
+            productName: "",
             calculate: true,
 
             editedReservation: [],
