@@ -4,10 +4,10 @@
         <q-toolbar>
             <q-btn flat dense icon="menu" aria-label="Menu" v-on:click="leftDrawerOpen = !leftDrawerOpen" />
             <q-toolbar-title>
+                <q-btn flat dense v-if="auth == 'logged'" @click="$q.fullscreen.toggle()" color="white" :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" />
                 <q-btn flat dense v-if="auth == 'logged'" to="products" color="white" label="Produkty" no-caps  />
                 <q-btn flat v-if="auth == ''" to="login" color="white" label="Logowanie" no-caps />
                 <q-btn flat v-if="auth == 'logged'" v-on:click="logout" color="white" label="Wyloguj" no-caps />
-                <q-btn flat dense v-if="auth == 'logged'" @click="$q.fullscreen.toggle()" color="white" :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" />
             </q-toolbar-title>
             <div>
                 <q-btn flat v-if="auth == 'logged'" label="Ustawienia" no-caps />
