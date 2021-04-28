@@ -89,7 +89,7 @@
                     </template>
                 </q-select>
                 <q-input dense v-model.trim="newReservationQuantity" label="Ilość" type="number" mask="#.###" :decimals="3" :rules="[(val) => val >= 0]" />
-                <div v-if="calculate">lub
+                <div v-if="calculate">
                     <q-input dense v-model.trim="newReservationArea" label="Powierzchnia" type="number" mask="#.###" :decimals="3" :rules="[(val) => val >= 0]" />
                 </div>
                 <q-input dense v-model="newReservationStopDate" label="Data zakończenia rezerwacji">
