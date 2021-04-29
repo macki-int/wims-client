@@ -17,7 +17,7 @@
                         </q-input>
                     </template>
                     <template slot="body" slot-scope="props">
-                        <q-tr :props="props">
+                        <q-tr :props="props"> 
                             <q-td key="index" :props="props" auto-width>
                                 {{ props.rowIndex + 1 }}.
                             </q-td>
