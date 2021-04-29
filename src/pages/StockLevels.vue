@@ -20,7 +20,7 @@
                                 </template>
                             </q-input>
                         </template>
-                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row, props)" :class="props.rowIndex===activeRowIndex?'bg-blue-2':''">
+                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row, props)" :class="props.rowIndex===activeRowIndex?'bg-blue-1':''">
                             <q-td key="index" :props="props" auto-width >
                                 {{ props.rowIndex + 1 }}.
                             </q-td>
