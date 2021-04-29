@@ -12,8 +12,8 @@
                             <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </div>
                     </q-card-section>
-                    <q-table dense flat ref="selectTable" :data="products" :columns="columns" row-key="id"  :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
-                    <!-- <q-table dense flat ref="selectTable" :data="products" :columns="columns" row-key="id" selection="single" :selected.sync="selected" :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId"> -->
+                    <q-table dense flat ref="selectTable" :data="products" :columns="columns" row-key="id" :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
+                        <!-- <q-table dense flat ref="selectTable" :data="products" :columns="columns" row-key="id" selection="single" :selected.sync="selected" :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId"> -->
                         <template slot="top-right">
                             <q-input dense v-model="filter" clear-icon="close" clearable>
                                 <template v-slot:prepend>
@@ -21,11 +21,11 @@
                                 </template>
                             </q-input>
                         </template>
-                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row, props)">
+                        <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row, props)" :class="props.rowIndex===activeRowIndex?'bg-blue-2':''">
                             <!-- <q-td auto-width>
                                 <q-checkbox dense v-model="props.selected" size="28px"/>
                             </q-td> -->
-                            <q-td key="index" :props="props" auto-width>
+                            <q-td key="index" :props="props" auto-width >
                                 {{ props.rowIndex + 1 }}.
                             </q-td>
                             <!-- <q-td key="id" :props="props">
@@ -182,7 +182,7 @@ export default {
 
     data() {
         return {
-            selected: [],
+            activeRowIndex: "",
             isClicked: false,
             counter: 0,
             productType: [],
@@ -656,6 +656,7 @@ export default {
         },
 
         onRowClick: function (product, props) {
+            this.activeRowIndex = props.rowIndex;
             this.formProductId = product.inventory.product.id;
             this.formProductName = product.inventory.product.name;
             this.formProductDescription = product.inventory.product.description;
