@@ -60,7 +60,7 @@
                             <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
                                 <template>
                                     <div>
-                                        <q-input full-width no-outline type="text" v-model="formProductName" style="font-size: 2em" readonly />
+                                        <q-input dense full-width no-outline type="text" v-model="formProductName" style="font-size: 2em" readonly />
                                         <q-input dense full-width borderless input-class="text-right" v-model="formProductDescription" style="font-size: 1em" readonly />
                                         <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat label="Nowy produkt" color="primary" v-on:click="dialogNewProduct = true" />
                                         <q-dialog v-model="dialogNewProduct" persistent>
@@ -89,7 +89,7 @@
                                         <q-input v-on:input="onChange" style="min-width: 5vhw" full-width no-outline type="number" :decimals="3" :step="0.01" v-model.number="formLength" label="Długość" />
                                     </div>
                                     <div class="col">
-                                        <q-input v-on:input="onChange" style="min-width: 5vw" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
+                                        <q-input v-on:input="onChange" style="min-width: 5vw" :input-style="{ color: '#1976D2', fontWeight:'600' }" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość"/>
                                     </div>
                                 </div>
                                 <div class="row" v-if="productType.calculate">
@@ -102,7 +102,7 @@
                                 </div>
                                 <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Opis" />
                                 <div>
-                                    <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Nowy asortyment" type="reset" color="primary" />
+                                    <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Nowy asortyment" type="reset" />
                                     <q-dialog v-model="dialogNewInventory" persistent>
                                         <q-card style="min-width: 15vw">
                                             <q-card-section>
