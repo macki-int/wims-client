@@ -21,7 +21,7 @@
                             </q-input>
                         </template>
                         <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props.row, props)" :class="props.rowIndex===activeRowIndex?'bg-blue-1':''">
-                            <q-td key="index" :props="props" auto-width >
+                            <q-td key="index" :props="props" auto-width>
                                 {{ props.rowIndex + 1 }}.
                             </q-td>
                             <q-td key="product" :props="props">
@@ -89,7 +89,7 @@
                                         <q-input v-on:input="onChange" style="min-width: 5vhw" full-width no-outline type="number" :decimals="3" :step="0.01" v-model.number="formLength" label="Długość" />
                                     </div>
                                     <div class="col">
-                                        <q-input v-on:input="onChange" style="min-width: 5vw" :input-style="{ color: '#1976D2', fontWeight:'600' }" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość"/>
+                                        <q-input v-on:input="onChange" style="min-width: 5vw" :input-style="{ color: '#1976D2', fontWeight:'600' }" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
                                     </div>
                                 </div>
                                 <div class="row" v-if="productType.calculate">
