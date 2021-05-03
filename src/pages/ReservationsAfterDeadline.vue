@@ -17,7 +17,7 @@
                         </q-input>
                     </template>
                     <template slot="body" slot-scope="props">
-                        <q-tr :props="props">
+                        <q-tr class="cursor-pointer" :props="props" @click.native="onRowClick(props)" :class="props.rowIndex===activeRowIndex?'bg-blue-1':''">
                             <q-td key="username" :props="props">
                                 {{ props.row.user.username }}
                             </q-td>
@@ -76,6 +76,8 @@ export default {
 
     data() {
         return {
+            activeRowIndex: "",
+
             filter: "",
 
             loggedUser: "",
@@ -187,7 +189,8 @@ export default {
             const url = this.$API_URL + "reservations/expire";
 
             axios
-                .get(url, { params: {
+                .get(url, {
+                    params: {
                         date: new Date().toJSON().slice(0, 10)
                     },
                     contentType: "application/json",
@@ -279,6 +282,10 @@ export default {
                         });
                     };
                 });
+        },
+
+        onRowClick: function (props) {
+            this.activeRowIndex = props.rowIndex;
         },
 
         setNumericFormat: function (num) {
