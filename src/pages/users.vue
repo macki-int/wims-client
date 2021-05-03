@@ -16,7 +16,7 @@
                             </template>
                         </q-input>
                     </template>
-                    <q-tr slot="body" slot-scope="props" :props="props">
+                    <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props)" :class="props.rowIndex===activeRowIndex?'bg-blue-1':''">
                         <q-td key="role" :props="props">
                             <div v-if="props.row.role=='ROLE_ADMIN'">
                                 <q-icon class="q-pr-md text-weight-bolder" color="negative" size="24px" name="person" />
@@ -178,6 +178,8 @@ export default {
 
     data() {
         return {
+            activeRowIndex: "",
+
             showEditUserDialog: false,
             showResetUserPasswordDialog: false,
             showDetailUserDialog: false,
@@ -582,6 +584,10 @@ export default {
                         });
                     };
                 });
+        },
+
+        onRowClick: function (props) {
+            this.activeRowIndex = props.rowIndex;
         },
 
         setNumericFormat: function (num) {
