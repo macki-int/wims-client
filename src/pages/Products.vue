@@ -522,6 +522,7 @@ export default {
                     };
                 });
         },
+        
         onRowClick: function (props) {
             this.activeRowIndex = props.rowIndex;
         },
