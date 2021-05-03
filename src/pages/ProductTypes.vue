@@ -16,7 +16,7 @@
                     </q-input>
                 </template>
                 <template slot="body" slot-scope="props">
-                    <q-tr :props="props">
+                    <q-tr class="cursor-pointer" :props="props" @click.native="onRowClick(props)" :class="props.rowIndex===activeRowIndex?'bg-blue-1':''">
                         <q-td key="index" :props="props" auto-width>
                             {{ props.rowIndex + 1 }}.
                         </q-td>
@@ -86,6 +86,8 @@ export default {
 
     data() {
         return {
+            activeRowIndex: "",
+
             showEditProductTypeDialog: false,
 
             productTypes: [],
@@ -273,6 +275,10 @@ export default {
                         });
                     };
                 });
+        },
+
+        onRowClick: function (props) {
+            this.activeRowIndex = props.rowIndex;
         },
 
         getLoggedUserFromLocalStore() {
