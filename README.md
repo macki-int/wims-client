@@ -3,8 +3,13 @@
  <img src="https://wims.surge.sh/img/wims-logo-full.0c4cc366.svg" alt="WIMS logo"></a>
 </p>
 
+<div align="center">
+
 ## **Warehouse Inventory Management System**
-Zarządzanie stanami magazynowymi wyrobów konfekcjownowanych w rulonach.
+Zarządzanie stanami magazynowymi produktów
+</div>
+
+<div align="left">
 
 ## <img width="15px" height="15px" src="https://i.imgur.com/JSD4BhW.png" alt="Content"> Table of Contents
 - [Status](#status)
@@ -49,8 +54,9 @@ surge dist/spa
 ---
 ## <img width="15px" height="15px" src="https://i.imgur.com/v3vWn54.png" alt="Tools"> Used tools and libs <a name = "tools"></a>
 ### Main tools
-- [Java OpenJDK](https://openjdk.java.net/) - Java JDK
-- [Spring Boot](https://spring.io/) - Spring Framework
 - [VueJS](https://vuejs.org/) - VueJS Framework
 - [Quasar](https://quasar.dev/) - Quasar Framework
 - [PostgreSQL](https://www.postgresql.org/) - Database Server
+
+
+</div>
