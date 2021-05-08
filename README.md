@@ -8,7 +8,7 @@
 ## **Warehouse Inventory Management System**
 Zarządzanie stanami magazynowymi produktów
 <br>
-(frondend)
+(frontend)
 </div>
 
 <div align="left">
