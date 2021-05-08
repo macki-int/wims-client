@@ -7,6 +7,8 @@
 
 ## **Warehouse Inventory Management System**
 Zarządzanie stanami magazynowymi produktów
+<br>
+(frondend)
 </div>
 
 <div align="left">
@@ -16,6 +18,7 @@ Zarządzanie stanami magazynowymi produktów
 - [Function](#function)
 - [How to start that app](#start)
 - [Used tools and libs](#tools)
+
 ---
 
 ## <img width="15px" height="15px" src="https://i.imgur.com/ZpOiTNt.png" alt="Status"> Status <a name = "status"></a>
@@ -56,7 +59,6 @@ surge dist/spa
 ### Main tools
 - [VueJS](https://vuejs.org/) - VueJS Framework
 - [Quasar](https://quasar.dev/) - Quasar Framework
-- [PostgreSQL](https://www.postgresql.org/) - Database Server
 
 
 </div>
