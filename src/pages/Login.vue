@@ -8,7 +8,7 @@
                     <div class="text-h6 text-primary">LOGOWANIE</div>
                 </q-card-section>
                 <q-card-section>
-                    <q-input required v-model="username" no-outline type="text" label="Nazwa użytkownika (nick)" />
+                    <q-input required v-model="username" no-outline type="text" label="Nazwa użytkownika (nick)" autofocus/>
                     <q-input required v-model="password" no-outline :type="isPwd ? 'password' : 'text'" label="Hasło">
                         <template v-slot:append>
                             <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
