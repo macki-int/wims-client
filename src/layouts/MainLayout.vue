@@ -2,17 +2,27 @@
 <q-layout view="lHh Lpr lFf" container style="height: 100vh">
     <q-header elevated>
         <q-toolbar>
-            <q-btn flat dense icon="menu" aria-label="Menu" v-on:click="leftDrawerOpen = !leftDrawerOpen" />
+            <q-btn flat dense icon="menu" aria-label="Menu" v-on:click="leftDrawerOpen = !leftDrawerOpen">
+                <q-tooltip content-class="bg-blue-8">Panel boczny</q-tooltip>
+            </q-btn>
             <q-toolbar-title>
-                <q-btn flat dense v-if="auth == 'logged'" @click="$q.fullscreen.toggle()" color="white" :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" />
-                <q-btn flat dense v-if="auth == 'logged'" to="products" color="white" label="Produkty" no-caps  />
-                <q-btn flat v-if="auth == ''" to="login" color="white" label="Logowanie" no-caps />
-                <q-btn flat v-if="auth == 'logged'" v-on:click="logout" color="white" label="Wyloguj" no-caps />
+                <q-btn flat dense v-if="auth == 'logged'" to="products" color="white" label="Produkty" no-caps />
+                <q-btn flat v-if="auth == ''" to="login" color="white" icon="login">
+                    <q-tooltip content-class="bg-blue-8">Logowanie</q-tooltip>
+                </q-btn>
+                <q-btn flat v-if="auth == 'logged'" v-on:click="logout" color="white" icon="logout">
+                    <q-tooltip content-class="bg-blue-8">Wyloguj</q-tooltip>
+                </q-btn>
             </q-toolbar-title>
             <div>
-                <q-btn flat v-if="auth == 'logged'" label="Ustawienia" no-caps />
+                <q-btn flat dense v-if="auth == 'logged'" @click="$q.fullscreen.toggle()" color="white" :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" size="18px">
+                    <q-tooltip content-class="bg-blue-8">Fullscreen</q-tooltip>
+                </q-btn>
+                <q-btn flat v-if="auth == 'logged'" icon="settings_applications" size="16px">
+                    <q-tooltip content-class="bg-blue-8">Ustawienia</q-tooltip>
+                </q-btn>
                 <q-menu content-class="text-primary" inverted anchor="bottom left" self="top left">
-                    <q-list style="min-width: 10vw">
+                    <q-list style="min-width: 5vw">
                         <q-item clickable v-on:click="showChangeUserPasswordDialog = true" v-close-popup>
                             <q-item-section>Zmiana hasła</q-item-section>
                         </q-item>
@@ -68,8 +78,8 @@
             <q-item-label header class="text-white">KATEGORIA:</q-item-label>
             <ProductTypeMenuLink class="text-white" v-for="productType in productTypes" :key="productType.id" v-bind="productType" />
         </q-list>
-        <div class="q-mb-md q-ml-md fixed-bottom" >
-            <q-icon color="blue-3" size="30px" name="mood" v-on:click="showInfoDialog" class="cursor-pointer"/>
+        <div class="q-mb-md q-ml-md fixed-bottom">
+            <q-icon color="blue-3" size="30px" name="mood" v-on:click="showInfoDialog" class="cursor-pointer" />
         </div>
     </q-drawer>
     <q-page-container>
