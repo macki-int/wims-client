@@ -63,7 +63,7 @@
                                 <template>
                                     <div>
                                         <q-input dense full-width no-outline type="text" v-model="formProductName" style="font-size: 2em" readonly />
-                                        <q-input dense full-width borderless input-class="text-right" v-model="formProductDescription" style="font-size: 1em" readonly />
+                                        <q-input dense full-width borderless input-class="text-right" v-model="formProductDescription" style="font-size: 0.9em" readonly />
                                         <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat label="Nowy towar" color="primary" v-on:click="dialogNewProduct = true" />
                                         <q-dialog v-model="dialogNewProduct" persistent>
                                             <q-card style="min-width: 15vw">
