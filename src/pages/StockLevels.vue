@@ -9,10 +9,12 @@
                             {{ productType.name }}
                             <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 text-dark q-pl-xl" size="xs" color="grey" v-model="showZeroValue" label="Pokaż stany zerowe"></q-checkbox>
                             <q-checkbox v-on:input="getProductsAndQuantityByProductTypeId" class="text-body2 text-dark q-pl-md" size="xs" color="grey" v-model="showActiveProduct" label="Pokaż nieaktywne produkty"></q-checkbox>
-                            <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </div>
                     </q-card-section>
                     <q-table dense flat :data="products" :columns="columns" row-key="id" :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
+                        <template slot="top-left">
+                            <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
+                        </template>
                         <template slot="top-right">
                             <q-input dense v-model="filter" clear-icon="close" clearable>
                                 <template v-slot:prepend>
