@@ -80,6 +80,24 @@
                                                 </q-card-actions>
                                             </q-card>
                                         </q-dialog>
+                                        <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Nowy asortyment" type="reset" />
+                                        <q-dialog v-model="dialogNewInventory" persistent>
+                                            <q-card style="min-width: 15vw">
+                                                <q-card-section>
+                                                    <div class="text-primary">Dodawanie nowego asortymentu:</div>
+                                                </q-card-section>
+                                                <q-card-section class="q-pt-none">
+                                                    <q-input dense v-model="formWidth" label="Szerokość" type="number" :decimals="3" :rules="[(val) => val > 0 && val.length > 0]" autofocus />
+                                                    <q-input dense v-model="formLength" label="Długość" type="number" :decimals="3" :rules="[(val) => val > 0 && val.length > 0]" />
+                                                    <q-input dense v-model="formQuantity" label="Ilość" type="number" :rules="[(val) => val > 0 && val.length > 0]" />
+                                                    <q-input dense v-model="formDescription" label="Opis" type="textarea" autogrow />
+                                                </q-card-section>
+                                                <q-card-actions align="right" class="text-primary">
+                                                    <q-btn flat label="Anuluj" v-close-popup />
+                                                    <q-btn flat label="Zapisz" v-on:click.prevent="addInventory" v-close-popup />
+                                                </q-card-actions>
+                                            </q-card>
+                                        </q-dialog>
                                     </div>
                                 </template>
                                 <q-separator color="primary" class="q-ml-sm" size="2px" />
@@ -104,24 +122,7 @@
                                 </div>
                                 <q-input full-width no-outline type="textarea" autogrow v-model="formDescription" label="Opis" />
                                 <div>
-                                    <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Nowy asortyment" type="reset" />
-                                    <q-dialog v-model="dialogNewInventory" persistent>
-                                        <q-card style="min-width: 15vw">
-                                            <q-card-section>
-                                                <div class="text-primary">Dodawanie nowego asortymentu:</div>
-                                            </q-card-section>
-                                            <q-card-section class="q-pt-none">
-                                                <q-input dense v-model="formWidth" label="Szerokość" type="number" :decimals="3" :rules="[(val) => val > 0 && val.length > 0]" autofocus />
-                                                <q-input dense v-model="formLength" label="Długość" type="number" :decimals="3" :rules="[(val) => val > 0 && val.length > 0]" />
-                                                <q-input dense v-model="formQuantity" label="Ilość" type="number" :rules="[(val) => val > 0 && val.length > 0]" />
-                                                <q-input dense v-model="formDescription" label="Opis" type="textarea" autogrow />
-                                            </q-card-section>
-                                            <q-card-actions align="right" class="text-primary">
-                                                <q-btn flat label="Anuluj" v-close-popup />
-                                                <q-btn flat label="Zapisz" v-on:click.prevent="addInventory" v-close-popup />
-                                            </q-card-actions>
-                                        </q-card>
-                                    </q-dialog>
+
                                     <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Zapisz" type="submit" color="primary" />
                                     <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabled" label="Usuń" v-on:click="confirmDeleteInventory" color="negative" />
                                 </div>
