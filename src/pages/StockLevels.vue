@@ -84,7 +84,7 @@
                                         <q-dialog v-model="dialogNewInventory" persistent>
                                             <q-card style="min-width: 15vw">
                                                 <q-card-section>
-                                                    <div class="text-primary">Dodawanie nowego asortymentu:</div>
+                                                    <div class="text-primary">Dodawanie nowego asortymentu <br>dla produktu: <strong>{{ formProductName}}</strong> </div>
                                                 </q-card-section>
                                                 <q-card-section class="q-pt-none">
                                                     <q-input dense v-model="formWidth" label="Szerokość" type="number" :decimals="3" :rules="[(val) => val > 0 && val.length > 0]" autofocus />
