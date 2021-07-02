@@ -6,7 +6,7 @@
                 <q-table dense flat :data="reservations" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getReservations">
                     <template slot="top-left">
                         <div class="q-pa-sm text-h6 text-primary">
-                            Lista rezerwacji z nieaktualną datą ważności
+                            Lista rezerwacji z przekroczoną datą ważności
                         </div>
                     </template>
                     <template slot="top-right">
