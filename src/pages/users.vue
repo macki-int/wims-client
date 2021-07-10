@@ -110,10 +110,10 @@
                         <div class="text-primary">Edycja danych użytkownika:</div>
                     </q-card-section>
                     <q-card-section class="q-pt-none">
-                        <q-input dense v-model.trim="editedUser.username" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" />
-                        <q-input dense v-model.trim="editedUser.firstName" label="Imię" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj imię użytkownika']" />
-                        <q-input dense v-model.trim="editedUser.lastName" label="Nazwisko" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwisko użytkownika']" />
-                        <q-select dense v-model="editedUser.role" :options="optionsRole" label="Uprawnienia" />
+                        <q-input dense required v-model.trim="editedUser.username" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" />
+                        <q-input dense required v-model.trim="editedUser.firstName" label="Imię" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj imię użytkownika']" />
+                        <q-input dense required v-model.trim="editedUser.lastName" label="Nazwisko" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwisko użytkownika']" />
+                        <q-select dense required v-model="editedUser.role" :options="optionsRole" label="Uprawnienia" />
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
                         <q-btn flat label="Anuluj" v-close-popup />
@@ -129,11 +129,11 @@
                         <div class="text-primary">Dodawanie użytkownika:</div>
                     </q-card-section>
                     <q-card-section class="q-pt-none">
-                        <q-input dense v-model.trim="newUsername" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" />
-                        <q-input dense v-model.trim="newFirstName" label="Imię" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj imię użytkownika']" />
-                        <q-input dense v-model.trim="newLastName" label="Nazwisko" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwisko użytkownika']" />
-                        <q-input dense v-model="newPassword" label="Hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj hasło']" />
-                        <q-select dense v-model="newRole" :options="optionsRole" label="Uprawnienia" />
+                        <q-input dense required v-model.trim="newUsername" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" />
+                        <q-input dense required v-model.trim="newFirstName" label="Imię" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj imię użytkownika']" />
+                        <q-input dense required v-model.trim="newLastName" label="Nazwisko" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwisko użytkownika']" />
+                        <q-input dense required v-model="newPassword" label="Hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj hasło']" />
+                        <q-select dense required v-model="newRole" :options="optionsRole" label="Uprawnienia" />
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
                         <q-btn flat label="Anuluj" v-close-popup />
@@ -150,8 +150,8 @@
                     </q-card-section>
                     <q-card-section class="q-pt-none">
                         <!-- <q-input dense v-model="oldUserPassword" label="Aktualne hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj aktualne hasło']" /> -->
-                        <q-input dense v-model="newUserPassword" label="Nowe hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj nowe hasło']" />
-                        <q-input dense v-model="newUserPassword2" label="Powtórz hasło" type="password" :rules="[(val) => (newUserPassword === newUserPassword2) || 'Hasła nie są identyczne']" />
+                        <q-input dense required v-model="newUserPassword" label="Nowe hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj nowe hasło']" />
+                        <q-input dense required v-model="newUserPassword2" label="Powtórz hasło" type="password" :rules="[(val) => (newUserPassword === newUserPassword2) || 'Hasła nie są identyczne']" />
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
                         <q-btn flat label="Anuluj" v-close-popup />
