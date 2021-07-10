@@ -71,7 +71,7 @@
                                                     <div class="text-primary">Nazwa nowego produktu:</div>
                                                 </q-card-section>
                                                 <q-card-section class="q-pt-none">
-                                                    <q-input dense v-model.trim="newProduct" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']" v-on:keyup.enter="dialogNewProduct = false" autofocus />
+                                                    <q-input dense required v-model.trim="newProduct" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę produktu']" v-on:keyup.enter="dialogNewProduct = false" autofocus />
                                                     <q-input dense v-model.trim="newProductDescription" v-on:keyup.enter="dialogNewProduct = false" label="Opis" />
                                                 </q-card-section>
                                                 <q-card-actions align="right" class="text-primary">
@@ -84,12 +84,12 @@
                                         <q-dialog v-model="dialogNewInventory" persistent>
                                             <q-card style="min-width: 15vw">
                                                 <q-card-section>
-                                                    <div class="text-primary">Dodawanie nowego asortymentu <br>dla produktu: <strong>{{ formProductName}}</strong> </div>
+                                                    <div class="text-primary">Dodawanie nowego asortymentu <br>dla produktu: <strong>{{ formProductName }}</strong> </div>
                                                 </q-card-section>
                                                 <q-card-section class="q-pt-none">
-                                                    <q-input dense v-model="formWidth" label="Szerokość" type="number" :decimals="3" :rules="[(val) => val > 0 && val.length > 0]" autofocus />
-                                                    <q-input dense v-model="formLength" label="Długość" type="number" :decimals="3" :rules="[(val) => val > 0 && val.length > 0]" />
-                                                    <q-input dense v-model="formQuantity" label="Ilość" type="number" :rules="[(val) => val > 0 && val.length > 0]" />
+                                                    <q-input dense required v-model="formWidth" label="Szerokość" type="number" :decimals="3" :rules="[(val) => val > 0 && val.length > 0]" autofocus />
+                                                    <q-input dense required v-model="formLength" label="Długość" type="number" :decimals="3" :rules="[(val) => val > 0 && val.length > 0]" />
+                                                    <q-input dense required v-model="formQuantity" label="Ilość" type="number" :rules="[(val) => val > 0 && val.length > 0]" />
                                                     <q-input dense v-model="formDescription" label="Opis" type="textarea" autogrow />
                                                 </q-card-section>
                                                 <q-card-actions align="right" class="text-primary">
@@ -103,13 +103,13 @@
                                 <q-separator color="primary" class="q-ml-sm" size="2px" />
                                 <div class="row">
                                     <div class="col q-mr-lg">
-                                        <q-input v-on:input="onChange" style="min-width: 5vw" full-width no-outline type="number" :decimals="3" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
+                                        <q-input required v-on:input="onChange" style="min-width: 5vw" full-width no-outline type="number" :decimals="3" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
                                     </div>
                                     <div class="col q-mr-lg">
-                                        <q-input v-on:input="onChange" style="min-width: 5vhw" full-width no-outline type="number" :decimals="3" :step="0.01" v-model.number="formLength" label="Długość" />
+                                        <q-input required v-on:input="onChange" style="min-width: 5vhw" full-width no-outline type="number" :decimals="3" :step="0.01" v-model.number="formLength" label="Długość" />
                                     </div>
                                     <div class="col">
-                                        <q-input v-on:input="onChange" style="min-width: 5vw" :input-style="{ color: '#1976D2', fontWeight:'600' }" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
+                                        <q-input required v-on:input="onChange" style="min-width: 5vw" :input-style="{ color: '#1976D2', fontWeight:'600' }" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
                                     </div>
                                 </div>
                                 <div class="row" v-if="productType.calculate">

@@ -47,7 +47,7 @@
                     <div class="text-primary">Edycja kategorii</div>
                 </q-card-section>
                 <q-card-section class="q-pt-none">
-                    <q-input dense v-model="editedProductType.name" label="Nazwa kategorii" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę kategorii']" />
+                    <q-input dense required v-model="editedProductType.name" label="Nazwa kategorii" :rules="[(val) => val && val.length > 0 || 'Podaj nazwę kategorii']" />
                     <q-checkbox class="q-pt-md" dense v-model="editedProductType.calculate" size="sm" label="Oblicz powierzchnię" />
                 </q-card-section>
                 <q-card-actions align="right" class="text-primary">
