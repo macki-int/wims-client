@@ -80,6 +80,13 @@
                                     {{ props.row.updateDate }}
                                 </q-td>
                             </q-tr>
+                            <template v-slot:bottom-row>
+                                <q-tr>
+                                    <q-td v-bind:key="column.name" v-for="column in sumArea">
+                                        {{ column.text }}
+                                    </q-td>
+                                </q-tr>
+                            </template>
                         </q-table>
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
@@ -132,6 +139,7 @@ export default {
         this.getLoggedUserFromLocalStore();
         this.getProductTypes();
         this.getProducts();
+
     },
 
     data() {
@@ -241,6 +249,7 @@ export default {
                     label: "Powierzchnia",
                     field: "",
                     align: "right",
+                    sums: true,
                     sortable: true,
                 },
                 {
@@ -262,6 +271,17 @@ export default {
     },
 
     methods: {
+        sumArea: function () {
+            console.log(this.inventories)
+            this.inventories.forEach((inventory) => {
+                    var jsonData = JSON.parse(inventory.quantity);
+                    console.log(jsonData);
+                    // jsonData.data.forEach(({ quantity }) => console.log(quantity));
+                }
+
+            )
+        },
+
         getProductTypes: function () {
             const url = this.$API_URL + "product-types";
 
@@ -378,7 +398,8 @@ export default {
         showDetailProduct: function (props) {
             this.detailProduct = Object.assign({}, props);
             this.getInventoriesByProductId();
-            this.hiddenColumn()
+            this.hiddenColumn();
+            this.sumArea();
             this.showDetailProductDialog = true;
         },
 
@@ -522,7 +543,7 @@ export default {
                     };
                 });
         },
-        
+
         onRowClick: function (props) {
             this.activeRowIndex = props.rowIndex;
         },
