@@ -80,14 +80,10 @@
                                     {{ props.row.updateDate }}
                                 </q-td>
                             </q-tr>
-                            <template v-slot:bottom-row>
-                                <q-tr>
-                                    <q-td v-bind:key="column.name" v-for="column in sumArea">
-                                        {{ column.text }}
-                                    </q-td>
-                                </q-tr>
-                            </template>
                         </q-table>
+                        <div v-if="visibleColumns.includes('area')" class="text-primary">
+                            Razem powierzchnia: <strong>{{ sumArea() }}</strong> m2
+                            </div>
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
                         <q-btn flat label="OK" v-close-popup />
@@ -273,13 +269,18 @@ export default {
     methods: {
         sumArea: function () {
             console.log(this.inventories)
+            var totalArea= 0;
             this.inventories.forEach((inventory) => {
-                    var jsonData = JSON.parse(inventory.quantity);
-                    console.log(jsonData);
+                    var tempQuantity = JSON.parse(inventory.quantity);
+                    var tempWidth = JSON.parse(inventory.productWidth);
+                    var tempLength = JSON.parse(inventory.productLength);
+                    totalArea = totalArea + (tempQuantity*tempWidth*tempLength);
                     // jsonData.data.forEach(({ quantity }) => console.log(quantity));
                 }
 
             )
+            console.log(totalArea);
+            return this.setNumericFormat(totalArea);
         },
 
         getProductTypes: function () {
