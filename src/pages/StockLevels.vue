@@ -42,7 +42,7 @@
                                 {{ setNumericFormat(props.row.inventory.productLength) }}
                             </q-td>
                             <q-td key="quantity" :props="props">
-                                {{ props.row.inventory.quantity }}
+                                {{ setNumericFormat(props.row.inventory.quantity) }}
                             </q-td>
                             <q-td key="area" :props="props">
                                 {{ setNumericFormat(props.row.inventory.productWidth * props.row.inventory.productLength * props.row.inventory.quantity) }}
@@ -143,7 +143,7 @@
 <script>
 import axios from "axios";
 import ProductReservation from "components/ProductReservation.vue";
-// import IndexVue from './Index.vue';
+import { setNumericFormat } from "../js/setNumericFormat.js";
 
 export default {
     name: "StockLevels",
@@ -275,6 +275,8 @@ export default {
     },
 
     methods: {
+        setNumericFormat,
+
         getProductType: function () {
             const url = this.$API_URL + "product-types/" + this.$route.params.id;
 
@@ -685,10 +687,6 @@ export default {
             if (this.productType.calculate) {
                 this.formArea = this.formWidth * this.formLength * this.formQuantity;
             }
-        },
-
-        setNumericFormat: function (num) {
-            return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         },
 
         getLoggedUserFromLocalStore: function () {
