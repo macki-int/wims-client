@@ -127,6 +127,7 @@
 
 <script>
 import axios from "axios";
+import { setNumericFormat } from "../js/setNumericFormat.js";
 
 export default {
     name: "Products",
@@ -267,6 +268,8 @@ export default {
     },
 
     methods: {
+      setNumericFormat,
+
         sumArea: function () {
             console.log(this.inventories)
             var totalArea= 0;
@@ -556,10 +559,6 @@ export default {
                 const needle = val.toLowerCase();
                 this.filteredProductTypes = this.productTypes.filter((v) => `${v.name}`.indexOf(needle) > -1);
             });
-        },
-
-        setNumericFormat: function (num) {
-            return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         },
 
         hiddenColumn: function () {
