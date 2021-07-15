@@ -7,12 +7,6 @@
             </q-btn>
             <q-toolbar-title>
                 <q-btn flat v-if="auth == 'logged'" to="products" color="white" label="Produkty" no-caps />
-                <q-btn flat dense v-if="auth == ''" to="login" color="white" icon="login" >
-                    <q-tooltip content-class="bg-blue-8">Logowanie</q-tooltip>
-                </q-btn>
-                <q-btn flat dense v-if="auth == 'logged'" v-on:click="logout" color="white" icon="logout" >
-                    <q-tooltip content-class="bg-blue-8">Wyloguj</q-tooltip>
-                </q-btn>
             </q-toolbar-title>
             <div>
                 <q-btn flat dense v-if="auth == 'logged'" @click="$q.fullscreen.toggle()" color="white" :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" size="16px">
@@ -38,6 +32,12 @@
                         </q-item>
                     </q-list>
                 </q-menu>
+                <q-btn flat dense v-if="auth == ''" to="login" color="white" icon="login" >
+                    <q-tooltip content-class="bg-blue-8">Logowanie</q-tooltip>
+                </q-btn>
+                <q-btn flat dense v-if="auth == 'logged'" v-on:click="logout" color="white" icon="logout" >
+                    <q-tooltip content-class="bg-blue-8">Wyloguj</q-tooltip>
+                </q-btn>
             </div>
         </q-toolbar>
     </q-header>
