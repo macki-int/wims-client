@@ -110,7 +110,7 @@
                         <div class="text-primary">Edycja danych użytkownika:</div>
                     </q-card-section>
                     <q-card-section class="q-pt-none">
-                        <q-input dense required v-model.trim="editedUser.username" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" autofocus/>
+                        <q-input dense required v-model.trim="editedUser.username" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" autofocus />
                         <q-input dense required v-model.trim="editedUser.firstName" label="Imię" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj imię użytkownika']" />
                         <q-input dense required v-model.trim="editedUser.lastName" label="Nazwisko" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwisko użytkownika']" />
                         <q-select dense required v-model="editedUser.role" :options="optionsRole" label="Uprawnienia" />
@@ -129,7 +129,7 @@
                         <div class="text-primary">Dodawanie użytkownika:</div>
                     </q-card-section>
                     <q-card-section class="q-pt-none">
-                        <q-input dense required v-model.trim="newUsername" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" autofocus/>
+                        <q-input dense required v-model.trim="newUsername" label="Nick" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwę użytkownika']" autofocus />
                         <q-input dense required v-model.trim="newFirstName" label="Imię" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj imię użytkownika']" />
                         <q-input dense required v-model.trim="newLastName" label="Nazwisko" type="text" :rules="[(val) => (val && val.length > 0) || 'Podaj nazwisko użytkownika']" />
                         <q-input dense required v-model="newPassword" label="Hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj hasło']" />
@@ -150,7 +150,7 @@
                     </q-card-section>
                     <q-card-section class="q-pt-none">
                         <!-- <q-input dense v-model="oldUserPassword" label="Aktualne hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj aktualne hasło']" /> -->
-                        <q-input dense required v-model="newUserPassword" label="Nowe hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj nowe hasło']" autofocus/>
+                        <q-input dense required v-model="newUserPassword" label="Nowe hasło" type="password" :rules="[(val) => (val && val.length > 0) || 'Podaj nowe hasło']" autofocus />
                         <q-input dense required v-model="newUserPassword2" label="Powtórz hasło" type="password" :rules="[(val) => (newUserPassword === newUserPassword2) || 'Hasła nie są identyczne']" />
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
@@ -167,6 +167,7 @@
 
 <script>
 import axios from "axios";
+import { setNumericFormat } from "../js/setNumericFormat.js";
 
 export default {
     name: "Users",
@@ -313,6 +314,8 @@ export default {
     },
 
     methods: {
+        setNumericFormat,
+
         getUsers: function () {
             const url = this.$API_URL + "users";
 
@@ -588,10 +591,6 @@ export default {
 
         onRowClick: function (props) {
             this.activeRowIndex = props.rowIndex;
-        },
-
-        setNumericFormat: function (num) {
-            return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         },
 
         getLoggedUserFromLocalStore() {
