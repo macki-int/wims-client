@@ -65,6 +65,7 @@
 
 <script>
 import axios from "axios";
+import { setNumericFormat } from "../js/setNumericFormat.js";
 
 export default {
     name: "ReservationsAfterDeadline",
@@ -185,6 +186,8 @@ export default {
     },
 
     methods: {
+        setNumericFormat,
+        
         getReservations: function () {
             const url = this.$API_URL + "reservations/expire";
 
@@ -286,10 +289,6 @@ export default {
 
         onRowClick: function (props) {
             this.activeRowIndex = props.rowIndex;
-        },
-
-        setNumericFormat: function (num) {
-            return Number(num).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         },
 
         getLoggedUserFromLocalStore: function () {
