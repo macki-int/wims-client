@@ -16,7 +16,7 @@
                             </template>
                         </q-input>
                     </template>
-                    <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props)" :class="props.rowIndex===activeRowIndex?'bg-blue-1':''">
+                    <q-tr class="cursor-pointer" slot="body" slot-scope="props" :props="props" @click.native="onRowClick(props)" @dblclick="showDetailUser(props.row)" :class="props.rowIndex===activeRowIndex?'bg-blue-1':''">
                         <q-td key="role" :props="props">
                             <div v-if="props.row.role=='ROLE_ADMIN'">
                                 <q-icon class="q-pr-md text-weight-bolder" color="negative" size="24px" name="person" />
