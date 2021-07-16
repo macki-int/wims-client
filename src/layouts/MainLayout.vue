@@ -288,7 +288,7 @@ export default {
                 message: "Wylogowano",
                 icon: "check_circle_outline",
             });
-            this.$router.push("/");
+            this.$router.push("login");
         }
     }
 };
