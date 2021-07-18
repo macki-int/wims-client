@@ -134,10 +134,9 @@ export default {
     name: "Products",
 
     mounted() {
-        LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
+        this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
         this.getProductTypes();
         this.getProducts();
-
     },
 
     data() {
@@ -149,7 +148,13 @@ export default {
 
             filter: "",
 
-            loggedUser: "",
+            loggedUser: {
+                username: "",
+                firstName: "",
+                lastName: "",
+                role: "",
+                active: ""
+            },
 
             productType: "",
             productTypes: [],
