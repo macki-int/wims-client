@@ -14,6 +14,7 @@
 
 <script>
 import axios from "axios";
+import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
 export default {
     name: "ProductTypeMenuLink",
@@ -34,7 +35,7 @@ export default {
     },
 
     mounted() {
-        this.getLoggedUserFromLocalStore();
+        this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
     },
 
     data() {
@@ -51,10 +52,6 @@ export default {
             this.$router.push({
                 path: "/" + this.id,
             });
-        },
-
-         getLoggedUserFromLocalStore() {
-            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         }
     },
 };
