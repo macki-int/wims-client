@@ -115,7 +115,7 @@ export default {
 
         if (localStorage.getItem("token")) {
             this.auth = "logged";
-            LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
+            this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
             this.getProductTypes();
         };
 
