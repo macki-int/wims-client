@@ -33,12 +33,13 @@
 
 <script>
 import axios from "axios";
+import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
 export default {
     name: "About",
 
     mounted: function () {
-        this.getLoggedUserFromLocalStore();
+        this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
     },
 
     data() {
@@ -59,10 +60,6 @@ export default {
         show: function () {
             this.infoRole = this.loggedUser.role.split('_')
             this.$refs.dialog.show()
-        },
-
-        getLoggedUserFromLocalStore: function() {
-            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         }
     }
 }
