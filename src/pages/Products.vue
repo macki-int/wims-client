@@ -56,7 +56,7 @@
                         <div class="text-primary">Szczegóły produktu: <strong>{{detailProduct.name}}</strong> </div>
                     </q-card-section>
                     <q-card-section>
-                        <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" :visible-columns="visibleColumns" v-bind:request="getInventoriesByProductId">
+                        <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" :pagination.sync="pagination" :visible-columns="visibleColumns" v-bind:request="getInventoriesByProductId">
                             <q-tr slot="body" slot-scope="props" :props="props">
                                 <q-td key="index" :props="props" auto-width>
                                     {{ props.rowIndex + 1 }}.
