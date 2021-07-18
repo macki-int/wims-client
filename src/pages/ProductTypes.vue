@@ -96,7 +96,13 @@ export default {
             search: "",
             filter: "",
 
-            loggedUser: "",
+            loggedUser: {
+                username: "",
+                firstName: "",
+                lastName: "",
+                role: "",
+                active: ""
+            },
 
             pagination: {
                 sortBy: "type",
