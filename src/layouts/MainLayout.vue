@@ -6,7 +6,7 @@
                 <q-tooltip content-class="bg-blue-8">Panel boczny</q-tooltip>
             </q-btn>
             <q-toolbar-title>
-                <q-btn flat v-if="auth == 'logged'" to="products" color="white" label="Produkty" no-caps />
+                <q-btn flat dense v-if="auth == 'logged'" to="products" color="white" label="Produkty" no-caps />
             </q-toolbar-title>
             <div>
                 <q-btn flat dense v-if="auth == 'logged'" @click="$q.fullscreen.toggle()" color="white" :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" size="16px">
@@ -32,6 +32,8 @@
                         </q-item>
                     </q-list>
                 </q-menu>
+            </div>
+            <div class="q-ml-md">
                 <q-btn flat dense v-if="auth == ''" to="login" color="white" icon="login" >
                     <q-tooltip content-class="bg-blue-8">Logowanie</q-tooltip>
                 </q-btn>
@@ -93,6 +95,7 @@
 <script>
 import ProductTypeMenuLink from "components/ProductTypeMenuLink.vue";
 import About from "components/About.vue";
+import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
 import axios from "axios";
 
@@ -112,7 +115,7 @@ export default {
 
         if (localStorage.getItem("token")) {
             this.auth = "logged";
-            this.getLoggedUserFromLocalStore();
+            LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
             this.getProductTypes();
         };
 
@@ -272,10 +275,6 @@ export default {
                 .dialog({
                     component: About,
                 })
-        },
-
-        getLoggedUserFromLocalStore() {
-            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         },
 
         logout: function () {
