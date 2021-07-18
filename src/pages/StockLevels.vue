@@ -213,7 +213,14 @@ export default {
             },
 
             filter: "",
-            loggedUser: "",
+
+            loggedUser: {
+                username: "",
+                firstName: "",
+                lastName: "",
+                role: "",
+                active: ""
+            },
 
             visibleColumns: ["index", "product", "productWidth", "productLength", "quantity", "area", "active"],
             // visibleColumns: ["index", "id", "product", "productWidth", "productLength", "quantity", "area", "active"],
