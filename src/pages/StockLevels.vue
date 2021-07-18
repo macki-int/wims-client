@@ -144,6 +144,7 @@
 import axios from "axios";
 import ProductReservation from "components/ProductReservation.vue";
 import { setNumericFormat } from "../js/setNumericFormat.js";
+import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
 export default {
     name: "StockLevels",
@@ -162,7 +163,7 @@ export default {
     },
 
     mounted() {
-        this.getLoggedUserFromLocalStore();
+        this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
         this.getProductType();
         this.getProductsAndQuantityByProductTypeId();
         this.getMaxUpdateDateByProductType();
