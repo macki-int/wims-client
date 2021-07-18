@@ -82,7 +82,7 @@ export default {
     },
 
     destroyed() {
-        $root.$off("refreshProductTypes");
+        this.$root.$off("refreshProductTypes");
     },
 
     data() {
