@@ -22,12 +22,13 @@
 
 <script>
 import axios from "axios";
+import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
 export default {
     name: "NewProductType",
 
     mounted() {
-        this.getLoggedUserFromLocalStore();
+        this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
     },
 
     data() {
