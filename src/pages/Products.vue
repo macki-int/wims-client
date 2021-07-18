@@ -128,12 +128,13 @@
 <script>
 import axios from "axios";
 import { setNumericFormat } from "../js/setNumericFormat.js";
+import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
 export default {
     name: "Products",
 
     mounted() {
-        this.getLoggedUserFromLocalStore();
+        LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
         this.getProductTypes();
         this.getProducts();
 
@@ -568,10 +569,6 @@ export default {
                 this.visibleColumns = ["index", "productWidth", "productLength", "quantity", "area", "description", "updateDate"] :
                 this.visibleColumns = ["index", "productWidth", "productLength", "quantity", "description", "updateDate"]);
 
-        },
-
-        getLoggedUserFromLocalStore() {
-            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         }
     }
 }
