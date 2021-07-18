@@ -1,5 +1,4 @@
 <template>
-
 <q-item clickable>
     <q-item-section v-if="icon" avatar v-on:click="getProductsByProductType(name)">
         <q-icon color="blue-3" size="14px" :name="icon" />
@@ -42,11 +41,18 @@ export default {
             confirmDelete: false,
             save: false,
             newNameProductType: this.name,
-            loggedUser:""
+
+            loggedUser: {
+                username: "",
+                firstName: "",
+                lastName: "",
+                role: "",
+                active: ""
+            }
         };
     },
 
-    methods: {    
+    methods: {
         getProductsByProductType: function (id) {
             this.$router.push({
                 path: "/" + this.id,
