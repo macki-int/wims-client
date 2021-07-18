@@ -81,7 +81,13 @@ export default {
 
             filter: "",
 
-            loggedUser: "",
+            loggedUser: {
+                username: "",
+                firstName: "",
+                lastName: "",
+                role: "",
+                active: ""
+            },
 
             reservations: [],
 
@@ -187,7 +193,7 @@ export default {
 
     methods: {
         setNumericFormat,
-        
+
         getReservations: function () {
             const url = this.$API_URL + "reservations/expire";
 
