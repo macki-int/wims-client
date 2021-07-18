@@ -36,7 +36,14 @@ export default {
             save: false,
             newProductType: "",
             newCalculate: true,
-            loggedUser: ""
+            
+            loggedUser: {
+                username: "",
+                firstName: "",
+                lastName: "",
+                role: "",
+                active: ""
+            }
         };
     },
 
