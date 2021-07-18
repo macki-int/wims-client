@@ -1,5 +1,5 @@
 export default {
   getLoggedUserFromLocalStore() {
-    this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        return JSON.parse(localStorage.getItem("loggedUser"));
   }
 };
