@@ -272,7 +272,6 @@ export default {
       setNumericFormat,
 
         sumArea: function () {
-            console.log(this.inventories)
             var totalArea= 0;
             this.inventories.forEach((inventory) => {
                     var tempQuantity = JSON.parse(inventory.quantity);
@@ -283,7 +282,6 @@ export default {
                 }
 
             )
-            console.log(totalArea);
             return this.setNumericFormat(totalArea);
         },
 
