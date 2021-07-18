@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
 export default {
