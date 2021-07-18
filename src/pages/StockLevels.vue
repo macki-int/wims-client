@@ -173,7 +173,7 @@ export default {
     },
 
     destroyed: function () {
-        $off("refreshProducts");
+        this.$root.$off("refreshProducts");
     },
 
     data() {
