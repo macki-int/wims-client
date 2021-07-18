@@ -63,6 +63,7 @@
 <script>
 import axios from "axios";
 import NewProductType from "components/NewProductType.vue";
+import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
 export default {
     name: "ProductTypes",
@@ -72,7 +73,7 @@ export default {
     },
 
     mounted() {
-        this.getLoggedUserFromLocalStore();
+        this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
         this.getProductTypes();
 
         this.$root.$on("refreshProductTypes", () => {
@@ -285,11 +286,8 @@ export default {
 
         onRowClick: function (props) {
             this.activeRowIndex = props.rowIndex;
-        },
-
-        getLoggedUserFromLocalStore() {
-            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         }
+        
     }
 }
 </script>
