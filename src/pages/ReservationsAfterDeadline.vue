@@ -66,12 +66,13 @@
 <script>
 import axios from "axios";
 import { setNumericFormat } from "../js/setNumericFormat.js";
+import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
 export default {
     name: "ReservationsAfterDeadline",
 
     mounted() {
-        this.getLoggedUserFromLocalStore();
+        this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
         this.getReservations();
     },
 
@@ -295,11 +296,8 @@ export default {
 
         onRowClick: function (props) {
             this.activeRowIndex = props.rowIndex;
-        },
-
-        getLoggedUserFromLocalStore: function () {
-            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         }
+        
     }
 
 }
