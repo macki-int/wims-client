@@ -697,10 +697,6 @@ export default {
             }
         },
 
-        getLoggedUserFromLocalStore: function () {
-            this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-        },
-
         clearFormInventory: function () {
             this.formInventoryId = "";
             this.formProductName = "";
