@@ -156,6 +156,7 @@ export default {
     watch: {
         $route(to, from) {
             this.getProductType();
+            this.clearFilterField();
             this.getProductsAndQuantityByProductTypeId();
             this.recalculateArea();
             this.getMaxUpdateDateByProductType();
@@ -165,6 +166,7 @@ export default {
     mounted() {
         this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
         this.getProductType();
+        this.clearFilterField();
         this.getProductsAndQuantityByProductTypeId();
         this.getMaxUpdateDateByProductType();
 
@@ -713,6 +715,10 @@ export default {
 
         clearReservationTable: function () {
             this.$refs.refReservation.clearReservationTable();
+        },
+
+        clearFilterField: function () {
+            this.filter = "";
         },
 
         hiddenColumn: function () {
