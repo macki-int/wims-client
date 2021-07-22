@@ -16,7 +16,7 @@
                     </q-input>
                 </template>
                 <template slot="body" slot-scope="props">
-                    <q-tr class="cursor-pointer" :props="props" @click.native="onRowClick(props)" :class="props.rowIndex===activeRowIndex?'bg-blue-1':''">
+                    <q-tr class="cursor-pointer" :props="props" @click.native="onRowClick(props)" @dblclick="editProductType(props)" :class="props.rowIndex===activeRowIndex?'bg-blue-1':''">
                         <q-td key="index" :props="props" auto-width>
                             {{ props.rowIndex + 1 }}.
                         </q-td>
