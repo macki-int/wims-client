@@ -56,7 +56,7 @@
                         <div class="text-primary">Szczegóły produktu: <strong>{{detailProduct.name}}</strong> </div>
                     </q-card-section>
                     <q-card-section>
-                        <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" :pagination.sync="pagination" :visible-columns="visibleColumns" >
+                        <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" :pagination.sync="pagination" :visible-columns="visibleColumns">
                             <q-tr slot="body" slot-scope="props" :props="props">
                                 <q-td key="index" :props="props" auto-width>
                                     {{ props.rowIndex + 1 }}.
@@ -83,7 +83,7 @@
                         </q-table>
                         <div v-if="visibleColumns.includes('area')" class="text-primary">
                             Razem powierzchnia: <strong>{{ sumArea() }}</strong> m2
-                            </div>
+                        </div>
                     </q-card-section>
                     <q-card-actions align="right" class="text-primary">
                         <q-btn flat label="OK" v-close-popup />
@@ -274,15 +274,15 @@ export default {
     },
 
     methods: {
-      setNumericFormat,
+        setNumericFormat,
 
         sumArea: function () {
-            var totalArea= 0;
+            var totalArea = 0;
             this.inventories.forEach((inventory) => {
                     var tempQuantity = JSON.parse(inventory.quantity);
                     var tempWidth = JSON.parse(inventory.productWidth);
                     var tempLength = JSON.parse(inventory.productLength);
-                    totalArea = totalArea + (tempQuantity*tempWidth*tempLength);
+                    totalArea = totalArea + (tempQuantity * tempWidth * tempLength);
                     // jsonData.data.forEach(({ quantity }) => console.log(quantity));
                 }
 
