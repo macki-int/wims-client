@@ -447,6 +447,7 @@ export default {
 
         clearReservationTable: function () {
             this.reservations = [];
+            this.disabledNewReservation = true;
         }
     },
 };
