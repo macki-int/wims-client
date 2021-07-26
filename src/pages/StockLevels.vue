@@ -13,7 +13,7 @@
                     </q-card-section>
                     <q-table dense flat :data="products" :columns="columns" row-key="id" :visible-columns="visibleColumns" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProductsAndQuantityByProductTypeId">
                         <template slot="top-left">
-                            <q-badge class="float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
+                            <q-badge class=" float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </template>
                         <template slot="top-right">
                             <q-input dense v-model="filter" clear-icon="close" clearable>
@@ -102,8 +102,8 @@
                                 </template>
                                 <q-separator color="primary" class="q-ml-sm" size="2px" />
                                 <div class="row">
-                                    <div>
-                                    <q-badge class="float-left" outline color="primary">Ostatnia aktualizacja {{ formUpdateDate }}</q-badge>
+                                    <div v-if="formUpdateDate!=''">
+                                        <q-badge class="float-left" outline color="primary">aktualizacja {{ formUpdateDate }}</q-badge>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -206,7 +206,6 @@ export default {
             formDescription: "",
             formMainDimension: "",
             formUpdateDate: "",
-            
 
             showZeroValue: true,
             showActiveProduct: false,
@@ -715,6 +714,7 @@ export default {
             this.formLength = "";
             this.formQuantity = "";
             this.formArea = "";
+            this.formUpdateDate = "";
             this.formActiveValue = true;
             this.formDescription = "";
             this.formProductName = "";
