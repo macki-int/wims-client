@@ -102,6 +102,11 @@
                                 </template>
                                 <q-separator color="primary" class="q-ml-sm" size="2px" />
                                 <div class="row">
+                                    <div>
+                                    <q-badge class="float-left" outline color="primary">Ostatnia aktualizacja {{ formUpdateDate }}</q-badge>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col q-mr-lg">
                                         <q-input required v-on:input="onChange" style="min-width: 5vw" full-width no-outline type="number" :decimals="3" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
                                     </div>
@@ -200,6 +205,8 @@ export default {
             formActiveValue: true,
             formDescription: "",
             formMainDimension: "",
+            formUpdateDate: "",
+            
 
             showZeroValue: true,
             showActiveProduct: false,
@@ -673,6 +680,7 @@ export default {
             this.formQuantity = product.inventory.quantity;
             this.formDescription = product.inventory.description;
             this.formMainDimension = product.inventory.mainDimension;
+            this.formUpdateDate = product.inventory.updateDate;
             this.formActiveValue = product.inventory.product.active;
 
             this.newProduct = "";
