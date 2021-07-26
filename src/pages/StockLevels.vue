@@ -719,6 +719,7 @@ export default {
             this.formDescription = "";
             this.formProductName = "";
             this.disabled = true;
+            this.activeRowIndex="";
         },
 
         clearReservationTable: function () {
