@@ -30,6 +30,9 @@
                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="reservationsAfterDeadline" v-close-popup>
                             <q-item-section>Rezerwacje po terminie</q-item-section>
                         </q-item>
+                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="allReservations" v-close-popup>
+                            <q-item-section>Wszystkie rezerwacje</q-item-section>
+                        </q-item>
                     </q-list>
                 </q-menu>
             </div>
