@@ -28,6 +28,10 @@ const routes = [
         component: () => import("pages/ReservationsAfterDeadline.vue")
       },
       {
+        path: "allReservations",
+        component: () => import("pages/AllReservations.vue")
+      },
+      {
         path: "/:id?",
         component: () => import("pages/StockLevels.vue")
       }
