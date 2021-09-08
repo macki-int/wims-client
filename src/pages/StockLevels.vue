@@ -16,7 +16,7 @@
                             <q-badge class=" float-right" outline color="primary">stan na {{ maxUpdateDate[0] }}</q-badge>
                         </template>
                         <template slot="top-right">
-                            <q-input dense v-model="filter" clear-icon="close" clearable>
+                            <q-input dense v-model="filter" clear-icon="close" placeholder="Szukaj" clearable>
                                 <template v-slot:prepend>
                                     <q-icon name="search" color="primary" />
                                 </template>
