@@ -9,7 +9,7 @@
                     </div>
                 </template>
                 <template slot="top-right">
-                    <q-input dense v-model="filter" clear-icon="close" clearable>
+                    <q-input dense v-model="filter" clear-icon="close" placeholder="Szukaj" clearable>
                         <template v-slot:prepend>
                             <q-icon name="search" color="primary" />
                         </template>
