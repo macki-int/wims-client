@@ -21,7 +21,7 @@
         </q-card-section>
         <q-card-actions>
             <div class="col q-ml-sm text-caption" align="left">
-                v0.21&beta;
+                v0.22&beta;
             </div>
             <div class="col" align="right">
                 <q-btn v-close-popup flat color="primary" label="OK" />
