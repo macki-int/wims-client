@@ -41,10 +41,10 @@
                             <q-td key="productLength" :props="props" :class="props.row.inventory.mainDimension?'text-primary text-bold':''">
                                 {{ setNumericFormat(props.row.inventory.productLength) }}
                             </q-td>
-                            <q-td key="quantity" :props="props">
+                            <q-td key="quantity" :props="props" :class="props.row.inventory.quantity==0?'text-negative text-bold':''">
                                 {{ setNumericFormat(props.row.inventory.quantity) }}
                             </q-td>
-                            <q-td key="area" :props="props">
+                            <q-td key="area" :props="props" :class="props.row.inventory.quantity==0?'text-negative text-bold':''">
                                 {{ setNumericFormat(props.row.inventory.productWidth * props.row.inventory.productLength * props.row.inventory.quantity) }}
                             </q-td>
                             <q-td key="active" :props="props">
