@@ -42,7 +42,7 @@
                                 <q-tooltip content-class="bg-blue-8">Pokaż rezerwacje produktów przypisane do użytkownika</q-tooltip>
                             </q-btn>
                             <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editUser(props)">
-                                <q-tooltip content-class="bg-blue-8">Edytuj użytkownika</q-tooltip>
+                                <q-tooltip content-class="bg-blue-8">Edytuj dane użytkownika</q-tooltip>
                             </q-btn>
                             <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="primary" icon="settings" v-on:click="resetPassword(props)">
                                 <q-tooltip content-class="bg-blue-8">Resetuj hasło</q-tooltip>
