@@ -20,18 +20,18 @@
                         <q-item clickable v-on:click="showChangeUserPasswordDialog = true" v-close-popup>
                             <q-item-section>Zmiana hasła</q-item-section>
                         </q-item>
-                        <q-item clickable to="users" v-close-popup>
-                            <q-item-section>Użytkownicy</q-item-section>
+                        <q-item clickable to="allReservations" v-close-popup>
+                            <q-item-section>Wszystkie rezerwacje</q-item-section>
+                        </q-item>
+                        <q-item clickable to="reservationsAfterDeadline" v-close-popup>
+                            <q-item-section>Rezerwacje po terminie</q-item-section>
                         </q-item>
                         <q-separator />
                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="listProductTypes" v-close-popup>
                             <q-item-section>Kategorie</q-item-section>
                         </q-item>
-                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="reservationsAfterDeadline" v-close-popup>
-                            <q-item-section>Rezerwacje po terminie</q-item-section>
-                        </q-item>
-                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="allReservations" v-close-popup>
-                            <q-item-section>Wszystkie rezerwacje</q-item-section>
+                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="users" v-close-popup>
+                            <q-item-section>Użytkownicy</q-item-section>
                         </q-item>
                     </q-list>
                 </q-menu>
