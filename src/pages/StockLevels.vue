@@ -115,12 +115,12 @@
                                     </div>
                                     <div class="col">
                                         <!-- <q-input required v-on:input="onChange" style="min-width: 5vw" :input-style="{ color: '#1976D2', fontWeight:'600' }" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" /> -->
-                                        <q-input required v-on:input="onChange" style="min-width: 5vw" :input-style="formQuantity=='0'?'color: #ff0000':'color: #000'" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
+                                        <q-input required v-on:input="onChange" style="min-width: 5vw" :input-style="formQuantity=='0'?'color: #ff0000':''" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" />
                                     </div>'
                                 </div>
                                 <div class="row" v-if="productType.calculate">
                                     <div class="col q-mr-lg">
-                                        <q-input full-width no-outline readonly type="number" v-model.number="formArea" label="Powierzchnia" />
+                                        <q-input full-width no-outline readonly type="number" :input-style="formArea=='0'?'color: #ff0000':''" v-model.number="formArea" label="Powierzchnia" />
                                     </div>
                                     <div class="col q-mt-md">
                                         <q-checkbox class="q-pt-md" dense v-model="formMainDimension" size="sm" color="grey" label="Standardowy" />
