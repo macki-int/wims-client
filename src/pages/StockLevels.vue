@@ -2,7 +2,7 @@
 <q-page class="flex flex-left">
     <div class="q-pa-md">
         <div class="row">
-            <div class="col-6-md q-pr-md">
+            <div class="q-pr-md">
                 <q-card class="my-card fit" style="min-width: 40vw; min-height: 75vh">
                     <q-card-section>
                         <div class="text-h6 text-primary">
@@ -55,8 +55,8 @@
                 </q-card>
             </div>
 
-            <div class="col-3-md">
-                <q-card class="my-card fit" style="min-width: 15vw; max-width: 21vw; min-height: 75vh">
+            <div>
+                <q-card class="my-card fit" style="min-width: 20vw; max-width: 30vw; min-height: 75vh">
                     <q-card-section>
                         <div class="q-pa-md">
                             <q-form v-on:submit="updateInventory" v-on:reset="dialogNewInventory=true" class="q-gutter-md">
@@ -111,7 +111,7 @@
                                         <q-input required v-on:input="onChange" style="min-width: 5vw" full-width no-outline type="number" :decimals="3" :step="0.01" v-model.number="formWidth" label="Szerokość" ref="width" />
                                     </div>
                                     <div class="col q-mr-lg">
-                                        <q-input required v-on:input="onChange" style="min-width: 5vhw" full-width no-outline type="number" :decimals="3" :step="0.01" v-model.number="formLength" label="Długość" />
+                                        <q-input required v-on:input="onChange" style="min-width: 5vw" full-width no-outline type="number" :decimals="3" :step="0.01" v-model.number="formLength" label="Długość" />
                                     </div>
                                     <div class="col">
                                         <!-- <q-input required v-on:input="onChange" style="min-width: 5vw" :input-style="{ color: '#1976D2', fontWeight:'600' }" full-width no-outline type="number" :decimals="2" v-model.number="formQuantity" label="Ilość" /> -->
@@ -138,7 +138,6 @@
                             <!-- <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" /> -->
                         </div>
                     </q-card-section>
-
                 </q-card>
             </div>
         </div>
