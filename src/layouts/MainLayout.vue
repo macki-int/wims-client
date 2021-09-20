@@ -12,7 +12,7 @@
                 <q-btn flat dense v-if="auth == 'logged'" @click="$q.fullscreen.toggle()" color="white" :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" size="16px">
                     <q-tooltip content-class="bg-blue-8">Fullscreen</q-tooltip>
                 </q-btn>
-                <q-btn flat dense v-if="auth == 'logged'" icon="settings_applications" size="16px">
+                <q-btn  flat dense v-if="auth == 'logged'" icon="settings_applications" size="16px">
                     <q-tooltip content-class="bg-blue-8">Ustawienia</q-tooltip>
                 </q-btn>
                 <q-menu content-class="text-primary" inverted anchor="bottom left" self="top left">
@@ -36,7 +36,7 @@
                     </q-list>
                 </q-menu>
             </div>
-            <div class="q-ml-md">
+            <div class="q-mr-xl">
                 <q-btn flat dense v-if="auth == ''" to="login" color="white" icon="login" >
                     <q-tooltip content-class="bg-blue-8">Logowanie</q-tooltip>
                 </q-btn>
