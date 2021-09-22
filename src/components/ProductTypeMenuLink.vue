@@ -4,7 +4,7 @@
         <q-icon color="blue-3" size="14px" :name="icon" />
     </q-item-section>
 
-    <q-item-section v-on:click="getProductsByProductType(id)">
+    <q-item-section class="my-font" v-on:click="getProductsByProductType(id)">
         <q-item-label>{{ name }}</q-item-label>
         <q-item-label hidden caption>{{ id }}</q-item-label>
     </q-item-section>
