@@ -702,7 +702,7 @@ export default {
 
         recalculateArea: function () {
             if (this.productType.calculate) {
-                this.formArea = this.formWidth * this.formLength * this.formQuantity;
+                this.formArea = (this.formWidth * this.formLength * this.formQuantity).toFixed(2);
             }
         },
 
