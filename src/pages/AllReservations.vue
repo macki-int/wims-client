@@ -31,7 +31,7 @@
                                 {{ setNumericFormat(props.row.inventory.productLength) }}
                             </q-td>
                             <q-td key="quantity" :props="props">
-                                {{ props.row.quantity }}
+                                {{ formatNumberArea(props.row.quantity) }}
                             </q-td>
                             <q-td key="area" :props="props" :class="props.row.inventory.product.productType.calculate?'':'invisible'">
                                 {{ setNumericFormat(props.row.inventory.productWidth * props.row.inventory.productLength * props.row.quantity) }}
@@ -292,6 +292,10 @@ export default {
                         });
                     };
                 });
+        },
+
+        formatNumberArea: function (num) {
+            return num.toFixed(2);
         },
 
         onRowClick: function (props) {
