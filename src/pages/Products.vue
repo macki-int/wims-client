@@ -1,7 +1,7 @@
 <template>
 <q-page class="flex flex-left">
     <div class="q-pa-md">
-        <q-card class="my-card fit" style="min-width: 45vw; min-height: 75vh">
+        <q-card class="my-card fit" style="min-width: 55vw; min-height: 75vh">
             <q-card>
                 <q-table dense flat :data="products" :columns="columns" row-key="name" :filter="filter" :pagination.sync="pagination" hide-no-data color="primary" v-bind:request="getProducts">
                     <template slot="top-left">
@@ -201,8 +201,8 @@ export default {
                 field: "description",
                 align: "left",
                 sortable: true,
-                style: "max-width: 50px",
-                headerStyle: "max-width: 50px"
+                style: "max-width: 70px",
+                headerStyle: "max-width: 70px"
             }, {
                 name: "active",
                 label: "Aktywny",
