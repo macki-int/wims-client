@@ -17,7 +17,7 @@
                         </q-input>
                     </template>
                     <template slot="body" slot-scope="props">
-                        <q-tr class="cursor-pointer" :props="props" @click.native="onRowClick(props)" :class="props.rowIndex===activeRowIndex?'bg-blue-1':''">
+                        <q-tr class="cursor-pointer my-font" :props="props" @click.native="onRowClick(props)" :class="props.rowIndex===activeRowIndex?'bg-blue-1':''">
                             <q-td key="username" :props="props">
                                 {{ props.row.user.username }}
                             </q-td>
@@ -297,7 +297,7 @@ export default {
         onRowClick: function (props) {
             this.activeRowIndex = props.rowIndex;
         }
-        
+
     }
 
 }
