@@ -57,7 +57,7 @@
                     </q-card-section>
                     <q-card-section>
                         <q-table dense flat :data="inventories" :columns="columnsDetails" row-key="name" :pagination.sync="pagination" :visible-columns="visibleColumns">
-                            <q-tr slot="body" slot-scope="props" :props="props">
+                            <q-tr slot="body" class="my-font" slot-scope="props" :props="props">
                                 <q-td key="index" :props="props" auto-width>
                                     {{ props.rowIndex + 1 }}.
                                 </q-td>
