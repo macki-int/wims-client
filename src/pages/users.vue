@@ -66,7 +66,7 @@
                     </q-card-section>
                     <q-card-section>
                         <q-table dense flat :data="reservations" :columns="columnsDetails" row-key="name" v-bind:request="getReservationsByUserId">
-                            <q-tr slot="body" slot-scope="props" :props="props">
+                            <q-tr slot="body" class="my-font" slot-scope="props" :props="props">
                                 <q-td key="productName" :props="props">
                                     {{ props.row.inventory.product.name }}
                                 </q-td>
@@ -77,7 +77,7 @@
                                     {{ setNumericFormat(props.row.inventory.productLength) }}
                                 </q-td>
                                 <q-td key="quantity" :props="props">
-                                    {{ props.row.quantity }}
+                                    {{ formatNumberArea(props.row.quantity) }}
                                 </q-td>
                                 <q-td key="area" :props="props" :class="props.row.inventory.product.productType.calculate?'':'invisible'">
                                     {{ setNumericFormat(props.row.inventory.productWidth * props.row.inventory.productLength * props.row.quantity) }}
@@ -588,6 +588,10 @@ export default {
                         });
                     };
                 });
+        },
+
+        formatNumberArea: function (num) {
+            return num.toFixed(2);
         },
 
         onRowClick: function (props) {
