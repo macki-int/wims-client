@@ -2,6 +2,22 @@
 <div>
     <q-table dense flat :data="deliveries" :columns="columns" row-key="name" hide-no-data color="primary" v-bind:request="getDeliveriesByInventoryId">
         <q-tr class="my-font" slot="body" slot-scope="props" :props="props">
+            <q-td key="stopDate" :props="props">
+                {{ props.row.deliveryDate }}
+                <q-icon v-if="props.row.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes" />
+            </q-td>
+            <q-td key="quantity" :props="props">
+                {{ props.row.quantity }}
+            </q-td>
+             <q-td key="action" :props="props">
+                <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editDelivery(props)">
+                    <q-tooltip content-class="bg-blue-8">Edytuj dostawę</q-tooltip>
+                </q-btn>
+                <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
+                    <q-tooltip content-class="bg-red">Usuń dostawę</q-tooltip>
+                </q-btn>
+             </q-td>
+
         </q-tr>
     </q-table>
 
@@ -48,7 +64,7 @@ export default {
             calculate: true,
 
             editedDelivery: [],
-            Deliveries: [],
+            deliveries: [],
 
             newDeliveryQuantity: 1.0,
             newDeliveryDate: new Date().toJSON().slice(0, 10),
