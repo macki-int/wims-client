@@ -127,6 +127,11 @@ export default {
                 });
         },
 
+        editDelivery: function(){
+            this.editedDelivery = Object.assign({},props.row);
+            this.showEditDeliveryDialog = true;
+        },
+
         clearDeliveryTable: function () {
             this.deliveries = [];
             this.disabledNewDelivery = true;
