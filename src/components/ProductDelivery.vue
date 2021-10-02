@@ -9,7 +9,7 @@
             <q-td key="quantity" :props="props">
                 {{ props.row.quantity }}
             </q-td>
-             <q-td key="action" :props="props">
+            <q-td key="action" :props="props">
                 <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editDelivery(props)">
                     <q-tooltip content-class="bg-blue-8">Edytuj dostawę</q-tooltip>
                 </q-btn>
@@ -44,7 +44,7 @@
                 <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
                     <q-tooltip content-class="bg-red">Usuń dostawę</q-tooltip>
                 </q-btn>
-             </q-td>
+            </q-td>
 
         </q-tr>
     </q-table>
@@ -155,9 +155,55 @@ export default {
                 });
         },
 
-        editDelivery: function(){
-            this.editedDelivery = Object.assign({},props.row);
+        editDelivery: function () {
+            this.editedDelivery = Object.assign({}, props.row);
             this.showEditDeliveryDialog = true;
+        },
+
+        updateDelivery: function (editedDelivery) {
+            const url = this.$API_URL + "deliveries";
+
+            axios
+                .put(url, {
+                    id: this.editedDelivery.id,
+                    quantity: this.editedDelivery.quantity,
+                    deliveryDate: new Date().toJSON().slice(0, 10),
+                    description: this.editedDelivery.description,
+                    inventory: {
+                        id: this.inventory.id,
+                    },
+                }, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
+                })
+                .then((response) => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Zaktualizowano dane o dostawie",
+                        icon: "check_circle_outline",
+                    });
+                    this.getDeliveriesByInventoryId();
+                })
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd aktualizacji danych o dostawie",
+                            icon: "report_problem",
+                        });
+                    };
+                });
         },
 
         clearDeliveryTable: function () {
