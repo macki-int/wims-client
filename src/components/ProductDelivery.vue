@@ -13,6 +13,34 @@
                 <q-btn flat size="sm" dense unelevated color="primary" icon="create" v-on:click="editDelivery(props)">
                     <q-tooltip content-class="bg-blue-8">Edytuj dostawę</q-tooltip>
                 </q-btn>
+                <q-dialog v-model="showEditDeliveryDialog" persistent>
+                    <q-card style="min-width: 15vw">
+                        <q-card-section>
+                            <div class="text-primary">Edycja dostawy:</div>
+                        </q-card-section>
+                        <q-card-section class="q-pt-none">
+                            <q-input dense v-model.trim="editedDelivery.quantity" label="Ilość" type="number" :decimals="2" :rules="[(val) => val >= 0 && val.length > 0]" />
+                            <q-input dense v-model="editedDelivery.deliveryDate" label="Data dostawy">
+                                <template v-slot:append>
+                                    <q-icon name="event" class="cursor-pointer">
+                                        <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                                            <q-date v-model="editedDelivery.deliveryDate" mask="YYYY-MM-DD" minimal>
+                                                <div class="row items-center justify-end">
+                                                    <q-btn v-close-popup label="Zamknij" color="primary" flat />
+                                                </div>
+                                            </q-date>
+                                        </q-popup-proxy>
+                                    </q-icon>
+                                </template>
+                            </q-input>
+                            <q-input dense v-model="editedDelivery.description" label="Uwagi" type="textarea" autogrow />
+                        </q-card-section>
+                        <q-card-actions align="right" class="text-primary">
+                            <q-btn flat label="Anuluj" v-close-popup />
+                            <q-btn flat label="Zapisz" v-on:click="updateDelivery(editedDelivery)" v-close-popup />
+                        </q-card-actions>
+                    </q-card>
+                </q-dialog>
                 <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
                     <q-tooltip content-class="bg-red">Usuń dostawę</q-tooltip>
                 </q-btn>
