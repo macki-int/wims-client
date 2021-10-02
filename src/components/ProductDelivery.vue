@@ -41,6 +41,7 @@
                         </q-card-actions>
                     </q-card>
                 </q-dialog>
+
                 <q-btn flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
                     <q-tooltip content-class="bg-red">Usuń dostawę</q-tooltip>
                 </q-btn>
@@ -204,6 +205,28 @@ export default {
                         });
                     };
                 });
+        },
+
+        confirmDelete: function (props) {
+            this.$q
+                .dialog({
+                    title: "<span class=text-negative>Usuwanie dostawy</span>",
+                    message: "<span class=text-negative>Czy usunąć dostawę" +
+                    "<br/> dla ilości: <strong>" +
+                        props.row.quantity +
+                        "</strong>, z dnia: <strong>" +
+                        props.row.deliveryDate + "</strong>?</span>",
+                    color: 'negative',
+                    html: true,
+                    persistent: true,
+                    ok: {
+                        label: 'usuń',
+                        flat: true
+                    },
+                    cancel: true,
+                }).onOk(() => {
+                    this.deleteDelivery(props.row.id);
+                })
         },
 
         clearDeliveryTable: function () {
