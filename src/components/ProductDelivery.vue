@@ -212,7 +212,7 @@ export default {
                 .dialog({
                     title: "<span class=text-negative>Usuwanie dostawy</span>",
                     message: "<span class=text-negative>Czy usunąć dostawę" +
-                    "<br/> dla ilości: <strong>" +
+                        "<br/> dla ilości: <strong>" +
                         props.row.quantity +
                         "</strong>, z dnia: <strong>" +
                         props.row.deliveryDate + "</strong>?</span>",
@@ -227,6 +227,43 @@ export default {
                 }).onOk(() => {
                     this.deleteDelivery(props.row.id);
                 })
+        },
+
+        deleteDelivery: function (id) {
+            const url = this.$API_URL + "deliveries/" + id;
+
+            axios
+                .delete(url, {
+                    headers: { "Authorization": localStorage.getItem("token") }
+                })
+                .then((response) => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Usunięto dane o dostawie",
+                        icon: "check_circle_outline",
+                    });
+                    this.getDeliveriesByInventoryId();
+                    this.$root.$emit("refreshProducts");
+                })
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd usuwania dostawy!",
+                            icon: "report_problem",
+                        });
+                    };
+                });
         },
 
         clearDeliveryTable: function () {
