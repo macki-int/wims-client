@@ -2,8 +2,11 @@
 <div>
     <q-table dense flat :data="deliveries" :columns="columns" row-key="name" hide-no-data color="primary" v-bind:request="getDeliveriesByInventoryId">
         <q-tr class="my-font" slot="body" slot-scope="props" :props="props">
-            <q-td key="stopDate" :props="props">
-                {{ props.row.deliveryDate }}
+            <q-tooltip v-if="props.row.description.length>0">
+                {{ props.row.description }}
+            </q-tooltip>
+            <q-td key="dateOfDelivery" :props="props">
+                {{ props.row.dateOfDelivery }}
                 <q-icon v-if="props.row.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes" />
             </q-td>
             <q-td key="quantity" :props="props">
@@ -20,11 +23,11 @@
                         </q-card-section>
                         <q-card-section class="q-pt-none">
                             <q-input dense v-model.trim="editedDelivery.quantity" label="Ilość" type="number" :decimals="2" :rules="[(val) => val >= 0 && val.length > 0]" />
-                            <q-input dense v-model="editedDelivery.deliveryDate" label="Data dostawy">
+                            <q-input dense v-model="editedDelivery.dateOfDelivery" label="Data dostawy">
                                 <template v-slot:append>
                                     <q-icon name="event" class="cursor-pointer">
                                         <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                                            <q-date v-model="editedDelivery.deliveryDate" mask="YYYY-MM-DD" minimal>
+                                            <q-date v-model="editedDelivery.dateOfDelivery" mask="YYYY-MM-DD" minimal>
                                                 <div class="row items-center justify-end">
                                                     <q-btn v-close-popup label="Zamknij" color="primary" flat />
                                                 </div>
@@ -46,20 +49,23 @@
                     <q-tooltip content-class="bg-red">Usuń dostawę</q-tooltip>
                 </q-btn>
             </q-td>
-
         </q-tr>
     </q-table>
+
+    <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabledNewDelivery" label="Nowa Dostawa" color="primary" v-on:click="showAddDeliveryDialog = true" />
 
 </div>
 </template>
 
 <script>
 import axios from "axios";
+import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
 export default {
     name: "ProductDelivery",
 
     mounted: function () {
+        this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
         EventBus.$on("click", (product) => {
             this.inventory = product.inventory;
             this.calculate = product.inventory.product.productType.calculate;
@@ -100,10 +106,18 @@ export default {
             newDeliveryDescription: "",
             newDeliveryArea: 0.0,
 
+            loggedUser: {
+                username: "",
+                firstName: "",
+                lastName: "",
+                role: "",
+                active: ""
+            },
+
             columns: [{
-                    name: "deliveryDate",
-                    label: "Data",
-                    field: "deliveryDate",
+                    name: "dateOfDelivery",
+                    label: "Data dostawy",
+                    field: "dateOfDelivery",
                     align: "left",
                     sortable: true,
                 },
@@ -111,7 +125,7 @@ export default {
                     name: "quantity",
                     label: "Ilość",
                     field: "quantity",
-                    align: "right",
+                    align: "left",
                     color: "primary",
                     sortable: true,
                 },
@@ -154,9 +168,10 @@ export default {
                         });
                     };
                 });
+            console.log(this.deliveries);
         },
 
-        editDelivery: function () {
+        editDelivery: function (props) {
             this.editedDelivery = Object.assign({}, props.row);
             this.showEditDeliveryDialog = true;
         },
@@ -214,8 +229,8 @@ export default {
                     message: "<span class=text-negative>Czy usunąć dostawę" +
                         "<br/> dla ilości: <strong>" +
                         props.row.quantity +
-                        "</strong>, z dnia: <strong>" +
-                        props.row.deliveryDate + "</strong>?</span>",
+                        "</strong> z dnia: <strong>" +
+                        props.row.dateOfDelivery + "</strong>?</span>",
                     color: 'negative',
                     html: true,
                     persistent: true,
