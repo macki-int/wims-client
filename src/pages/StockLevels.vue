@@ -31,6 +31,9 @@
                                 <q-icon v-if="props.row.reservationCounter>0" class="text-weight-bolder" color="primary" size="16px" name="schedule">
                                     <q-tooltip content-class="bg-blue-8">Dodano rezerwację</q-tooltip>
                                 </q-icon>
+                                <q-icon v-if="props.row.deliveriesCounter>0" class="text-weight-bolder" color="primary" size="16px" name="local_shipping">
+                                    <q-tooltip content-class="bg-blue-8">Dodano dostawę</q-tooltip>
+                                </q-icon>
                                 <q-icon v-if="props.row.inventory.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes">
                                     <q-tooltip content-class="bg-blue-8">Dodano opis</q-tooltip>
                                 </q-icon>
@@ -134,6 +137,8 @@
                                 </div>
                                 <q-separator color="primary" class="q-ml-sm" size="2px" />
                                 <ProductReservation ref="refReservation" />
+                                <q-separator color="primary" class="q-ml-sm" size="2px" />
+                                <ProductDelivery ref="refDelivery" />
                             </q-form>
                             <!-- <q-badge v-if="!newInventoryIndicator && !disabled" outline color="primary" align="middle" label="Edytujesz istniejący asortyment" /> -->
                         </div>
@@ -148,6 +153,7 @@
 <script>
 import axios from "axios";
 import ProductReservation from "components/ProductReservation.vue";
+import ProductDelivery from "components/ProductDelivery.vue";
 import { setNumericFormat } from "../js/setNumericFormat.js";
 import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
@@ -156,6 +162,7 @@ export default {
 
     components: {
         ProductReservation,
+        ProductDelivery
     },
 
     watch: {
@@ -690,6 +697,7 @@ export default {
 
             EventBus.$emit("click", product);
             this.$refs.refReservation.getReservationsByInventoryId();
+            this.$refs.refDelivery.getDeliveriesByInventoryId();
 
         },
 
@@ -724,6 +732,7 @@ export default {
 
         clearReservationTable: function () {
             this.$refs.refReservation.clearReservationTable();
+            this.$refs.refDelivery.clearDeliveryTable();
         },
 
         clearFilterField: function () {
