@@ -31,7 +31,7 @@
                                 <q-icon v-if="props.row.reservationCounter>0" class="text-weight-bolder" color="primary" size="16px" name="schedule">
                                     <q-tooltip content-class="bg-blue-8">Dodano rezerwację</q-tooltip>
                                 </q-icon>
-                                <q-icon v-if="props.row.deliveriesCounter>0" class="text-weight-bolder" color="primary" size="16px" name="local_shipping">
+                                <q-icon v-if="props.row.deliveryCounter>0" class="text-weight-bolder" color="primary" size="16px" name="local_shipping">
                                     <q-tooltip content-class="bg-blue-8">Dodano dostawę</q-tooltip>
                                 </q-icon>
                                 <q-icon v-if="props.row.inventory.description.length>0" class="text-weight-bolder" color="primary" size="16px" name="notes">
