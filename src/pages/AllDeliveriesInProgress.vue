@@ -30,6 +30,11 @@ import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 export default {
     name: "AllDeliveriesInProgress",
 
+    mounted() {
+        this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
+        this.getReservations();
+    },
+
     data() {
         return {
             filter: "",
