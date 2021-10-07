@@ -9,7 +9,7 @@
                 <q-btn flat dense v-if="auth == 'logged'" to="products" color="white" label="Produkty" no-caps />
             </q-toolbar-title>
             <div>
-                <q-btn  flat dense v-if="auth == 'logged'" icon="settings_applications" size="16px">
+                <q-btn flat dense v-if="auth == 'logged'" icon="settings_applications" size="16px">
                     <q-tooltip content-class="bg-blue-8">Ustawienia</q-tooltip>
                 </q-btn>
                 <q-menu content-class="text-primary" inverted anchor="bottom left" self="top left">
@@ -22,6 +22,9 @@
                         </q-item>
                         <q-item clickable to="reservationsAfterDeadline" v-close-popup>
                             <q-item-section>Rezerwacje po terminie</q-item-section>
+                        </q-item>
+                        <q-item clickable to="allDeliveries" v-close-popup>
+                            <q-item-section>Wszystkie dostawy</q-item-section>
                         </q-item>
                         <q-separator />
                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="listProductTypes" v-close-popup>
@@ -37,10 +40,10 @@
                 </q-btn>
             </div>
             <div class="q-mr-xl">
-                <q-btn flat dense v-if="auth == ''" to="login" color="white" icon="login" >
+                <q-btn flat dense v-if="auth == ''" to="login" color="white" icon="login">
                     <q-tooltip content-class="bg-blue-8">Logowanie</q-tooltip>
                 </q-btn>
-                <q-btn flat dense v-if="auth == 'logged'" v-on:click="logout" color="white" icon="logout" >
+                <q-btn flat dense v-if="auth == 'logged'" v-on:click="logout" color="white" icon="logout">
                     <q-tooltip content-class="bg-blue-8">Wyloguj</q-tooltip>
                 </q-btn>
             </div>
