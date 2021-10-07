@@ -9,6 +9,13 @@
                             Lista aktualnych dostaw
                         </div>
                     </template>
+                    <template slot="top-right">
+                        <q-input dense v-model="filter" clear-icon="close" placeholder="Szukaj" clearable>
+                            <template v-slot:prepend>
+                                <q-icon name="search" color="primary" />
+                            </template>
+                        </q-input>
+                    </template>
             </q-card>
         </q-card>
     </div>
@@ -24,7 +31,34 @@ export default {
     name: "AllDeliveriesInProgress",
 
     data() {
+        return{
+            filter: "",
+         
+                     loggedUser: {
+                username: "",
+                firstName: "",
+                lastName: "",
+                role: "",
+                active: ""
+            },
+
+            reservations: [],
+
+            search: "",
+
+            pagination: {
+                sortBy: "type",
+                descending: false,
+                rowsPerPage: 20,
+            },
+        }
 
     },
+
+    methods: {
+        setNumericFormat,
+
+        
+    }
 }
 </script>
