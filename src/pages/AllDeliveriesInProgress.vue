@@ -31,10 +31,10 @@ export default {
     name: "AllDeliveriesInProgress",
 
     data() {
-        return{
+        return {
             filter: "",
-         
-                     loggedUser: {
+
+            loggedUser: {
                 username: "",
                 firstName: "",
                 lastName: "",
@@ -42,7 +42,7 @@ export default {
                 active: ""
             },
 
-            reservations: [],
+            deliveries: [],
 
             search: "",
 
@@ -58,7 +58,6 @@ export default {
     methods: {
         setNumericFormat,
 
-        
     }
 }
 </script>
