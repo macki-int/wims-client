@@ -37,6 +37,8 @@ export default {
 
     data() {
         return {
+            activeRowIndex: "",
+
             filter: "",
 
             loggedUser: {
@@ -63,6 +65,9 @@ export default {
     methods: {
         setNumericFormat,
 
+        onRowClick: function (props) {
+            this.activeRowIndex = props.rowIndex;
+        }
     }
 }
 </script>
