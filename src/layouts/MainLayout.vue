@@ -6,17 +6,10 @@
                 <q-tooltip content-class="bg-blue-8">Panel boczny</q-tooltip>
             </q-btn>
             <q-toolbar-title>
-                <q-btn flat dense v-if="auth == 'logged'" to="products" color="white" label="Produkty" no-caps />
-            </q-toolbar-title>
-            <div>
-                <q-btn flat dense v-if="auth == 'logged'" icon="settings_applications" size="16px">
-                    <q-tooltip content-class="bg-blue-8">Ustawienia</q-tooltip>
-                </q-btn>
-                <q-menu content-class="text-primary" inverted anchor="bottom left" self="top left">
-                    <q-list style="min-width: 5vw">
-                        <q-item clickable v-on:click="showChangeUserPasswordDialog = true" v-close-popup>
-                            <q-item-section>Zmiana hasła</q-item-section>
-                        </q-item>
+                <q-btn flat v-if="auth == 'logged'" to="products" color="white" label="Produkty" no-caps />
+                <q-btn flat v-if="auth == 'logged'" color="white" label="Zestawienia" no-caps />
+                <q-menu content-class="text-primary" :offset="[-80, 20]" transition-show="scale" transition-hide="scale">
+                    <q-list dense style="min-width: 5vw">
                         <q-item clickable to="allReservations" v-close-popup>
                             <q-item-section>Wszystkie rezerwacje</q-item-section>
                         </q-item>
@@ -26,7 +19,19 @@
                         <q-item clickable to="allDeliveries" v-close-popup>
                             <q-item-section>Wszystkie dostawy</q-item-section>
                         </q-item>
-                        <q-separator />
+                    </q-list>
+                </q-menu>
+            </q-toolbar-title>
+            <div>
+                <q-btn flat dense v-if="auth == 'logged'" icon="settings_applications" size="16px">
+                    <q-tooltip content-class="bg-blue-8">Ustawienia</q-tooltip>
+                </q-btn>
+                <q-menu content-class="text-primary" inverted :offset="[0, 20]" transition-show="scale" transition-hide="scale">
+                    <q-list dense style="min-width: 5vw">
+                        <q-item clickable v-on:click="showChangeUserPasswordDialog = true" v-close-popup>
+                            <q-item-section>Zmiana hasła</q-item-section>
+                        </q-item>
+                        <q-separator v-if="loggedUser.role=='ROLE_ADMIN'" />
                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="listProductTypes" v-close-popup>
                             <q-item-section>Kategorie</q-item-section>
                         </q-item>
