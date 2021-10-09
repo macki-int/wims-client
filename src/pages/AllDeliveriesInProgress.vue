@@ -17,29 +17,31 @@
                         </q-input>
                     </template>
                     <template slot="body" slot-scope="props">
-                        <q-td key="index" :props="props" auto-width>
-                            {{ props.rowIndex + 1 }}.
-                        </q-td>
-                        <q-td key="product" :props="props">
-                            {{ props.row.inventory.product.name}}
-                        </q-td>
-                        <q-td key="dateOfDelivery" :props="props">
-                            {{ props.row.dateOfDelivery }}
-                        </q-td>
-                        <q-td key="description" :props="props">
-                            {{ props.row.description }}
-                        </q-td>
-                        <q-td key="quantity" :props="props">
-                            {{ props.row.quantity }}
-                        </q-td>
-                        <q-td key="area" :props="props" :class="props.row.inventory.product.productType.calculate?'':'invisible'">
-                            {{ setNumericFormat(props.row.inventory.productWidth * props.row.inventory.productLength * props.row.quantity) }}
-                        </q-td>
-                        <q-td key="action" :props="props">
-                            <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
-                                <q-tooltip content-class="bg-red">Usuń dostawę</q-tooltip>
-                            </q-btn>
-                        </q-td>
+                        <q-tr class="my-font" >
+                            <q-td key="index" :props="props" auto-width>
+                                {{ props.rowIndex + 1 }}.
+                            </q-td>
+                            <q-td key="product" :props="props">
+                                {{ props.row.inventory.product.name}}
+                            </q-td>
+                            <q-td key="dateOfDelivery" :props="props">
+                                {{ props.row.dateOfDelivery }}
+                            </q-td>
+                            <q-td key="description" :props="props">
+                                {{ props.row.description }}
+                            </q-td>
+                            <q-td key="quantity" :props="props">
+                                {{ props.row.quantity }}
+                            </q-td>
+                            <q-td key="area" :props="props" :class="props.row.inventory.product.productType.calculate?'':'invisible'">
+                                {{ setNumericFormat(props.row.inventory.productWidth * props.row.inventory.productLength * props.row.quantity) }}
+                            </q-td>
+                            <q-td key="action" :props="props">
+                                <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
+                                    <q-tooltip content-class="bg-red">Usuń dostawę</q-tooltip>
+                                </q-btn>
+                            </q-td>
+                        </q-tr>
                     </template>
                 </q-table>
             </q-card>
