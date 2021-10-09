@@ -225,7 +225,7 @@ export default {
                         message: "Usunięto dane o dostawie",
                         icon: "check_circle_outline",
                     });
-                    this.getDeliveriesByInventoryId();
+                    this.getDeliveriesInProgress();
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
