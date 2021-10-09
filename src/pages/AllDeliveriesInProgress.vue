@@ -66,8 +66,39 @@ export default {
     methods: {
         setNumericFormat,
 
-        getDeliveriesInProgress: function(){
+        getDeliveriesInProgress: function () {
+            const url = this.$API_URL + "deliveries/valid-date";
 
+            axios
+                .get(url, {
+                    params: {
+                        date: new Date().toJSON().slice(0, 10)
+                    },
+                    contentType: "application/json",
+                    dataType: "json",
+                    headers: { Authorization: localStorage.getItem("token") }
+                })
+                .then((response) => {
+                    this.deliveries = response.data;
+                })
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie masz uprawnień lub zostałeś wylogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd pobierania listy dostaw",
+                            icon: "report_problem",
+                        });
+                    };
+                });
         },
 
         onRowClick: function (props) {
