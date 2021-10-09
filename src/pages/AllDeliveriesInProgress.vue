@@ -16,6 +16,31 @@
                             </template>
                         </q-input>
                     </template>
+                    <template slot="body" slot-scope="props">
+                        <q-td key="index" :props="props" auto-width>
+                            {{ props.rowIndex + 1 }}.
+                        </q-td>
+                        <q-td key="product" :props="props">
+                            {{ props.row.inventory.product.name}}
+                        </q-td>
+                        <q-td key="dateOfDelivery" :props="props">
+                            {{ props.row.dateOfDelivery }}
+                        </q-td>
+                        <q-td key="description" :props="props">
+                            {{ props.row.description }}
+                        </q-td>
+                        <q-td key="quantity" :props="props">
+                            {{ props.row.quantity }}
+                        </q-td>
+                        <q-td key="area" :props="props" :class="props.row.inventory.product.productType.calculate?'':'invisible'">
+                            {{ setNumericFormat(props.row.inventory.productWidth * props.row.inventory.productLength * props.row.quantity) }}
+                        </q-td>
+                        <q-td key="action" :props="props">
+                            <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat size="sm" dense unelevated color="negative" icon="clear" v-on:click="confirmDelete(props)">
+                                <q-tooltip content-class="bg-red">Usuń dostawę</q-tooltip>
+                            </q-btn>
+                        </q-td>
+                    </template>
                 </q-table>
             </q-card>
         </q-card>
@@ -59,6 +84,67 @@ export default {
                 descending: false,
                 rowsPerPage: 20,
             },
+
+            columns: [{
+                    name: "index",
+                    label: "Lp",
+                    field: "",
+                    align: "right",
+                    style: "max-width: 10px",
+                    headerStyle: "max-width: 10px"
+                },
+                {
+                    name: "product",
+                    label: "Wyrób",
+                    field: (row) => row.inventory.product.name,
+                    align: "left",
+                    sortable: true,
+                    style: "max-width: 70px",
+                    headerStyle: "max-width: 70px"
+                },
+                {
+                    name: "dateOfDelivery",
+                    label: "Data dostawy",
+                    field: "dateOfDelivery",
+                    align: "left",
+                    sortable: true,
+                    style: "max-width: 50px",
+                    headerStyle: "max-width: 50px"
+                },
+                {
+                    name: "description",
+                    label: "Opis",
+                    field: "description",
+                    align: "left",
+                    sortable: true,
+                    style: "max-width: 70px",
+                    headerStyle: "max-width: 70px"
+                },
+                {
+                    name: "quantity",
+                    label: "Ilość",
+                    field: "quantity",
+                    align: "right",
+                    sortable: true,
+                    style: "max-width: 30px",
+                    headerStyle: "max-width: 30px"
+                },
+                {
+                    name: "area",
+                    label: "Pow.",
+                    field: "",
+                    align: "right",
+                    style: "max-width: 40px",
+                    headerStyle: "max-width: 40px"
+                },
+                {
+                    name: "action",
+                    align: "right",
+                    field: "",
+                    style: "max-width: 30px",
+                    headerStyle: "max-width: 30px"
+                }
+            ]
         }
 
     },
