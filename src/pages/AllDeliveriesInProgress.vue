@@ -17,7 +17,7 @@
                         </q-input>
                     </template>
                     <template slot="body" slot-scope="props">
-                        <q-tr class="my-font" >
+                        <q-tr class="my-font">
                             <q-td key="index" :props="props" auto-width>
                                 {{ props.rowIndex + 1 }}.
                             </q-td>
@@ -187,6 +187,28 @@ export default {
                         });
                     };
                 });
+        },
+
+        confirmDelete: function (props) {
+            this.$q
+                .dialog({
+                    title: "<span class=text-negative>Usuwanie dostawy</span>",
+                    message: "<span class=text-negative>Czy usunąć dostawę: <strong>" + props.row.inventory.product.name +
+                        "</strong> <br/> dla ilości: <strong>" +
+                        props.row.quantity +
+                        "</strong>, z dnia: <strong>" +
+                        props.row.dateOfDelivery + "</strong>?</span>",
+                    color: 'negative',
+                    html: true,
+                    persistent: true,
+                    ok: {
+                        label: 'usuń',
+                        flat: true
+                    },
+                    cancel: true,
+                }).onOk(() => {
+                    this.deleteDelivery(props.row.id);
+                })
         },
 
         onRowClick: function (props) {
