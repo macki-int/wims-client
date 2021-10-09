@@ -31,7 +31,7 @@
                                 {{ props.row.description }}
                             </q-td>
                             <q-td key="quantity" :props="props">
-                                {{ props.row.quantity }}
+                                {{ formatNumberArea(props.row.quantity) }}
                             </q-td>
                             <q-td key="area" :props="props" :class="props.row.inventory.product.productType.calculate?'':'invisible'">
                                 {{ setNumericFormat(props.row.inventory.productWidth * props.row.inventory.productLength * props.row.quantity) }}
@@ -226,7 +226,6 @@ export default {
                         icon: "check_circle_outline",
                     });
                     this.getDeliveriesByInventoryId();
-                    this.$root.$emit("refreshProducts");
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
@@ -246,6 +245,10 @@ export default {
                         });
                     };
                 });
+        },
+
+        formatNumberArea: function (num) {
+            return num.toFixed(2);
         },
 
         onRowClick: function (props) {
