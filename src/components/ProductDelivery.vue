@@ -302,7 +302,7 @@ export default {
             this.$q
                 .dialog({
                     title: "<span class=text-negative>Usuwanie dostawy</span>",
-                    message: "<span class=text-negative>Czy usunąć dostawę" +
+                     message: "<span class=text-negative>Czy usunąć dostawę: <strong>" + props.row.inventory.product.name +
                         "<br/> dla ilości: <strong>" +
                         props.row.quantity +
                         "</strong> z dnia: <strong>" +
