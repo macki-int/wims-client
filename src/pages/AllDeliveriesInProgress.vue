@@ -58,7 +58,7 @@ export default {
 
     mounted() {
         this.loggedUser = LoggedUserFromLocalStore.getLoggedUserFromLocalStore();
-        this.getReservations();
+        this.getDeliveriesInProgress();
     },
 
     data() {
