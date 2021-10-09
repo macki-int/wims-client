@@ -16,7 +16,7 @@
                         <q-item clickable to="reservationsAfterDeadline" v-close-popup>
                             <q-item-section>Rezerwacje po terminie</q-item-section>
                         </q-item>
-                        <q-item clickable to="allDeliveries" v-close-popup>
+                        <q-item clickable to="allDeliveriesInProgress" v-close-popup>
                             <q-item-section>Wszystkie dostawy</q-item-section>
                         </q-item>
                     </q-list>
