@@ -13,9 +13,6 @@
                         <q-item clickable to="allReservations" v-close-popup>
                             <q-item-section>Wszystkie rezerwacje</q-item-section>
                         </q-item>
-                        <q-item clickable to="reservationsAfterDeadline" v-close-popup>
-                            <q-item-section>Rezerwacje po terminie</q-item-section>
-                        </q-item>
                         <q-item clickable to="allDeliveriesInProgress" v-close-popup>
                             <q-item-section>Wszystkie dostawy</q-item-section>
                         </q-item>
@@ -32,6 +29,9 @@
                             <q-item-section>Zmiana hasła</q-item-section>
                         </q-item>
                         <q-separator v-if="loggedUser.role=='ROLE_ADMIN'" />
+                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="reservationsAfterDeadline" v-close-popup>
+                            <q-item-section>Rezerwacje po terminie</q-item-section>
+                        </q-item>
                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="listProductTypes" v-close-popup>
                             <q-item-section>Kategorie</q-item-section>
                         </q-item>
