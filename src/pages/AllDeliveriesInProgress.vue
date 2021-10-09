@@ -16,6 +16,7 @@
                             </template>
                         </q-input>
                     </template>
+                </q-table>
             </q-card>
         </q-card>
     </div>
@@ -64,6 +65,10 @@ export default {
 
     methods: {
         setNumericFormat,
+
+        getDeliveriesInProgress: function(){
+
+        },
 
         onRowClick: function (props) {
             this.activeRowIndex = props.rowIndex;
