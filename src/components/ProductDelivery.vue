@@ -51,9 +51,39 @@
             </q-td>
         </q-tr>
     </q-table>
-
     <q-btn v-if="loggedUser.role=='ROLE_ADMIN'" flat :disabled="disabledNewDelivery" label="Nowa Dostawa" color="primary" v-on:click="showAddDeliveryDialog = true" />
+    <q-dialog v-model="showAddDeliveryDialog" persistent>
+        <q-card style="min-width: 15vw">
+            <q-card-section>
+                <div class="text-primary">Dodawanie dostawy dla: <strong>{{ productName }}</strong></div>
+            </q-card-section>
+            <q-card-section>
+                <q-input dense v-model.trim="newDeliveryQuantity" label="Ilość" type="number" mask="#.###" :decimals="3" :rules="[(val) => val >= 0]" />
+                <div v-if="calculate">
+                    <q-input dense v-model.trim="newDeliveryArea" label="Powierzchnia" type="number" mask="#.###" :decimals="3" :rules="[(val) => val >= 0]" />
+                </div>
+                <q-input dense v-model="newDeliveryDate" label="Data dostawy">
+                    <template v-slot:append>
+                        <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                                <q-date v-model="newDeliveryDate" mask="YYYY-MM-DD" minimal>
+                                    <div class="row items-center justify-end">
+                                        <q-btn v-close-popup label="Zamknij" color="primary" flat />
+                                    </div>
+                                </q-date>
+                            </q-popup-proxy>
+                        </q-icon>
+                    </template>
+                </q-input>
+                <q-input dense v-model="newDeliveryDescription" label="Opis" type="textarea" autogrow />
+            </q-card-section>
 
+            <q-card-actions align="right" class="text-primary">
+                <q-btn flat label="Anuluj" v-close-popup />
+                <q-btn flat label="Zapisz" v-on:click="addDelivery" v-close-popup />
+            </q-card-actions>
+        </q-card>
+    </q-dialog>
 </div>
 </template>
 
@@ -169,6 +199,52 @@ export default {
                     };
                 });
             console.log(this.deliveries);
+        },
+
+        addDelivery: function () {
+            const url = this.$API_URL + "deliveries";
+
+            return axios
+                .post(url, {
+                    quantity: this.newDeliveryQuantity,
+                    dateOfDelivery: this.newDeliveryDate,
+                    description: this.newDeliveryDescription,
+                    inventory: {
+                        id: this.inventory.id,
+                    },
+                }, {
+                    headers: { Authorization: localStorage.getItem("token") }
+                }, {
+                    contentType: "application/json"
+                })
+                .then((response) => {
+                    this.$q.notify({
+                        color: "positive",
+                        position: "top",
+                        message: "Dodano nową dostawę",
+                        icon: "check_circle_outline",
+                    });
+                    this.getDeliveriesByInventoryId();
+                    // this.$root.$emit("refreshProducts");
+                })
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Nie jesteś zalogowany",
+                            icon: "report_problem",
+                        });
+                        this.$router.push("/login")
+                    } else {
+                        this.$q.notify({
+                            color: "negative",
+                            position: "top",
+                            message: "Błąd dodawania nowej dostawy",
+                            icon: "report_problem",
+                        });
+                    };
+                });
         },
 
         editDelivery: function (props) {
