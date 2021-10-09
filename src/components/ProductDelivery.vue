@@ -225,7 +225,7 @@ export default {
                         icon: "check_circle_outline",
                     });
                     this.getDeliveriesByInventoryId();
-                    // this.$root.$emit("refreshProducts");
+                    this.$root.$emit("refreshProducts");
                 })
                 .catch((error) => {
                     if (error.response.status === 403) {
