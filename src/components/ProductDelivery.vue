@@ -198,7 +198,6 @@ export default {
                         });
                     };
                 });
-            console.log(this.deliveries);
         },
 
         addDelivery: function () {
