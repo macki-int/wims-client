@@ -32,6 +32,9 @@
                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="reservationsAfterDeadline" v-close-popup>
                             <q-item-section>Rezerwacje po terminie</q-item-section>
                         </q-item>
+                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="deliveriesAfterDeadline" v-close-popup>
+                            <q-item-section>Dostawy po terminie</q-item-section>
+                        </q-item>
                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="listProductTypes" v-close-popup>
                             <q-item-section>Kategorie</q-item-section>
                         </q-item>
