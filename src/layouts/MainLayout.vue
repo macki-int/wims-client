@@ -35,6 +35,7 @@
                          <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="deliveriesAfterDeadline" v-close-popup>
                             <q-item-section>Dostawy po terminie</q-item-section>
                         </q-item>
+                        <q-separator v-if="loggedUser.role=='ROLE_ADMIN'" />
                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="listProductTypes" v-close-popup>
                             <q-item-section>Kategorie</q-item-section>
                         </q-item>
