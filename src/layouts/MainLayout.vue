@@ -42,6 +42,9 @@
                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="users" v-close-popup>
                             <q-item-section>Użytkownicy</q-item-section>
                         </q-item>
+                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable v-on:click="showInfoDialog" v-close-popup>
+                            <q-item-section>Wersja serwera</q-item-section>
+                        </q-item>
                     </q-list>
                 </q-menu>
                 <q-btn flat dense v-if="auth == 'logged'" @click="$q.fullscreen.toggle()" color="white" :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" size="16px">
