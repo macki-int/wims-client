@@ -42,7 +42,7 @@
                         <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable to="users" v-close-popup>
                             <q-item-section>Użytkownicy</q-item-section>
                         </q-item>
-                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable v-on:click="showInfoDialog" v-close-popup>
+                        <q-item v-if="loggedUser.role=='ROLE_ADMIN'" clickable v-on:click="showInfoServerDialog" v-close-popup>
                             <q-item-section>Wersja serwera</q-item-section>
                         </q-item>
                     </q-list>
@@ -113,6 +113,7 @@
 <script>
 import ProductTypeMenuLink from "components/ProductTypeMenuLink.vue";
 import About from "components/About.vue";
+import ServerVersion from "components/ServerVersion.vue";
 import LoggedUserFromLocalStore from "../js/LoggedUserFromLocalStore.js"
 
 import axios from "axios";
@@ -292,6 +293,13 @@ export default {
             this.infoDialog = this.$q
                 .dialog({
                     component: About,
+                })
+        },
+
+        showInfoServerDialog: function () {
+            this.infoDialog = this.$q
+                .dialog({
+                    component: ServerVersion,
                 })
         },
 
