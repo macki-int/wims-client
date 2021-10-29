@@ -16,7 +16,7 @@
             TROLL-Systems Marek Janicki &copy; 2021
         </q-card-section>
         <q-card-actions>
-            <div class="col q-ml-sm text-caption" align="left">
+            <div class="col-8 q-ml-sm text-caption" align="left">
                 Wersja serwera: <strong>{{ infoServerVersion }}</strong>
             </div>
             <div class="col" align="right">
