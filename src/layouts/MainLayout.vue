@@ -18,6 +18,7 @@
                         </q-item>
                     </q-list>
                 </q-menu>
+                <q-btn flat v-if="auth == 'logged'" to="messages" color="white" label="Wiadomości" no-caps />
             </q-toolbar-title>
             <div>
                 <q-btn flat dense v-if="auth == 'logged'" icon="settings_applications" size="16px">
